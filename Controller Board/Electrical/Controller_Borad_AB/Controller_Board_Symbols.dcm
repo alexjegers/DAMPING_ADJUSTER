@@ -1,0 +1,11 @@
+EESchema-DOCLIB  Version 2.0
+#
+$CMP AT24C04D
+D Microchip IIC EEPROM
+$ENDCMP
+#
+$CMP ATUC128D3
+D 32-bit 128kB Flash AVR core
+$ENDCMP
+#
+#End Doc Library

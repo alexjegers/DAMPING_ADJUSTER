@@ -1,0 +1,122 @@
+EESchema Schematic File Version 4
+EELAYER 30 0
+EELAYER END
+$Descr A4 11693 8268
+encoding utf-8
+Sheet 1 1
+Title ""
+Date ""
+Rev ""
+Comp ""
+Comment1 ""
+Comment2 ""
+Comment3 ""
+Comment4 ""
+$EndDescr
+$Comp
+L Simulation_SPICE:VPULSE V2
+U 1 1 62FBCCEE
+P 3700 3900
+F 0 "V2" H 3850 3900 50  0000 L CNN
+F 1 "VPULSE" H 3800 3800 50  0000 L CNN
+F 2 "" H 3700 3900 50  0001 C CNN
+F 3 "~" H 3700 3900 50  0001 C CNN
+F 4 "Y" H 3700 3900 50  0001 L CNN "Spice_Netlist_Enabled"
+F 5 "V" H 3700 3900 50  0001 L CNN "Spice_Primitive"
+F 6 "pulse(0 3.3 0 0 0 29.4m 58.8m)" H 3750 3750 50  0001 L CNN "Spice_Model"
+	1    3700 3900
+	1    0    0    -1  
+$EndComp
+$Comp
+L Simulation_SPICE:VDC V1
+U 1 1 62FBD6D7
+P 2450 3950
+F 0 "V1" H 2150 4050 50  0000 L CNN
+F 1 "VDC" H 2150 3950 50  0000 L CNN
+F 2 "" H 2450 3950 50  0001 C CNN
+F 3 "~" H 2450 3950 50  0001 C CNN
+F 4 "Y" H 2450 3950 50  0001 L CNN "Spice_Netlist_Enabled"
+F 5 "V" H 2450 3950 50  0001 L CNN "Spice_Primitive"
+F 6 "dc(3.3)" H 2150 3850 50  0001 L CNN "Spice_Model"
+	1    2450 3950
+	1    0    0    -1  
+$EndComp
+$Comp
+L pspice:R R1
+U 1 1 62FC1294
+P 3700 3300
+F 0 "R1" H 3768 3346 50  0000 L CNN
+F 1 "330" H 3768 3255 50  0000 L CNN
+F 2 "" H 3700 3300 50  0001 C CNN
+F 3 "~" H 3700 3300 50  0001 C CNN
+	1    3700 3300
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	3700 2950 3700 3050
+Wire Wire Line
+	3700 3550 3700 3600
+$Comp
+L pspice:R R2
+U 1 1 62FC1F67
+P 4200 3600
+F 0 "R2" V 3995 3600 50  0000 C CNN
+F 1 "7500" V 4086 3600 50  0000 C CNN
+F 2 "" H 4200 3600 50  0001 C CNN
+F 3 "~" H 4200 3600 50  0001 C CNN
+	1    4200 3600
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	3700 3600 3950 3600
+Connection ~ 3700 3600
+Wire Wire Line
+	3700 3600 3700 3700
+$Comp
+L pspice:C C1
+U 1 1 62FC2798
+P 4500 3900
+F 0 "C1" H 4678 3946 50  0000 L CNN
+F 1 ".000001" H 4678 3855 50  0000 L CNN
+F 2 "" H 4500 3900 50  0001 C CNN
+F 3 "~" H 4500 3900 50  0001 C CNN
+	1    4500 3900
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	4450 3600 4500 3600
+Wire Wire Line
+	4500 3600 4500 3650
+Wire Wire Line
+	3700 4250 3700 4100
+Wire Wire Line
+	3700 4250 4500 4250
+Wire Wire Line
+	4500 4250 4500 4150
+Connection ~ 3700 4250
+$Comp
+L pspice:0 #GND01
+U 1 1 62FC33E3
+P 3700 4400
+F 0 "#GND01" H 3700 4300 50  0001 C CNN
+F 1 "0" H 3800 4350 50  0000 C CNN
+F 2 "" H 3700 4400 50  0001 C CNN
+F 3 "~" H 3700 4400 50  0001 C CNN
+	1    3700 4400
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	3700 4400 3700 4250
+Text Label 3750 3600 0    50   ~ 0
+Vin
+Text Label 4500 3600 0    50   ~ 0
+Vout
+Wire Wire Line
+	2450 3750 2450 2950
+Wire Wire Line
+	2450 2950 3700 2950
+Wire Wire Line
+	2450 4150 2450 4250
+Wire Wire Line
+	2450 4250 3700 4250
+$EndSCHEMATC

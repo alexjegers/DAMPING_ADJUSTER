@@ -1,0 +1,2410 @@
+
+DampingMotorControlExe001.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .data         00000008  00807000  00000d98  00000e2c  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  1 .text         00000d98  00000000  00000000  00000094  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  2 .bss          0000001d  00807008  00807008  00000e34  2**0
+                  ALLOC
+  3 .comment      00000030  00000000  00000000  00000e34  2**0
+                  CONTENTS, READONLY
+  4 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  00000e64  2**2
+                  CONTENTS, READONLY
+  5 .debug_aranges 000002c0  00000000  00000000  00000ea0  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_info   00005b0f  00000000  00000000  00001160  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_abbrev 00002c44  00000000  00000000  00006c6f  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_line   00001527  00000000  00000000  000098b3  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_frame  00000698  00000000  00000000  0000addc  2**2
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_str    000026fe  00000000  00000000  0000b474  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 11 .debug_loc    00000ccc  00000000  00000000  0000db72  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 12 .debug_ranges 00000280  00000000  00000000  0000e83e  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	0c 94 61 00 	jmp	0xc2	; 0xc2 <__ctors_end>
+   4:	0c 94 7e 00 	jmp	0xfc	; 0xfc <__bad_interrupt>
+   8:	0c 94 7e 00 	jmp	0xfc	; 0xfc <__bad_interrupt>
+   c:	0c 94 7e 00 	jmp	0xfc	; 0xfc <__bad_interrupt>
+  10:	0c 94 7e 00 	jmp	0xfc	; 0xfc <__bad_interrupt>
+  14:	0c 94 7e 00 	jmp	0xfc	; 0xfc <__bad_interrupt>
+  18:	0c 94 84 02 	jmp	0x508	; 0x508 <__vector_6>
+  1c:	0c 94 7e 00 	jmp	0xfc	; 0xfc <__bad_interrupt>
+  20:	0c 94 7e 00 	jmp	0xfc	; 0xfc <__bad_interrupt>
+  24:	0c 94 7e 00 	jmp	0xfc	; 0xfc <__bad_interrupt>
+  28:	0c 94 7e 00 	jmp	0xfc	; 0xfc <__bad_interrupt>
+  2c:	0c 94 7e 00 	jmp	0xfc	; 0xfc <__bad_interrupt>
+  30:	0c 94 03 03 	jmp	0x606	; 0x606 <__vector_12>
+  34:	0c 94 2c 03 	jmp	0x658	; 0x658 <__vector_13>
+  38:	0c 94 7e 00 	jmp	0xfc	; 0xfc <__bad_interrupt>
+  3c:	0c 94 7e 00 	jmp	0xfc	; 0xfc <__bad_interrupt>
+  40:	0c 94 7e 00 	jmp	0xfc	; 0xfc <__bad_interrupt>
+  44:	0c 94 7e 00 	jmp	0xfc	; 0xfc <__bad_interrupt>
+  48:	0c 94 7e 00 	jmp	0xfc	; 0xfc <__bad_interrupt>
+  4c:	0c 94 7e 00 	jmp	0xfc	; 0xfc <__bad_interrupt>
+  50:	0c 94 7e 00 	jmp	0xfc	; 0xfc <__bad_interrupt>
+  54:	0c 94 7e 00 	jmp	0xfc	; 0xfc <__bad_interrupt>
+  58:	0c 94 7e 00 	jmp	0xfc	; 0xfc <__bad_interrupt>
+  5c:	0c 94 7e 00 	jmp	0xfc	; 0xfc <__bad_interrupt>
+  60:	0c 94 7e 00 	jmp	0xfc	; 0xfc <__bad_interrupt>
+  64:	0c 94 7e 00 	jmp	0xfc	; 0xfc <__bad_interrupt>
+  68:	0c 94 7e 00 	jmp	0xfc	; 0xfc <__bad_interrupt>
+  6c:	0c 94 7e 00 	jmp	0xfc	; 0xfc <__bad_interrupt>
+  70:	0c 94 7e 00 	jmp	0xfc	; 0xfc <__bad_interrupt>
+  74:	0c 94 7e 00 	jmp	0xfc	; 0xfc <__bad_interrupt>
+  78:	0c 94 7e 00 	jmp	0xfc	; 0xfc <__bad_interrupt>
+  7c:	0c 94 7e 00 	jmp	0xfc	; 0xfc <__bad_interrupt>
+  80:	0c 94 7e 00 	jmp	0xfc	; 0xfc <__bad_interrupt>
+  84:	0c 94 7e 00 	jmp	0xfc	; 0xfc <__bad_interrupt>
+  88:	0c 94 7e 00 	jmp	0xfc	; 0xfc <__bad_interrupt>
+  8c:	0c 94 7e 00 	jmp	0xfc	; 0xfc <__bad_interrupt>
+  90:	0c 94 7e 00 	jmp	0xfc	; 0xfc <__bad_interrupt>
+  94:	0c 94 7e 00 	jmp	0xfc	; 0xfc <__bad_interrupt>
+  98:	0c 94 7e 00 	jmp	0xfc	; 0xfc <__bad_interrupt>
+  9c:	0c 94 7e 00 	jmp	0xfc	; 0xfc <__bad_interrupt>
+  a0:	0c 94 7e 00 	jmp	0xfc	; 0xfc <__bad_interrupt>
+  a4:	0c 94 7e 00 	jmp	0xfc	; 0xfc <__bad_interrupt>
+  a8:	0c 94 ba 02 	jmp	0x574	; 0x574 <__vector_42>
+  ac:	0c 94 7e 00 	jmp	0xfc	; 0xfc <__bad_interrupt>
+  b0:	a4 01       	movw	r20, r8
+  b2:	7e 01       	movw	r14, r28
+  b4:	81 01       	movw	r16, r2
+  b6:	84 01       	movw	r16, r8
+  b8:	87 01       	movw	r16, r14
+  ba:	8a 01       	movw	r16, r20
+  bc:	8d 01       	movw	r16, r26
+  be:	90 01       	movw	r18, r0
+  c0:	93 01       	movw	r18, r6
+
+000000c2 <__ctors_end>:
+  c2:	11 24       	eor	r1, r1
+  c4:	1f be       	out	0x3f, r1	; 63
+  c6:	cf ef       	ldi	r28, 0xFF	; 255
+  c8:	cd bf       	out	0x3d, r28	; 61
+  ca:	df e7       	ldi	r29, 0x7F	; 127
+  cc:	de bf       	out	0x3e, r29	; 62
+
+000000ce <__do_copy_data>:
+  ce:	10 e7       	ldi	r17, 0x70	; 112
+  d0:	a0 e0       	ldi	r26, 0x00	; 0
+  d2:	b0 e7       	ldi	r27, 0x70	; 112
+  d4:	e8 e9       	ldi	r30, 0x98	; 152
+  d6:	fd e0       	ldi	r31, 0x0D	; 13
+  d8:	02 c0       	rjmp	.+4      	; 0xde <__do_copy_data+0x10>
+  da:	05 90       	lpm	r0, Z+
+  dc:	0d 92       	st	X+, r0
+  de:	a8 30       	cpi	r26, 0x08	; 8
+  e0:	b1 07       	cpc	r27, r17
+  e2:	d9 f7       	brne	.-10     	; 0xda <__do_copy_data+0xc>
+
+000000e4 <__do_clear_bss>:
+  e4:	20 e7       	ldi	r18, 0x70	; 112
+  e6:	a8 e0       	ldi	r26, 0x08	; 8
+  e8:	b0 e7       	ldi	r27, 0x70	; 112
+  ea:	01 c0       	rjmp	.+2      	; 0xee <.do_clear_bss_start>
+
+000000ec <.do_clear_bss_loop>:
+  ec:	1d 92       	st	X+, r1
+
+000000ee <.do_clear_bss_start>:
+  ee:	a5 32       	cpi	r26, 0x25	; 37
+  f0:	b2 07       	cpc	r27, r18
+  f2:	e1 f7       	brne	.-8      	; 0xec <.do_clear_bss_loop>
+  f4:	0e 94 53 03 	call	0x6a6	; 0x6a6 <main>
+  f8:	0c 94 ca 06 	jmp	0xd94	; 0xd94 <_exit>
+
+000000fc <__bad_interrupt>:
+  fc:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
+
+00000100 <encoderRotDirection>:
+			interrupt.
+*/
+
+int8_t encoderRotDirection()
+{
+	if (ENC_A_LEVEL == ENC_B_LEVEL)
+ 100:	e0 e0       	ldi	r30, 0x00	; 0
+ 102:	f4 e0       	ldi	r31, 0x04	; 4
+ 104:	90 85       	ldd	r25, Z+8	; 0x08
+ 106:	81 e0       	ldi	r24, 0x01	; 1
+ 108:	89 27       	eor	r24, r25
+ 10a:	81 70       	andi	r24, 0x01	; 1
+ 10c:	90 85       	ldd	r25, Z+8	; 0x08
+ 10e:	96 95       	lsr	r25
+ 110:	91 70       	andi	r25, 0x01	; 1
+ 112:	89 17       	cp	r24, r25
+ 114:	11 f0       	breq	.+4      	; 0x11a <encoderRotDirection+0x1a>
+	{
+		return ROTATING_CW;
+ 116:	8b ef       	ldi	r24, 0xFB	; 251
+ 118:	08 95       	ret
+	}
+	else
+	{
+		return ROTATING_CCW;
+ 11a:	85 e0       	ldi	r24, 0x05	; 5
+	}
+ 11c:	08 95       	ret
+
+0000011e <iicInit>:
+Returns: none
+Description: Sets up the TWI hardware.
+*/
+void iicInit()
+{
+	pIIC->SCTRLA = (TWI_ENABLE_bm					//Slave enable.
+ 11e:	e0 91 02 70 	lds	r30, 0x7002	; 0x807002 <pIIC>
+ 122:	f0 91 03 70 	lds	r31, 0x7003	; 0x807003 <pIIC+0x1>
+ 126:	81 e4       	ldi	r24, 0x41	; 65
+ 128:	81 87       	std	Z+9, r24	; 0x09
+				| TWI_APIEN_bm						//Address or stop interrupt enable.
+				| TWI_DIEN_bp)						//Data interrupt enable.
+				& ~(TWI_SMEN_bm						//Smart mode OFF.
+				| TWI_PMEN_bm);						//Use address match logic.
+				
+	pIIC->SADDR = DEVICE_ADDR;						//Set the slave address.
+ 12a:	8a e0       	ldi	r24, 0x0A	; 10
+ 12c:	84 87       	std	Z+12, r24	; 0x0c
+	pIIC->DBGCTRL = 1;								//Run while debuggin.
+ 12e:	81 e0       	ldi	r24, 0x01	; 1
+ 130:	82 83       	std	Z+2, r24	; 0x02
+	systemConfigTCB(iicTimeoutTimer, TCB_PER_1SEC);	//Configure the timeout timer to a 1 second timeout.
+ 132:	6d e8       	ldi	r22, 0x8D	; 141
+ 134:	7b e5       	ldi	r23, 0x5B	; 91
+ 136:	80 91 00 70 	lds	r24, 0x7000	; 0x807000 <__DATA_REGION_ORIGIN__>
+ 13a:	90 91 01 70 	lds	r25, 0x7001	; 0x807001 <__DATA_REGION_ORIGIN__+0x1>
+ 13e:	0e 94 63 06 	call	0xcc6	; 0xcc6 <systemConfigTCB>
+ 142:	08 95       	ret
+
+00000144 <iicAddrOrStopFlag>:
+			NONE if neither APIF nor AP are set signifying the interrupt was caused
+			by something else. 
+*/
+int8_t iicAddrOrStopFlag()
+{
+	if ((pIIC->SSTATUS & TWI_APIF_bm) == 0)
+ 144:	e0 91 02 70 	lds	r30, 0x7002	; 0x807002 <pIIC>
+ 148:	f0 91 03 70 	lds	r31, 0x7003	; 0x807003 <pIIC+0x1>
+ 14c:	83 85       	ldd	r24, Z+11	; 0x0b
+ 14e:	86 ff       	sbrs	r24, 6
+ 150:	05 c0       	rjmp	.+10     	; 0x15c <iicAddrOrStopFlag+0x18>
+	{
+		return NONE_FLAG;
+	}
+	else
+	{
+		if ((pIIC->SSTATUS & TWI_AP_bm) == 0)
+ 152:	83 85       	ldd	r24, Z+11	; 0x0b
+ 154:	80 fd       	sbrc	r24, 0
+ 156:	04 c0       	rjmp	.+8      	; 0x160 <iicAddrOrStopFlag+0x1c>
+		{
+			return STOP_FLAG;
+ 158:	81 e0       	ldi	r24, 0x01	; 1
+ 15a:	08 95       	ret
+*/
+int8_t iicAddrOrStopFlag()
+{
+	if ((pIIC->SSTATUS & TWI_APIF_bm) == 0)
+	{
+		return NONE_FLAG;
+ 15c:	82 e0       	ldi	r24, 0x02	; 2
+ 15e:	08 95       	ret
+	{
+		if ((pIIC->SSTATUS & TWI_AP_bm) == 0)
+		{
+			return STOP_FLAG;
+		}
+		return ADDRESS_FLAG;
+ 160:	80 e0       	ldi	r24, 0x00	; 0
+	}
+}
+ 162:	08 95       	ret
+
+00000164 <iicSendResponse>:
+Description: Writes to TWI.SCTRLB register in response to data and address 
+			interrupts. See data sheet for details on what the parameters do.
+*/
+void iicSendResponse(TWI_SCMD_t response, TWI_ACKACT_t ack)
+{
+	pIIC->SCTRLB = response | ack;
+ 164:	e0 91 02 70 	lds	r30, 0x7002	; 0x807002 <pIIC>
+ 168:	f0 91 03 70 	lds	r31, 0x7003	; 0x807003 <pIIC+0x1>
+ 16c:	86 2b       	or	r24, r22
+ 16e:	82 87       	std	Z+10, r24	; 0x0a
+ 170:	08 95       	ret
+
+00000172 <iicReadOrWriteFlag>:
+Description: Reads status register to see if the IIC master is requesting to read
+			or write.
+*/
+int8_t iicReadOrWriteFlag()
+{
+	return pIIC->SSTATUS & TWI_DIR_bm;
+ 172:	e0 91 02 70 	lds	r30, 0x7002	; 0x807002 <pIIC>
+ 176:	f0 91 03 70 	lds	r31, 0x7003	; 0x807003 <pIIC+0x1>
+ 17a:	83 85       	ldd	r24, Z+11	; 0x0b
+}
+ 17c:	82 70       	andi	r24, 0x02	; 2
+ 17e:	08 95       	ret
+
+00000180 <iicDataIntFlag>:
+Returns: State of the data interrupt flag.
+Description: Returns zero if the flag is not set, non-zero if the flag is set.
+*/
+int8_t iicDataIntFlag()
+{
+	return pIIC->SSTATUS & TWI_DIF_bm;
+ 180:	e0 91 02 70 	lds	r30, 0x7002	; 0x807002 <pIIC>
+ 184:	f0 91 03 70 	lds	r31, 0x7003	; 0x807003 <pIIC+0x1>
+ 188:	83 85       	ldd	r24, Z+11	; 0x0b
+}
+ 18a:	80 78       	andi	r24, 0x80	; 128
+ 18c:	08 95       	ret
+
+0000018e <iicReadSdata>:
+Returns: Data in TWI slave data (SDATA) register.
+Description:
+*/
+char iicReadSdata()
+{
+	return pIIC->SDATA;
+ 18e:	e0 91 02 70 	lds	r30, 0x7002	; 0x807002 <pIIC>
+ 192:	f0 91 03 70 	lds	r31, 0x7003	; 0x807003 <pIIC+0x1>
+ 196:	85 85       	ldd	r24, Z+13	; 0x0d
+}
+ 198:	08 95       	ret
+
+0000019a <iicSetInternalAddress>:
+Returns: none
+Description: sets the internalAddress enum.
+*/
+void iicSetInternalAddress(INTERNAL_ADDRESS_t setInternalAddr)
+{
+	internalAddress = setInternalAddr;
+ 19a:	80 93 08 70 	sts	0x7008, r24	; 0x807008 <__data_end>
+ 19e:	08 95       	ret
+
+000001a0 <iicWaitForDataIntFlag>:
+Description: Sits in a while loop until the data interrupt flag is set.
+*/
+
+void iicWaitForDataIntFlag()
+{
+	systemEnableTCB(iicTimeoutTimer);
+ 1a0:	80 91 00 70 	lds	r24, 0x7000	; 0x807000 <__DATA_REGION_ORIGIN__>
+ 1a4:	90 91 01 70 	lds	r25, 0x7001	; 0x807001 <__DATA_REGION_ORIGIN__+0x1>
+ 1a8:	0e 94 77 06 	call	0xcee	; 0xcee <systemEnableTCB>
+	
+	/*Wait for data*/
+	while (iicDataIntFlag() == 0)
+ 1ac:	0b c0       	rjmp	.+22     	; 0x1c4 <iicWaitForDataIntFlag+0x24>
+	{
+		if (iicTimeoutTimer->INTFLAGS != 0)
+ 1ae:	e0 91 00 70 	lds	r30, 0x7000	; 0x807000 <__DATA_REGION_ORIGIN__>
+ 1b2:	f0 91 01 70 	lds	r31, 0x7001	; 0x807001 <__DATA_REGION_ORIGIN__+0x1>
+ 1b6:	86 81       	ldd	r24, Z+6	; 0x06
+ 1b8:	88 23       	and	r24, r24
+ 1ba:	21 f0       	breq	.+8      	; 0x1c4 <iicWaitForDataIntFlag+0x24>
+		{
+			iicSetInternalAddress(BASE_ADDRESS);
+ 1bc:	80 e0       	ldi	r24, 0x00	; 0
+ 1be:	0e 94 cd 00 	call	0x19a	; 0x19a <iicSetInternalAddress>
+			break;
+ 1c2:	04 c0       	rjmp	.+8      	; 0x1cc <iicWaitForDataIntFlag+0x2c>
+void iicWaitForDataIntFlag()
+{
+	systemEnableTCB(iicTimeoutTimer);
+	
+	/*Wait for data*/
+	while (iicDataIntFlag() == 0)
+ 1c4:	0e 94 c0 00 	call	0x180	; 0x180 <iicDataIntFlag>
+ 1c8:	88 23       	and	r24, r24
+ 1ca:	89 f3       	breq	.-30     	; 0x1ae <iicWaitForDataIntFlag+0xe>
+			iicSetInternalAddress(BASE_ADDRESS);
+			break;
+		}
+	}
+
+	systemDisableTCB(iicTimeoutTimer);
+ 1cc:	80 91 00 70 	lds	r24, 0x7000	; 0x807000 <__DATA_REGION_ORIGIN__>
+ 1d0:	90 91 01 70 	lds	r25, 0x7001	; 0x807001 <__DATA_REGION_ORIGIN__+0x1>
+ 1d4:	0e 94 7c 06 	call	0xcf8	; 0xcf8 <systemDisableTCB>
+ 1d8:	08 95       	ret
+
+000001da <iicReadInternalAddress>:
+Description:
+*/
+INTERNAL_ADDRESS_t iicReadInternalAddress(void)
+{
+	return internalAddress;
+}
+ 1da:	80 91 08 70 	lds	r24, 0x7008	; 0x807008 <__data_end>
+ 1de:	08 95       	ret
+
+000001e0 <iicWriteSdata>:
+Description: writes data to the TWI slave data register (SDATA).
+*/
+
+void iicWriteSdata(uint8_t data)
+{
+	pIIC->SDATA = data;
+ 1e0:	e0 91 02 70 	lds	r30, 0x7002	; 0x807002 <pIIC>
+ 1e4:	f0 91 03 70 	lds	r31, 0x7003	; 0x807003 <pIIC+0x1>
+ 1e8:	85 87       	std	Z+13, r24	; 0x0d
+ 1ea:	08 95       	ret
+
+000001ec <iicKill>:
+Returns: none
+Description: Disables slave mode.
+*/
+void iicKill()
+{
+	TWI1.CTRLA &= ~(TWI_ENABLE_bm);
+ 1ec:	e0 e2       	ldi	r30, 0x20	; 32
+ 1ee:	f9 e0       	ldi	r31, 0x09	; 9
+ 1f0:	80 81       	ld	r24, Z
+ 1f2:	8e 7f       	andi	r24, 0xFE	; 254
+ 1f4:	80 83       	st	Z, r24
+ 1f6:	08 95       	ret
+
+000001f8 <iicWrite>:
+Returns: none
+Description: Used in response to a IIC Master read request. Puts data on the bus and handles
+			the acks/nacks and completes the transaction.
+*/
+void iicWrite(void *dataAddr, uint8_t size)
+{
+ 1f8:	0f 93       	push	r16
+ 1fa:	1f 93       	push	r17
+ 1fc:	cf 93       	push	r28
+ 1fe:	df 93       	push	r29
+ 200:	fc 01       	movw	r30, r24
+ 202:	d6 2f       	mov	r29, r22
+	uint8_t *data = (uint8_t*)dataAddr;
+	
+	for (int8_t i = 0; i < size; i++)
+ 204:	c0 e0       	ldi	r28, 0x00	; 0
+ 206:	0e c0       	rjmp	.+28     	; 0x224 <__EEPROM_REGION_LENGTH__+0x24>
+	{
+		iicWriteSdata(*(data++));
+ 208:	8f 01       	movw	r16, r30
+ 20a:	0f 5f       	subi	r16, 0xFF	; 255
+ 20c:	1f 4f       	sbci	r17, 0xFF	; 255
+ 20e:	80 81       	ld	r24, Z
+ 210:	0e 94 f0 00 	call	0x1e0	; 0x1e0 <iicWriteSdata>
+		iicSendResponse(TWI_SCMD_RESPONSE_gc, TWI_ACKACT_ACK_gc);
+ 214:	60 e0       	ldi	r22, 0x00	; 0
+ 216:	83 e0       	ldi	r24, 0x03	; 3
+ 218:	0e 94 b2 00 	call	0x164	; 0x164 <iicSendResponse>
+		iicWaitForDataIntFlag();
+ 21c:	0e 94 d0 00 	call	0x1a0	; 0x1a0 <iicWaitForDataIntFlag>
+*/
+void iicWrite(void *dataAddr, uint8_t size)
+{
+	uint8_t *data = (uint8_t*)dataAddr;
+	
+	for (int8_t i = 0; i < size; i++)
+ 220:	cf 5f       	subi	r28, 0xFF	; 255
+	{
+		iicWriteSdata(*(data++));
+ 222:	f8 01       	movw	r30, r16
+*/
+void iicWrite(void *dataAddr, uint8_t size)
+{
+	uint8_t *data = (uint8_t*)dataAddr;
+	
+	for (int8_t i = 0; i < size; i++)
+ 224:	8d 2f       	mov	r24, r29
+ 226:	90 e0       	ldi	r25, 0x00	; 0
+ 228:	2c 2f       	mov	r18, r28
+ 22a:	0c 2e       	mov	r0, r28
+ 22c:	00 0c       	add	r0, r0
+ 22e:	33 0b       	sbc	r19, r19
+ 230:	28 17       	cp	r18, r24
+ 232:	39 07       	cpc	r19, r25
+ 234:	4c f3       	brlt	.-46     	; 0x208 <__EEPROM_REGION_LENGTH__+0x8>
+		iicWriteSdata(*(data++));
+		iicSendResponse(TWI_SCMD_RESPONSE_gc, TWI_ACKACT_ACK_gc);
+		iicWaitForDataIntFlag();
+	}
+	
+	iicSendResponse(TWI_SCMD_COMPTRANS_gc, TWI_ACKACT_ACK_gc);
+ 236:	60 e0       	ldi	r22, 0x00	; 0
+ 238:	82 e0       	ldi	r24, 0x02	; 2
+ 23a:	0e 94 b2 00 	call	0x164	; 0x164 <iicSendResponse>
+}
+ 23e:	df 91       	pop	r29
+ 240:	cf 91       	pop	r28
+ 242:	1f 91       	pop	r17
+ 244:	0f 91       	pop	r16
+ 246:	08 95       	ret
+
+00000248 <iicRead>:
+Returns: uint64_t
+Description: Used in response to an IIC Master write request. Reads in up to
+			4 bytes of data and returns them as one whole 64 bit unsigned int.
+*/
+uint64_t iicRead(uint8_t size)
+{
+ 248:	cf 92       	push	r12
+ 24a:	df 92       	push	r13
+ 24c:	ef 92       	push	r14
+ 24e:	ff 92       	push	r15
+ 250:	0f 93       	push	r16
+ 252:	1f 93       	push	r17
+ 254:	cf 93       	push	r28
+ 256:	df 93       	push	r29
+ 258:	cd b7       	in	r28, 0x3d	; 61
+ 25a:	de b7       	in	r29, 0x3e	; 62
+ 25c:	28 97       	sbiw	r28, 0x08	; 8
+ 25e:	cd bf       	out	0x3d, r28	; 61
+ 260:	de bf       	out	0x3e, r29	; 62
+ 262:	e8 2e       	mov	r14, r24
+	uint64_t incomingData = 0;
+ 264:	19 82       	std	Y+1, r1	; 0x01
+ 266:	1a 82       	std	Y+2, r1	; 0x02
+ 268:	1b 82       	std	Y+3, r1	; 0x03
+ 26a:	1c 82       	std	Y+4, r1	; 0x04
+ 26c:	1d 82       	std	Y+5, r1	; 0x05
+ 26e:	1e 82       	std	Y+6, r1	; 0x06
+ 270:	1f 82       	std	Y+7, r1	; 0x07
+ 272:	18 86       	std	Y+8, r1	; 0x08
+	uint8_t *pIncomingData = &incomingData;
+	
+	for (uint8_t i = 0; i < size - 1; i++)
+ 274:	f1 2c       	mov	r15, r1
+			4 bytes of data and returns them as one whole 64 bit unsigned int.
+*/
+uint64_t iicRead(uint8_t size)
+{
+	uint64_t incomingData = 0;
+	uint8_t *pIncomingData = &incomingData;
+ 276:	8e 01       	movw	r16, r28
+ 278:	0f 5f       	subi	r16, 0xFF	; 255
+ 27a:	1f 4f       	sbci	r17, 0xFF	; 255
+	
+	for (uint8_t i = 0; i < size - 1; i++)
+ 27c:	10 c0       	rjmp	.+32     	; 0x29e <iicRead+0x56>
+	{
+		*(pIncomingData++) = (uint8_t)iicReadSdata();
+ 27e:	68 01       	movw	r12, r16
+ 280:	8f ef       	ldi	r24, 0xFF	; 255
+ 282:	c8 1a       	sub	r12, r24
+ 284:	d8 0a       	sbc	r13, r24
+ 286:	0e 94 c7 00 	call	0x18e	; 0x18e <iicReadSdata>
+ 28a:	f8 01       	movw	r30, r16
+ 28c:	80 83       	st	Z, r24
+		iicSendResponse(TWI_SCMD_RESPONSE_gc, TWI_ACKACT_ACK_gc);
+ 28e:	60 e0       	ldi	r22, 0x00	; 0
+ 290:	83 e0       	ldi	r24, 0x03	; 3
+ 292:	0e 94 b2 00 	call	0x164	; 0x164 <iicSendResponse>
+		iicWaitForDataIntFlag();		
+ 296:	0e 94 d0 00 	call	0x1a0	; 0x1a0 <iicWaitForDataIntFlag>
+uint64_t iicRead(uint8_t size)
+{
+	uint64_t incomingData = 0;
+	uint8_t *pIncomingData = &incomingData;
+	
+	for (uint8_t i = 0; i < size - 1; i++)
+ 29a:	f3 94       	inc	r15
+	{
+		*(pIncomingData++) = (uint8_t)iicReadSdata();
+ 29c:	86 01       	movw	r16, r12
+uint64_t iicRead(uint8_t size)
+{
+	uint64_t incomingData = 0;
+	uint8_t *pIncomingData = &incomingData;
+	
+	for (uint8_t i = 0; i < size - 1; i++)
+ 29e:	2f 2d       	mov	r18, r15
+ 2a0:	30 e0       	ldi	r19, 0x00	; 0
+ 2a2:	8e 2d       	mov	r24, r14
+ 2a4:	90 e0       	ldi	r25, 0x00	; 0
+ 2a6:	01 97       	sbiw	r24, 0x01	; 1
+ 2a8:	28 17       	cp	r18, r24
+ 2aa:	39 07       	cpc	r19, r25
+ 2ac:	44 f3       	brlt	.-48     	; 0x27e <iicRead+0x36>
+	{
+		*(pIncomingData++) = (uint8_t)iicReadSdata();
+		iicSendResponse(TWI_SCMD_RESPONSE_gc, TWI_ACKACT_ACK_gc);
+		iicWaitForDataIntFlag();		
+	}
+		*(pIncomingData++) = (uint8_t)iicReadSdata();
+ 2ae:	0e 94 c7 00 	call	0x18e	; 0x18e <iicReadSdata>
+ 2b2:	f8 01       	movw	r30, r16
+ 2b4:	80 83       	st	Z, r24
+		iicSendResponse(TWI_SCMD_COMPTRANS_gc, TWI_ACKACT_NACK_gc);
+ 2b6:	64 e0       	ldi	r22, 0x04	; 4
+ 2b8:	82 e0       	ldi	r24, 0x02	; 2
+ 2ba:	0e 94 b2 00 	call	0x164	; 0x164 <iicSendResponse>
+		iicWaitForDataIntFlag();	
+ 2be:	0e 94 d0 00 	call	0x1a0	; 0x1a0 <iicWaitForDataIntFlag>
+	return incomingData;
+ 2c2:	29 81       	ldd	r18, Y+1	; 0x01
+ 2c4:	3a 81       	ldd	r19, Y+2	; 0x02
+ 2c6:	4b 81       	ldd	r20, Y+3	; 0x03
+ 2c8:	5c 81       	ldd	r21, Y+4	; 0x04
+ 2ca:	6d 81       	ldd	r22, Y+5	; 0x05
+ 2cc:	7e 81       	ldd	r23, Y+6	; 0x06
+ 2ce:	8f 81       	ldd	r24, Y+7	; 0x07
+ 2d0:	98 85       	ldd	r25, Y+8	; 0x08
+ 2d2:	28 96       	adiw	r28, 0x08	; 8
+ 2d4:	cd bf       	out	0x3d, r28	; 61
+ 2d6:	de bf       	out	0x3e, r29	; 62
+ 2d8:	df 91       	pop	r29
+ 2da:	cf 91       	pop	r28
+ 2dc:	1f 91       	pop	r17
+ 2de:	0f 91       	pop	r16
+ 2e0:	ff 90       	pop	r15
+ 2e2:	ef 90       	pop	r14
+ 2e4:	df 90       	pop	r13
+ 2e6:	cf 90       	pop	r12
+ 2e8:	08 95       	ret
+
+000002ea <iicHandleData>:
+Description: Sends or receives requested data determined by internal address and
+			iicReadOrWrite.
+*/
+void iicHandleData(INTERNAL_ADDRESS_t internalAddress)
+{
+	switch (internalAddress)
+ 2ea:	90 e0       	ldi	r25, 0x00	; 0
+ 2ec:	89 30       	cpi	r24, 0x09	; 9
+ 2ee:	91 05       	cpc	r25, r1
+ 2f0:	28 f5       	brcc	.+74     	; 0x33c <iicHandleData+0x52>
+ 2f2:	fc 01       	movw	r30, r24
+ 2f4:	e8 5a       	subi	r30, 0xA8	; 168
+ 2f6:	ff 4f       	sbci	r31, 0xFF	; 255
+ 2f8:	0c 94 a9 06 	jmp	0xd52	; 0xd52 <__tablejump2__>
+	{
+		case BASE_ADDRESS:
+		break;
+		
+		case MOTOR_SET_POINT:
+			handlerMotorSetPoint();			
+ 2fc:	0e 94 a8 01 	call	0x350	; 0x350 <handlerMotorSetPoint>
+		break;
+ 300:	23 c0       	rjmp	.+70     	; 0x348 <iicHandleData+0x5e>
+		
+		case MOTOR_POSITION:
+			handlerMotorPosition();
+ 302:	0e 94 cb 01 	call	0x396	; 0x396 <handlerMotorPosition>
+		break;
+ 306:	20 c0       	rjmp	.+64     	; 0x348 <iicHandleData+0x5e>
+		
+		case MOTOR_SPEED:
+			handlerMotorSpeed();
+ 308:	0e 94 ee 01 	call	0x3dc	; 0x3dc <handlerMotorSpeed>
+		break;
+ 30c:	1d c0       	rjmp	.+58     	; 0x348 <iicHandleData+0x5e>
+		
+		case MOTOR_CURRENT:
+			handlerMotorCurrent();
+ 30e:	0e 94 11 02 	call	0x422	; 0x422 <handlerMotorCurrent>
+		break;
+ 312:	1a c0       	rjmp	.+52     	; 0x348 <iicHandleData+0x5e>
+		
+		case MOTOR_STEP_MODE:
+			handlerMotorStepMode();
+ 314:	0e 94 32 02 	call	0x464	; 0x464 <handlerMotorStepMode>
+		break;
+ 318:	17 c0       	rjmp	.+46     	; 0x348 <iicHandleData+0x5e>
+		
+		case MOTOR_STATUS_FLAGS:
+			handlerMotorStatusFlags();
+ 31a:	0e 94 4f 02 	call	0x49e	; 0x49e <handlerMotorStatusFlags>
+		break;
+ 31e:	14 c0       	rjmp	.+40     	; 0x348 <iicHandleData+0x5e>
+		
+		case BATTERY_VOLTAGE:
+			handlerBatteryVoltage();
+ 320:	0e 94 68 02 	call	0x4d0	; 0x4d0 <handlerBatteryVoltage>
+		break;
+ 324:	11 c0       	rjmp	.+34     	; 0x348 <iicHandleData+0x5e>
+		
+		case MOTOR_GO_TO_ZERO:
+			if (iicRead(1) == 0)
+ 326:	81 e0       	ldi	r24, 0x01	; 1
+ 328:	0e 94 24 01 	call	0x248	; 0x248 <iicRead>
+ 32c:	a0 e0       	ldi	r26, 0x00	; 0
+ 32e:	0e 94 be 06 	call	0xd7c	; 0xd7c <__cmpdi2_s8>
+ 332:	51 f4       	brne	.+20     	; 0x348 <iicHandleData+0x5e>
+			{
+				stepperSetFlag(FLAG_GO_TO_ZERO_bm);
+ 334:	88 e0       	ldi	r24, 0x08	; 8
+ 336:	0e 94 a7 05 	call	0xb4e	; 0xb4e <stepperSetFlag>
+ 33a:	06 c0       	rjmp	.+12     	; 0x348 <iicHandleData+0x5e>
+			}
+		break;
+		
+		default:
+			iicRead(1);										//Process the data in the register to keep the bus from hanging but don't do anything with it.
+ 33c:	81 e0       	ldi	r24, 0x01	; 1
+ 33e:	0e 94 24 01 	call	0x248	; 0x248 <iicRead>
+			iicSetInternalAddress(BASE_ADDRESS);			//Reset to base address.
+ 342:	80 e0       	ldi	r24, 0x00	; 0
+ 344:	0e 94 cd 00 	call	0x19a	; 0x19a <iicSetInternalAddress>
+		break;
+	}		
+	iicSetInternalAddress(BASE_ADDRESS);					//Reset to base address after handling data.
+ 348:	80 e0       	ldi	r24, 0x00	; 0
+ 34a:	0e 94 cd 00 	call	0x19a	; 0x19a <iicSetInternalAddress>
+ 34e:	08 95       	ret
+
+00000350 <handlerMotorSetPoint>:
+
+/*For detailed descriptions of the data and access of each address see 
+"IIC Procedure" document in "DAMPING_ADJUSTER > Docs" folder.*/
+
+void handlerMotorSetPoint()
+{
+ 350:	cf 93       	push	r28
+ 352:	df 93       	push	r29
+ 354:	00 d0       	rcall	.+0      	; 0x356 <handlerMotorSetPoint+0x6>
+ 356:	cd b7       	in	r28, 0x3d	; 61
+ 358:	de b7       	in	r29, 0x3e	; 62
+	uint16_t setPoint = 0;
+ 35a:	19 82       	std	Y+1, r1	; 0x01
+ 35c:	1a 82       	std	Y+2, r1	; 0x02
+	if (iicReadOrWriteFlag() == IIC_REQUESTING_WRITE)
+ 35e:	0e 94 b9 00 	call	0x172	; 0x172 <iicReadOrWriteFlag>
+ 362:	81 11       	cpse	r24, r1
+ 364:	0a c0       	rjmp	.+20     	; 0x37a <handlerMotorSetPoint+0x2a>
+	{
+		setPoint = iicRead(sizeof(setPoint));
+ 366:	82 e0       	ldi	r24, 0x02	; 2
+ 368:	0e 94 24 01 	call	0x248	; 0x248 <iicRead>
+ 36c:	82 2f       	mov	r24, r18
+ 36e:	93 2f       	mov	r25, r19
+ 370:	29 83       	std	Y+1, r18	; 0x01
+ 372:	3a 83       	std	Y+2, r19	; 0x02
+		stepperSetSetPoint(setPoint);
+ 374:	0e 94 ff 04 	call	0x9fe	; 0x9fe <stepperSetSetPoint>
+ 378:	09 c0       	rjmp	.+18     	; 0x38c <handlerMotorSetPoint+0x3c>
+	}
+	else
+	{
+		setPoint = stepperSetPoint();
+ 37a:	0e 94 49 05 	call	0xa92	; 0xa92 <stepperSetPoint>
+ 37e:	89 83       	std	Y+1, r24	; 0x01
+ 380:	9a 83       	std	Y+2, r25	; 0x02
+		iicWrite(&setPoint, sizeof(setPoint));
+ 382:	62 e0       	ldi	r22, 0x02	; 2
+ 384:	ce 01       	movw	r24, r28
+ 386:	01 96       	adiw	r24, 0x01	; 1
+ 388:	0e 94 fc 00 	call	0x1f8	; 0x1f8 <iicWrite>
+	}
+}
+ 38c:	0f 90       	pop	r0
+ 38e:	0f 90       	pop	r0
+ 390:	df 91       	pop	r29
+ 392:	cf 91       	pop	r28
+ 394:	08 95       	ret
+
+00000396 <handlerMotorPosition>:
+
+
+void handlerMotorPosition()
+{
+ 396:	cf 93       	push	r28
+ 398:	df 93       	push	r29
+ 39a:	00 d0       	rcall	.+0      	; 0x39c <handlerMotorPosition+0x6>
+ 39c:	cd b7       	in	r28, 0x3d	; 61
+ 39e:	de b7       	in	r29, 0x3e	; 62
+	uint16_t position = 0;
+ 3a0:	19 82       	std	Y+1, r1	; 0x01
+ 3a2:	1a 82       	std	Y+2, r1	; 0x02
+	
+	if (iicReadOrWriteFlag() == IIC_REQUESTING_WRITE)
+ 3a4:	0e 94 b9 00 	call	0x172	; 0x172 <iicReadOrWriteFlag>
+ 3a8:	81 11       	cpse	r24, r1
+ 3aa:	0a c0       	rjmp	.+20     	; 0x3c0 <handlerMotorPosition+0x2a>
+	{
+		position = iicRead(sizeof(position));
+ 3ac:	82 e0       	ldi	r24, 0x02	; 2
+ 3ae:	0e 94 24 01 	call	0x248	; 0x248 <iicRead>
+ 3b2:	82 2f       	mov	r24, r18
+ 3b4:	93 2f       	mov	r25, r19
+ 3b6:	29 83       	std	Y+1, r18	; 0x01
+ 3b8:	3a 83       	std	Y+2, r19	; 0x02
+		stepperSetPosition(position);
+ 3ba:	0e 94 19 05 	call	0xa32	; 0xa32 <stepperSetPosition>
+ 3be:	09 c0       	rjmp	.+18     	; 0x3d2 <handlerMotorPosition+0x3c>
+	}
+	else
+	{
+		position = stepperPosition();
+ 3c0:	0e 94 42 05 	call	0xa84	; 0xa84 <stepperPosition>
+ 3c4:	89 83       	std	Y+1, r24	; 0x01
+ 3c6:	9a 83       	std	Y+2, r25	; 0x02
+		iicWrite(&position, sizeof(position));
+ 3c8:	62 e0       	ldi	r22, 0x02	; 2
+ 3ca:	ce 01       	movw	r24, r28
+ 3cc:	01 96       	adiw	r24, 0x01	; 1
+ 3ce:	0e 94 fc 00 	call	0x1f8	; 0x1f8 <iicWrite>
+	}
+}
+ 3d2:	0f 90       	pop	r0
+ 3d4:	0f 90       	pop	r0
+ 3d6:	df 91       	pop	r29
+ 3d8:	cf 91       	pop	r28
+ 3da:	08 95       	ret
+
+000003dc <handlerMotorSpeed>:
+
+
+void handlerMotorSpeed()
+{
+ 3dc:	cf 93       	push	r28
+ 3de:	df 93       	push	r29
+ 3e0:	00 d0       	rcall	.+0      	; 0x3e2 <handlerMotorSpeed+0x6>
+ 3e2:	cd b7       	in	r28, 0x3d	; 61
+ 3e4:	de b7       	in	r29, 0x3e	; 62
+	uint16_t speed = 0;
+ 3e6:	19 82       	std	Y+1, r1	; 0x01
+ 3e8:	1a 82       	std	Y+2, r1	; 0x02
+	if (iicReadOrWriteFlag() == IIC_REQUESTING_WRITE)
+ 3ea:	0e 94 b9 00 	call	0x172	; 0x172 <iicReadOrWriteFlag>
+ 3ee:	81 11       	cpse	r24, r1
+ 3f0:	0a c0       	rjmp	.+20     	; 0x406 <__LOCK_REGION_LENGTH__+0x6>
+	{
+		speed = iicRead(sizeof(speed));
+ 3f2:	82 e0       	ldi	r24, 0x02	; 2
+ 3f4:	0e 94 24 01 	call	0x248	; 0x248 <iicRead>
+ 3f8:	82 2f       	mov	r24, r18
+ 3fa:	93 2f       	mov	r25, r19
+ 3fc:	29 83       	std	Y+1, r18	; 0x01
+ 3fe:	3a 83       	std	Y+2, r19	; 0x02
+		stepperSetSpeed(speed);
+ 400:	0e 94 6c 04 	call	0x8d8	; 0x8d8 <stepperSetSpeed>
+ 404:	09 c0       	rjmp	.+18     	; 0x418 <__LOCK_REGION_LENGTH__+0x18>
+	}
+	else
+	{
+		speed = stepperSpeed();
+ 406:	0e 94 50 05 	call	0xaa0	; 0xaa0 <stepperSpeed>
+ 40a:	89 83       	std	Y+1, r24	; 0x01
+ 40c:	9a 83       	std	Y+2, r25	; 0x02
+		iicWrite(&speed, sizeof(speed));
+ 40e:	62 e0       	ldi	r22, 0x02	; 2
+ 410:	ce 01       	movw	r24, r28
+ 412:	01 96       	adiw	r24, 0x01	; 1
+ 414:	0e 94 fc 00 	call	0x1f8	; 0x1f8 <iicWrite>
+	}		
+}
+ 418:	0f 90       	pop	r0
+ 41a:	0f 90       	pop	r0
+ 41c:	df 91       	pop	r29
+ 41e:	cf 91       	pop	r28
+ 420:	08 95       	ret
+
+00000422 <handlerMotorCurrent>:
+
+
+void handlerMotorCurrent()
+{
+ 422:	cf 93       	push	r28
+ 424:	df 93       	push	r29
+ 426:	00 d0       	rcall	.+0      	; 0x428 <handlerMotorCurrent+0x6>
+ 428:	cd b7       	in	r28, 0x3d	; 61
+ 42a:	de b7       	in	r29, 0x3e	; 62
+	CURRENT_LIMIT_t current;
+	
+	if (iicReadOrWriteFlag() == IIC_REQUESTING_WRITE)
+ 42c:	0e 94 b9 00 	call	0x172	; 0x172 <iicReadOrWriteFlag>
+ 430:	81 11       	cpse	r24, r1
+ 432:	0a c0       	rjmp	.+20     	; 0x448 <handlerMotorCurrent+0x26>
+	{
+		current = iicRead(sizeof(current));
+ 434:	82 e0       	ldi	r24, 0x02	; 2
+ 436:	0e 94 24 01 	call	0x248	; 0x248 <iicRead>
+ 43a:	82 2f       	mov	r24, r18
+ 43c:	93 2f       	mov	r25, r19
+ 43e:	29 83       	std	Y+1, r18	; 0x01
+ 440:	3a 83       	std	Y+2, r19	; 0x02
+		stepperSetCurrent(current);
+ 442:	0e 94 cb 04 	call	0x996	; 0x996 <stepperSetCurrent>
+ 446:	09 c0       	rjmp	.+18     	; 0x45a <handlerMotorCurrent+0x38>
+	}
+	else
+	{
+		current = stepperCurrentLimit();
+ 448:	0e 94 e7 05 	call	0xbce	; 0xbce <stepperCurrentLimit>
+ 44c:	89 83       	std	Y+1, r24	; 0x01
+ 44e:	9a 83       	std	Y+2, r25	; 0x02
+		iicWrite(&current, sizeof(current));
+ 450:	62 e0       	ldi	r22, 0x02	; 2
+ 452:	ce 01       	movw	r24, r28
+ 454:	01 96       	adiw	r24, 0x01	; 1
+ 456:	0e 94 fc 00 	call	0x1f8	; 0x1f8 <iicWrite>
+	}
+}
+ 45a:	0f 90       	pop	r0
+ 45c:	0f 90       	pop	r0
+ 45e:	df 91       	pop	r29
+ 460:	cf 91       	pop	r28
+ 462:	08 95       	ret
+
+00000464 <handlerMotorStepMode>:
+
+
+void handlerMotorStepMode()
+{
+ 464:	cf 93       	push	r28
+ 466:	df 93       	push	r29
+ 468:	1f 92       	push	r1
+ 46a:	cd b7       	in	r28, 0x3d	; 61
+ 46c:	de b7       	in	r29, 0x3e	; 62
+	STEP_MODE_t stepMode;
+	
+	if (iicReadOrWriteFlag() == IIC_REQUESTING_WRITE)
+ 46e:	0e 94 b9 00 	call	0x172	; 0x172 <iicReadOrWriteFlag>
+ 472:	81 11       	cpse	r24, r1
+ 474:	08 c0       	rjmp	.+16     	; 0x486 <handlerMotorStepMode+0x22>
+	{
+		stepMode = iicRead(sizeof(stepMode));
+ 476:	81 e0       	ldi	r24, 0x01	; 1
+ 478:	0e 94 24 01 	call	0x248	; 0x248 <iicRead>
+ 47c:	82 2f       	mov	r24, r18
+ 47e:	29 83       	std	Y+1, r18	; 0x01
+		stepperSetStepMode(stepMode);
+ 480:	0e 94 5a 04 	call	0x8b4	; 0x8b4 <stepperSetStepMode>
+ 484:	08 c0       	rjmp	.+16     	; 0x496 <handlerMotorStepMode+0x32>
+	}
+	else
+	{
+		stepMode = stepperStepMode();
+ 486:	0e 94 ee 05 	call	0xbdc	; 0xbdc <stepperStepMode>
+ 48a:	89 83       	std	Y+1, r24	; 0x01
+		iicWrite(&stepMode, sizeof(stepMode));
+ 48c:	61 e0       	ldi	r22, 0x01	; 1
+ 48e:	ce 01       	movw	r24, r28
+ 490:	01 96       	adiw	r24, 0x01	; 1
+ 492:	0e 94 fc 00 	call	0x1f8	; 0x1f8 <iicWrite>
+	}
+}
+ 496:	0f 90       	pop	r0
+ 498:	df 91       	pop	r29
+ 49a:	cf 91       	pop	r28
+ 49c:	08 95       	ret
+
+0000049e <handlerMotorStatusFlags>:
+
+
+void handlerMotorStatusFlags()
+{
+ 49e:	cf 93       	push	r28
+ 4a0:	df 93       	push	r29
+ 4a2:	1f 92       	push	r1
+ 4a4:	cd b7       	in	r28, 0x3d	; 61
+ 4a6:	de b7       	in	r29, 0x3e	; 62
+	uint8_t flags = 0;
+ 4a8:	19 82       	std	Y+1, r1	; 0x01
+	
+	if (iicReadOrWriteFlag() == IIC_REQUESTING_WRITE)
+ 4aa:	0e 94 b9 00 	call	0x172	; 0x172 <iicReadOrWriteFlag>
+ 4ae:	81 11       	cpse	r24, r1
+ 4b0:	03 c0       	rjmp	.+6      	; 0x4b8 <handlerMotorStatusFlags+0x1a>
+	{
+		iicRead(0);									//Immediately NACK the data, this is a read only address.
+ 4b2:	0e 94 24 01 	call	0x248	; 0x248 <iicRead>
+ 4b6:	08 c0       	rjmp	.+16     	; 0x4c8 <handlerMotorStatusFlags+0x2a>
+	}
+	else
+	{
+		flags = stepperFlags();
+ 4b8:	0e 94 b8 05 	call	0xb70	; 0xb70 <stepperFlags>
+ 4bc:	89 83       	std	Y+1, r24	; 0x01
+		iicWrite(&flags, sizeof(flags));
+ 4be:	61 e0       	ldi	r22, 0x01	; 1
+ 4c0:	ce 01       	movw	r24, r28
+ 4c2:	01 96       	adiw	r24, 0x01	; 1
+ 4c4:	0e 94 fc 00 	call	0x1f8	; 0x1f8 <iicWrite>
+	}
+}
+ 4c8:	0f 90       	pop	r0
+ 4ca:	df 91       	pop	r29
+ 4cc:	cf 91       	pop	r28
+ 4ce:	08 95       	ret
+
+000004d0 <handlerBatteryVoltage>:
+
+
+void handlerBatteryVoltage()
+{
+ 4d0:	cf 93       	push	r28
+ 4d2:	df 93       	push	r29
+ 4d4:	00 d0       	rcall	.+0      	; 0x4d6 <handlerBatteryVoltage+0x6>
+ 4d6:	cd b7       	in	r28, 0x3d	; 61
+ 4d8:	de b7       	in	r29, 0x3e	; 62
+	uint16_t voltage = 0;
+ 4da:	19 82       	std	Y+1, r1	; 0x01
+ 4dc:	1a 82       	std	Y+2, r1	; 0x02
+	if (iicReadOrWriteFlag() == IIC_REQUESTING_WRITE)
+ 4de:	0e 94 b9 00 	call	0x172	; 0x172 <iicReadOrWriteFlag>
+ 4e2:	81 11       	cpse	r24, r1
+ 4e4:	03 c0       	rjmp	.+6      	; 0x4ec <handlerBatteryVoltage+0x1c>
+	{
+		iicRead(0);									//Immediately NACK the data, this is a read only address.
+ 4e6:	0e 94 24 01 	call	0x248	; 0x248 <iicRead>
+ 4ea:	09 c0       	rjmp	.+18     	; 0x4fe <handlerBatteryVoltage+0x2e>
+	}
+	else
+	{
+		voltage = systemADCResult();
+ 4ec:	0e 94 5e 06 	call	0xcbc	; 0xcbc <systemADCResult>
+ 4f0:	89 83       	std	Y+1, r24	; 0x01
+ 4f2:	9a 83       	std	Y+2, r25	; 0x02
+		iicWrite(&voltage, sizeof(voltage));
+ 4f4:	62 e0       	ldi	r22, 0x02	; 2
+ 4f6:	ce 01       	movw	r24, r28
+ 4f8:	01 96       	adiw	r24, 0x01	; 1
+ 4fa:	0e 94 fc 00 	call	0x1f8	; 0x1f8 <iicWrite>
+	}
+ 4fe:	0f 90       	pop	r0
+ 500:	0f 90       	pop	r0
+ 502:	df 91       	pop	r29
+ 504:	cf 91       	pop	r28
+ 506:	08 95       	ret
+
+00000508 <__vector_6>:
+#include "system.h"
+#include "iic.h"
+
+/*Port A interrupt for encoder*/
+ISR(PORTA_PORT_vect)
+{
+ 508:	1f 92       	push	r1
+ 50a:	0f 92       	push	r0
+ 50c:	0f b6       	in	r0, 0x3f	; 63
+ 50e:	0f 92       	push	r0
+ 510:	11 24       	eor	r1, r1
+ 512:	2f 93       	push	r18
+ 514:	3f 93       	push	r19
+ 516:	4f 93       	push	r20
+ 518:	5f 93       	push	r21
+ 51a:	6f 93       	push	r22
+ 51c:	7f 93       	push	r23
+ 51e:	8f 93       	push	r24
+ 520:	9f 93       	push	r25
+ 522:	af 93       	push	r26
+ 524:	bf 93       	push	r27
+ 526:	cf 93       	push	r28
+ 528:	df 93       	push	r29
+ 52a:	ef 93       	push	r30
+ 52c:	ff 93       	push	r31
+	LED1_ON;
+ 52e:	c0 e0       	ldi	r28, 0x00	; 0
+ 530:	d4 e0       	ldi	r29, 0x04	; 4
+ 532:	8c 81       	ldd	r24, Y+4	; 0x04
+ 534:	84 60       	ori	r24, 0x04	; 4
+ 536:	8c 83       	std	Y+4, r24	; 0x04
+	stepperClearTimeoutTimer();									//Reset the timeout counter because it just moved a step.
+ 538:	0e 94 8c 05 	call	0xb18	; 0xb18 <stepperClearTimeoutTimer>
+	int8_t direction = encoderRotDirection();					//Determine direction motor is rotating.
+ 53c:	0e 94 80 00 	call	0x100	; 0x100 <encoderRotDirection>
+	stepperIncrementPosition(direction);						//Add/subtract from the current position.
+ 540:	0e 94 79 04 	call	0x8f2	; 0x8f2 <stepperIncrementPosition>
+	PORTA.INTFLAGS = ENC_A_PIN;									//Clear interrupt flag.
+ 544:	81 e0       	ldi	r24, 0x01	; 1
+ 546:	89 87       	std	Y+9, r24	; 0x09
+	LED1_OFF;
+ 548:	8c 81       	ldd	r24, Y+4	; 0x04
+ 54a:	8b 7f       	andi	r24, 0xFB	; 251
+ 54c:	8c 83       	std	Y+4, r24	; 0x04
+}
+ 54e:	ff 91       	pop	r31
+ 550:	ef 91       	pop	r30
+ 552:	df 91       	pop	r29
+ 554:	cf 91       	pop	r28
+ 556:	bf 91       	pop	r27
+ 558:	af 91       	pop	r26
+ 55a:	9f 91       	pop	r25
+ 55c:	8f 91       	pop	r24
+ 55e:	7f 91       	pop	r23
+ 560:	6f 91       	pop	r22
+ 562:	5f 91       	pop	r21
+ 564:	4f 91       	pop	r20
+ 566:	3f 91       	pop	r19
+ 568:	2f 91       	pop	r18
+ 56a:	0f 90       	pop	r0
+ 56c:	0f be       	out	0x3f, r0	; 63
+ 56e:	0f 90       	pop	r0
+ 570:	1f 90       	pop	r1
+ 572:	18 95       	reti
+
+00000574 <__vector_42>:
+
+/*IIC interrupt for incoming data*/
+ISR(TWI1_TWIS_vect)
+{
+ 574:	1f 92       	push	r1
+ 576:	0f 92       	push	r0
+ 578:	0f b6       	in	r0, 0x3f	; 63
+ 57a:	0f 92       	push	r0
+ 57c:	11 24       	eor	r1, r1
+ 57e:	2f 93       	push	r18
+ 580:	3f 93       	push	r19
+ 582:	4f 93       	push	r20
+ 584:	5f 93       	push	r21
+ 586:	6f 93       	push	r22
+ 588:	7f 93       	push	r23
+ 58a:	8f 93       	push	r24
+ 58c:	9f 93       	push	r25
+ 58e:	af 93       	push	r26
+ 590:	bf 93       	push	r27
+ 592:	ef 93       	push	r30
+ 594:	ff 93       	push	r31
+	if (iicReadInternalAddress() == BASE_ADDRESS)								//If it's starting for the first time.
+ 596:	0e 94 ed 00 	call	0x1da	; 0x1da <iicReadInternalAddress>
+ 59a:	81 11       	cpse	r24, r1
+ 59c:	17 c0       	rjmp	.+46     	; 0x5cc <__vector_42+0x58>
+	{
+		if (iicAddrOrStopFlag() == ADDRESS_FLAG)											//And it's not a stop.
+ 59e:	0e 94 a2 00 	call	0x144	; 0x144 <iicAddrOrStopFlag>
+ 5a2:	81 11       	cpse	r24, r1
+ 5a4:	1f c0       	rjmp	.+62     	; 0x5e4 <__vector_42+0x70>
+		{
+			if (iicReadOrWriteFlag() == IIC_REQUESTING_WRITE)						//And it's requesting to write means it going to be an internal address.
+ 5a6:	0e 94 b9 00 	call	0x172	; 0x172 <iicReadOrWriteFlag>
+ 5aa:	81 11       	cpse	r24, r1
+ 5ac:	1b c0       	rjmp	.+54     	; 0x5e4 <__vector_42+0x70>
+			{
+				iicSendResponse(TWI_SCMD_RESPONSE_gc, TWI_ACKACT_ACK_gc);		//Acknowledge
+ 5ae:	60 e0       	ldi	r22, 0x00	; 0
+ 5b0:	83 e0       	ldi	r24, 0x03	; 3
+ 5b2:	0e 94 b2 00 	call	0x164	; 0x164 <iicSendResponse>
+				iicWaitForDataIntFlag();
+ 5b6:	0e 94 d0 00 	call	0x1a0	; 0x1a0 <iicWaitForDataIntFlag>
+				iicSetInternalAddress((INTERNAL_ADDRESS_t)iicReadSdata());		//Save the internal address.
+ 5ba:	0e 94 c7 00 	call	0x18e	; 0x18e <iicReadSdata>
+ 5be:	0e 94 cd 00 	call	0x19a	; 0x19a <iicSetInternalAddress>
+				iicSendResponse(TWI_SCMD_COMPTRANS_gc, TWI_ACKACT_NACK_gc);		//Acknowledge
+ 5c2:	64 e0       	ldi	r22, 0x04	; 4
+ 5c4:	82 e0       	ldi	r24, 0x02	; 2
+ 5c6:	0e 94 b2 00 	call	0x164	; 0x164 <iicSendResponse>
+ 5ca:	0c c0       	rjmp	.+24     	; 0x5e4 <__vector_42+0x70>
+			}
+		}
+	}
+	else //Not the BASE_ADDRESS means the internal address is already written.
+	{
+		iicSendResponse(TWI_SCMD_RESPONSE_gc, TWI_ACKACT_ACK_gc);
+ 5cc:	60 e0       	ldi	r22, 0x00	; 0
+ 5ce:	83 e0       	ldi	r24, 0x03	; 3
+ 5d0:	0e 94 b2 00 	call	0x164	; 0x164 <iicSendResponse>
+		while (iicDataIntFlag() == 0) {}		
+ 5d4:	0e 94 c0 00 	call	0x180	; 0x180 <iicDataIntFlag>
+ 5d8:	88 23       	and	r24, r24
+ 5da:	e1 f3       	breq	.-8      	; 0x5d4 <__vector_42+0x60>
+		iicHandleData(iicReadInternalAddress());
+ 5dc:	0e 94 ed 00 	call	0x1da	; 0x1da <iicReadInternalAddress>
+ 5e0:	0e 94 75 01 	call	0x2ea	; 0x2ea <iicHandleData>
+	}
+	
+}
+ 5e4:	ff 91       	pop	r31
+ 5e6:	ef 91       	pop	r30
+ 5e8:	bf 91       	pop	r27
+ 5ea:	af 91       	pop	r26
+ 5ec:	9f 91       	pop	r25
+ 5ee:	8f 91       	pop	r24
+ 5f0:	7f 91       	pop	r23
+ 5f2:	6f 91       	pop	r22
+ 5f4:	5f 91       	pop	r21
+ 5f6:	4f 91       	pop	r20
+ 5f8:	3f 91       	pop	r19
+ 5fa:	2f 91       	pop	r18
+ 5fc:	0f 90       	pop	r0
+ 5fe:	0f be       	out	0x3f, r0	; 63
+ 600:	0f 90       	pop	r0
+ 602:	1f 90       	pop	r1
+ 604:	18 95       	reti
+
+00000606 <__vector_12>:
+
+
+/*IIC timeout interrupt.*/
+ISR(TCB0_INT_vect)
+{
+ 606:	1f 92       	push	r1
+ 608:	0f 92       	push	r0
+ 60a:	0f b6       	in	r0, 0x3f	; 63
+ 60c:	0f 92       	push	r0
+ 60e:	11 24       	eor	r1, r1
+ 610:	2f 93       	push	r18
+ 612:	3f 93       	push	r19
+ 614:	4f 93       	push	r20
+ 616:	5f 93       	push	r21
+ 618:	6f 93       	push	r22
+ 61a:	7f 93       	push	r23
+ 61c:	8f 93       	push	r24
+ 61e:	9f 93       	push	r25
+ 620:	af 93       	push	r26
+ 622:	bf 93       	push	r27
+ 624:	ef 93       	push	r30
+ 626:	ff 93       	push	r31
+	iicKill();							//Disable IIC slave.
+ 628:	0e 94 f6 00 	call	0x1ec	; 0x1ec <iicKill>
+	iicInit();							//Enable IIC slave.
+ 62c:	0e 94 8f 00 	call	0x11e	; 0x11e <iicInit>
+	TCB0.INTFLAGS = TCB_CAPT_bm;		//Clear interrupt flag.
+ 630:	81 e0       	ldi	r24, 0x01	; 1
+ 632:	80 93 06 0b 	sts	0x0B06, r24	; 0x800b06 <__RODATA_PM_OFFSET__+0x7f8b06>
+}
+ 636:	ff 91       	pop	r31
+ 638:	ef 91       	pop	r30
+ 63a:	bf 91       	pop	r27
+ 63c:	af 91       	pop	r26
+ 63e:	9f 91       	pop	r25
+ 640:	8f 91       	pop	r24
+ 642:	7f 91       	pop	r23
+ 644:	6f 91       	pop	r22
+ 646:	5f 91       	pop	r21
+ 648:	4f 91       	pop	r20
+ 64a:	3f 91       	pop	r19
+ 64c:	2f 91       	pop	r18
+ 64e:	0f 90       	pop	r0
+ 650:	0f be       	out	0x3f, r0	; 63
+ 652:	0f 90       	pop	r0
+ 654:	1f 90       	pop	r1
+ 656:	18 95       	reti
+
+00000658 <__vector_13>:
+
+/*Stepper timeout interrupt.*/
+ISR(TCB1_INT_vect)
+{
+ 658:	1f 92       	push	r1
+ 65a:	0f 92       	push	r0
+ 65c:	0f b6       	in	r0, 0x3f	; 63
+ 65e:	0f 92       	push	r0
+ 660:	11 24       	eor	r1, r1
+ 662:	2f 93       	push	r18
+ 664:	3f 93       	push	r19
+ 666:	4f 93       	push	r20
+ 668:	5f 93       	push	r21
+ 66a:	6f 93       	push	r22
+ 66c:	7f 93       	push	r23
+ 66e:	8f 93       	push	r24
+ 670:	9f 93       	push	r25
+ 672:	af 93       	push	r26
+ 674:	bf 93       	push	r27
+ 676:	ef 93       	push	r30
+ 678:	ff 93       	push	r31
+	stepperIncrementTimeoutCount();		//Increment timeout counter.
+ 67a:	0e 94 9f 05 	call	0xb3e	; 0xb3e <stepperIncrementTimeoutCount>
+	TCB1.INTFLAGS = TCB_CAPT_bm;		//Clear the interrupt flag.
+ 67e:	81 e0       	ldi	r24, 0x01	; 1
+ 680:	80 93 16 0b 	sts	0x0B16, r24	; 0x800b16 <__RODATA_PM_OFFSET__+0x7f8b16>
+ 684:	ff 91       	pop	r31
+ 686:	ef 91       	pop	r30
+ 688:	bf 91       	pop	r27
+ 68a:	af 91       	pop	r26
+ 68c:	9f 91       	pop	r25
+ 68e:	8f 91       	pop	r24
+ 690:	7f 91       	pop	r23
+ 692:	6f 91       	pop	r22
+ 694:	5f 91       	pop	r21
+ 696:	4f 91       	pop	r20
+ 698:	3f 91       	pop	r19
+ 69a:	2f 91       	pop	r18
+ 69c:	0f 90       	pop	r0
+ 69e:	0f be       	out	0x3f, r0	; 63
+ 6a0:	0f 90       	pop	r0
+ 6a2:	1f 90       	pop	r1
+ 6a4:	18 95       	reti
+
+000006a6 <main>:
+
+
+int main(void)
+{	
+	/*Enable global interrupts*/
+	sei();											
+ 6a6:	78 94       	sei
+
+	/*Configure system clock*/
+	systemClockConfig();
+ 6a8:	0e 94 36 06 	call	0xc6c	; 0xc6c <systemClockConfig>
+	
+	/*Configure pins in each port*/
+	systemPortAConfig();
+ 6ac:	0e 94 f4 05 	call	0xbe8	; 0xbe8 <systemPortAConfig>
+	systemPortCConfig();
+ 6b0:	0e 94 0d 06 	call	0xc1a	; 0xc1a <systemPortCConfig>
+	systemPortDConfig();
+ 6b4:	0e 94 1f 06 	call	0xc3e	; 0xc3e <systemPortDConfig>
+	systemPortFConfig();
+ 6b8:	0e 94 2e 06 	call	0xc5c	; 0xc5c <systemPortFConfig>
+	
+	/*Enable TCA0 which is used as a source for TCBx*/
+	systemEnableTCA0();
+ 6bc:	0e 94 6c 06 	call	0xcd8	; 0xcd8 <systemEnableTCA0>
+
+	/*Configure ADC to read car battery/stepper supply voltage*/
+	systemConfigADC();
+ 6c0:	0e 94 3f 06 	call	0xc7e	; 0xc7e <systemConfigADC>
+	
+	/*Load default stepper settings*/
+	stepperInit();
+ 6c4:	0e 94 5f 05 	call	0xabe	; 0xabe <stepperInit>
+		
+	/*Wait until the correct position is written from the master.*/
+	while ((stepperPosition() == -1) || (stepperSetPoint() == -1)) 
+ 6c8:	05 c0       	rjmp	.+10     	; 0x6d4 <main+0x2e>
+	{
+		if ((stepperFlags() & FLAG_GO_TO_ZERO_bm) != 0)
+ 6ca:	0e 94 b8 05 	call	0xb70	; 0xb70 <stepperFlags>
+ 6ce:	83 fd       	sbrc	r24, 3
+		{
+			stepperGoToZero();
+ 6d0:	0e 94 be 05 	call	0xb7c	; 0xb7c <stepperGoToZero>
+	
+	/*Load default stepper settings*/
+	stepperInit();
+		
+	/*Wait until the correct position is written from the master.*/
+	while ((stepperPosition() == -1) || (stepperSetPoint() == -1)) 
+ 6d4:	0e 94 42 05 	call	0xa84	; 0xa84 <stepperPosition>
+ 6d8:	01 96       	adiw	r24, 0x01	; 1
+ 6da:	b9 f3       	breq	.-18     	; 0x6ca <main+0x24>
+ 6dc:	0e 94 49 05 	call	0xa92	; 0xa92 <stepperSetPoint>
+ 6e0:	01 96       	adiw	r24, 0x01	; 1
+ 6e2:	99 f3       	breq	.-26     	; 0x6ca <main+0x24>
+ 6e4:	16 c0       	rjmp	.+44     	; 0x712 <main+0x6c>
+    while (1) 
+    {
+		/*While the stepper position is not equal to the set point*/
+		while (stepperAtSetPoint() == 0)					
+		{
+			if (stepperPosition() < stepperSetPoint())
+ 6e6:	0e 94 42 05 	call	0xa84	; 0xa84 <stepperPosition>
+ 6ea:	ec 01       	movw	r28, r24
+ 6ec:	0e 94 49 05 	call	0xa92	; 0xa92 <stepperSetPoint>
+ 6f0:	c8 17       	cp	r28, r24
+ 6f2:	d9 07       	cpc	r29, r25
+ 6f4:	24 f4       	brge	.+8      	; 0x6fe <main+0x58>
+			{
+				stepperSetDirection(DIRECTION_CW);
+ 6f6:	8f ef       	ldi	r24, 0xFF	; 255
+ 6f8:	0e 94 bd 04 	call	0x97a	; 0x97a <stepperSetDirection>
+ 6fc:	03 c0       	rjmp	.+6      	; 0x704 <main+0x5e>
+			} 
+			else
+			{
+				stepperSetDirection(DIRECTION_CCW);
+ 6fe:	81 e0       	ldi	r24, 0x01	; 1
+ 700:	0e 94 bd 04 	call	0x97a	; 0x97a <stepperSetDirection>
+			}
+			stepperStartMove();
+ 704:	0e 94 9b 03 	call	0x736	; 0x736 <stepperStartMove>
+			STEPPER_ENABLE;
+ 708:	e0 e4       	ldi	r30, 0x40	; 64
+ 70a:	f4 e0       	ldi	r31, 0x04	; 4
+ 70c:	84 81       	ldd	r24, Z+4	; 0x04
+ 70e:	8b 7f       	andi	r24, 0xFB	; 251
+ 710:	84 83       	std	Z+4, r24	; 0x04
+	}
+	
+    while (1) 
+    {
+		/*While the stepper position is not equal to the set point*/
+		while (stepperAtSetPoint() == 0)					
+ 712:	0e 94 33 05 	call	0xa66	; 0xa66 <stepperAtSetPoint>
+ 716:	88 23       	and	r24, r24
+ 718:	31 f3       	breq	.-52     	; 0x6e6 <main+0x40>
+			stepperStartMove();
+			STEPPER_ENABLE;
+		}
+		
+		/*When the stepper position is equal to the set point*/
+		STEPPER_DISABLE;
+ 71a:	e0 e4       	ldi	r30, 0x40	; 64
+ 71c:	f4 e0       	ldi	r31, 0x04	; 4
+ 71e:	84 81       	ldd	r24, Z+4	; 0x04
+ 720:	84 60       	ori	r24, 0x04	; 4
+ 722:	84 83       	std	Z+4, r24	; 0x04
+		stepperStopMove();
+ 724:	0e 94 73 04 	call	0x8e6	; 0x8e6 <stepperStopMove>
+		
+		
+		/*If the go to zero flag is set run the go to zero function*/
+		if ((stepperFlags() & FLAG_GO_TO_ZERO_bm) != 0)
+ 728:	0e 94 b8 05 	call	0xb70	; 0xb70 <stepperFlags>
+ 72c:	83 ff       	sbrs	r24, 3
+ 72e:	f1 cf       	rjmp	.-30     	; 0x712 <main+0x6c>
+		{
+			stepperGoToZero();
+ 730:	0e 94 be 05 	call	0xb7c	; 0xb7c <stepperGoToZero>
+ 734:	ee cf       	rjmp	.-36     	; 0x712 <main+0x6c>
+
+00000736 <stepperStartMove>:
+		{
+			return 1;
+		}
+	}
+	return 0;
+}
+ 736:	e0 91 06 70 	lds	r30, 0x7006	; 0x807006 <pMotor>
+ 73a:	f0 91 07 70 	lds	r31, 0x7007	; 0x807007 <pMotor+0x1>
+ 73e:	84 81       	ldd	r24, Z+4	; 0x04
+ 740:	82 30       	cpi	r24, 0x02	; 2
+ 742:	f1 f1       	breq	.+124    	; 0x7c0 <stepperStartMove+0x8a>
+ 744:	2c f4       	brge	.+10     	; 0x750 <stepperStartMove+0x1a>
+ 746:	88 23       	and	r24, r24
+ 748:	61 f0       	breq	.+24     	; 0x762 <stepperStartMove+0x2c>
+ 74a:	81 30       	cpi	r24, 0x01	; 1
+ 74c:	01 f1       	breq	.+64     	; 0x78e <stepperStartMove+0x58>
+ 74e:	9c c0       	rjmp	.+312    	; 0x888 <stepperStartMove+0x152>
+ 750:	84 30       	cpi	r24, 0x04	; 4
+ 752:	09 f4       	brne	.+2      	; 0x756 <stepperStartMove+0x20>
+ 754:	67 c0       	rjmp	.+206    	; 0x824 <stepperStartMove+0xee>
+ 756:	0c f4       	brge	.+2      	; 0x75a <stepperStartMove+0x24>
+ 758:	4c c0       	rjmp	.+152    	; 0x7f2 <stepperStartMove+0xbc>
+ 75a:	85 30       	cpi	r24, 0x05	; 5
+ 75c:	09 f4       	brne	.+2      	; 0x760 <stepperStartMove+0x2a>
+ 75e:	7b c0       	rjmp	.+246    	; 0x856 <stepperStartMove+0x120>
+ 760:	93 c0       	rjmp	.+294    	; 0x888 <stepperStartMove+0x152>
+ 762:	80 85       	ldd	r24, Z+8	; 0x08
+ 764:	91 85       	ldd	r25, Z+9	; 0x09
+ 766:	48 ec       	ldi	r20, 0xC8	; 200
+ 768:	48 9f       	mul	r20, r24
+ 76a:	90 01       	movw	r18, r0
+ 76c:	49 9f       	mul	r20, r25
+ 76e:	30 0d       	add	r19, r0
+ 770:	11 24       	eor	r1, r1
+ 772:	a9 e8       	ldi	r26, 0x89	; 137
+ 774:	b8 e8       	ldi	r27, 0x88	; 136
+ 776:	0e 94 af 06 	call	0xd5e	; 0xd5e <__umulhisi3>
+ 77a:	bc 01       	movw	r22, r24
+ 77c:	76 95       	lsr	r23
+ 77e:	67 95       	ror	r22
+ 780:	72 95       	swap	r23
+ 782:	62 95       	swap	r22
+ 784:	6f 70       	andi	r22, 0x0F	; 15
+ 786:	67 27       	eor	r22, r23
+ 788:	7f 70       	andi	r23, 0x0F	; 15
+ 78a:	67 27       	eor	r22, r23
+ 78c:	7f c0       	rjmp	.+254    	; 0x88c <stepperStartMove+0x156>
+ 78e:	40 85       	ldd	r20, Z+8	; 0x08
+ 790:	51 85       	ldd	r21, Z+9	; 0x09
+ 792:	80 e9       	ldi	r24, 0x90	; 144
+ 794:	91 e0       	ldi	r25, 0x01	; 1
+ 796:	48 9f       	mul	r20, r24
+ 798:	90 01       	movw	r18, r0
+ 79a:	49 9f       	mul	r20, r25
+ 79c:	30 0d       	add	r19, r0
+ 79e:	58 9f       	mul	r21, r24
+ 7a0:	30 0d       	add	r19, r0
+ 7a2:	11 24       	eor	r1, r1
+ 7a4:	a9 e8       	ldi	r26, 0x89	; 137
+ 7a6:	b8 e8       	ldi	r27, 0x88	; 136
+ 7a8:	0e 94 af 06 	call	0xd5e	; 0xd5e <__umulhisi3>
+ 7ac:	bc 01       	movw	r22, r24
+ 7ae:	76 95       	lsr	r23
+ 7b0:	67 95       	ror	r22
+ 7b2:	72 95       	swap	r23
+ 7b4:	62 95       	swap	r22
+ 7b6:	6f 70       	andi	r22, 0x0F	; 15
+ 7b8:	67 27       	eor	r22, r23
+ 7ba:	7f 70       	andi	r23, 0x0F	; 15
+ 7bc:	67 27       	eor	r22, r23
+ 7be:	66 c0       	rjmp	.+204    	; 0x88c <stepperStartMove+0x156>
+ 7c0:	40 85       	ldd	r20, Z+8	; 0x08
+ 7c2:	51 85       	ldd	r21, Z+9	; 0x09
+ 7c4:	80 e2       	ldi	r24, 0x20	; 32
+ 7c6:	93 e0       	ldi	r25, 0x03	; 3
+ 7c8:	48 9f       	mul	r20, r24
+ 7ca:	90 01       	movw	r18, r0
+ 7cc:	49 9f       	mul	r20, r25
+ 7ce:	30 0d       	add	r19, r0
+ 7d0:	58 9f       	mul	r21, r24
+ 7d2:	30 0d       	add	r19, r0
+ 7d4:	11 24       	eor	r1, r1
+ 7d6:	a9 e8       	ldi	r26, 0x89	; 137
+ 7d8:	b8 e8       	ldi	r27, 0x88	; 136
+ 7da:	0e 94 af 06 	call	0xd5e	; 0xd5e <__umulhisi3>
+ 7de:	bc 01       	movw	r22, r24
+ 7e0:	76 95       	lsr	r23
+ 7e2:	67 95       	ror	r22
+ 7e4:	72 95       	swap	r23
+ 7e6:	62 95       	swap	r22
+ 7e8:	6f 70       	andi	r22, 0x0F	; 15
+ 7ea:	67 27       	eor	r22, r23
+ 7ec:	7f 70       	andi	r23, 0x0F	; 15
+ 7ee:	67 27       	eor	r22, r23
+ 7f0:	4d c0       	rjmp	.+154    	; 0x88c <stepperStartMove+0x156>
+ 7f2:	40 85       	ldd	r20, Z+8	; 0x08
+ 7f4:	51 85       	ldd	r21, Z+9	; 0x09
+ 7f6:	80 e4       	ldi	r24, 0x40	; 64
+ 7f8:	96 e0       	ldi	r25, 0x06	; 6
+ 7fa:	48 9f       	mul	r20, r24
+ 7fc:	90 01       	movw	r18, r0
+ 7fe:	49 9f       	mul	r20, r25
+ 800:	30 0d       	add	r19, r0
+ 802:	58 9f       	mul	r21, r24
+ 804:	30 0d       	add	r19, r0
+ 806:	11 24       	eor	r1, r1
+ 808:	a9 e8       	ldi	r26, 0x89	; 137
+ 80a:	b8 e8       	ldi	r27, 0x88	; 136
+ 80c:	0e 94 af 06 	call	0xd5e	; 0xd5e <__umulhisi3>
+ 810:	bc 01       	movw	r22, r24
+ 812:	76 95       	lsr	r23
+ 814:	67 95       	ror	r22
+ 816:	72 95       	swap	r23
+ 818:	62 95       	swap	r22
+ 81a:	6f 70       	andi	r22, 0x0F	; 15
+ 81c:	67 27       	eor	r22, r23
+ 81e:	7f 70       	andi	r23, 0x0F	; 15
+ 820:	67 27       	eor	r22, r23
+ 822:	34 c0       	rjmp	.+104    	; 0x88c <stepperStartMove+0x156>
+ 824:	40 85       	ldd	r20, Z+8	; 0x08
+ 826:	51 85       	ldd	r21, Z+9	; 0x09
+ 828:	80 e8       	ldi	r24, 0x80	; 128
+ 82a:	9c e0       	ldi	r25, 0x0C	; 12
+ 82c:	48 9f       	mul	r20, r24
+ 82e:	90 01       	movw	r18, r0
+ 830:	49 9f       	mul	r20, r25
+ 832:	30 0d       	add	r19, r0
+ 834:	58 9f       	mul	r21, r24
+ 836:	30 0d       	add	r19, r0
+ 838:	11 24       	eor	r1, r1
+ 83a:	a9 e8       	ldi	r26, 0x89	; 137
+ 83c:	b8 e8       	ldi	r27, 0x88	; 136
+ 83e:	0e 94 af 06 	call	0xd5e	; 0xd5e <__umulhisi3>
+ 842:	bc 01       	movw	r22, r24
+ 844:	76 95       	lsr	r23
+ 846:	67 95       	ror	r22
+ 848:	72 95       	swap	r23
+ 84a:	62 95       	swap	r22
+ 84c:	6f 70       	andi	r22, 0x0F	; 15
+ 84e:	67 27       	eor	r22, r23
+ 850:	7f 70       	andi	r23, 0x0F	; 15
+ 852:	67 27       	eor	r22, r23
+ 854:	1b c0       	rjmp	.+54     	; 0x88c <stepperStartMove+0x156>
+ 856:	40 85       	ldd	r20, Z+8	; 0x08
+ 858:	51 85       	ldd	r21, Z+9	; 0x09
+ 85a:	80 e0       	ldi	r24, 0x00	; 0
+ 85c:	99 e1       	ldi	r25, 0x19	; 25
+ 85e:	48 9f       	mul	r20, r24
+ 860:	90 01       	movw	r18, r0
+ 862:	49 9f       	mul	r20, r25
+ 864:	30 0d       	add	r19, r0
+ 866:	58 9f       	mul	r21, r24
+ 868:	30 0d       	add	r19, r0
+ 86a:	11 24       	eor	r1, r1
+ 86c:	a9 e8       	ldi	r26, 0x89	; 137
+ 86e:	b8 e8       	ldi	r27, 0x88	; 136
+ 870:	0e 94 af 06 	call	0xd5e	; 0xd5e <__umulhisi3>
+ 874:	bc 01       	movw	r22, r24
+ 876:	76 95       	lsr	r23
+ 878:	67 95       	ror	r22
+ 87a:	72 95       	swap	r23
+ 87c:	62 95       	swap	r22
+ 87e:	6f 70       	andi	r22, 0x0F	; 15
+ 880:	67 27       	eor	r22, r23
+ 882:	7f 70       	andi	r23, 0x0F	; 15
+ 884:	67 27       	eor	r22, r23
+ 886:	02 c0       	rjmp	.+4      	; 0x88c <stepperStartMove+0x156>
+ 888:	60 e0       	ldi	r22, 0x00	; 0
+ 88a:	70 e0       	ldi	r23, 0x00	; 0
+ 88c:	61 15       	cp	r22, r1
+ 88e:	71 05       	cpc	r23, r1
+ 890:	21 f4       	brne	.+8      	; 0x89a <stepperStartMove+0x164>
+ 892:	83 85       	ldd	r24, Z+11	; 0x0b
+ 894:	84 60       	ori	r24, 0x04	; 4
+ 896:	83 87       	std	Z+11, r24	; 0x0b
+ 898:	08 95       	ret
+ 89a:	8d e8       	ldi	r24, 0x8D	; 141
+ 89c:	9b e5       	ldi	r25, 0x5B	; 91
+ 89e:	0e 94 81 06 	call	0xd02	; 0xd02 <__udivmodhi4>
+ 8a2:	e0 e2       	ldi	r30, 0x20	; 32
+ 8a4:	fb e0       	ldi	r31, 0x0B	; 11
+ 8a6:	64 87       	std	Z+12, r22	; 0x0c
+ 8a8:	66 95       	lsr	r22
+ 8aa:	65 87       	std	Z+13, r22	; 0x0d
+ 8ac:	80 81       	ld	r24, Z
+ 8ae:	81 60       	ori	r24, 0x01	; 1
+ 8b0:	80 83       	st	Z, r24
+ 8b2:	08 95       	ret
+
+000008b4 <stepperSetStepMode>:
+ 8b4:	a0 91 06 70 	lds	r26, 0x7006	; 0x807006 <pMotor>
+ 8b8:	b0 91 07 70 	lds	r27, 0x7007	; 0x807007 <pMotor+0x1>
+ 8bc:	14 96       	adiw	r26, 0x04	; 4
+ 8be:	8c 93       	st	X, r24
+ 8c0:	14 97       	sbiw	r26, 0x04	; 4
+ 8c2:	e0 e6       	ldi	r30, 0x60	; 96
+ 8c4:	f4 e0       	ldi	r31, 0x04	; 4
+ 8c6:	84 81       	ldd	r24, Z+4	; 0x04
+ 8c8:	88 7f       	andi	r24, 0xF8	; 248
+ 8ca:	84 83       	std	Z+4, r24	; 0x04
+ 8cc:	94 81       	ldd	r25, Z+4	; 0x04
+ 8ce:	14 96       	adiw	r26, 0x04	; 4
+ 8d0:	8c 91       	ld	r24, X
+ 8d2:	89 2b       	or	r24, r25
+ 8d4:	84 83       	std	Z+4, r24	; 0x04
+ 8d6:	08 95       	ret
+
+000008d8 <stepperSetSpeed>:
+ 8d8:	e0 91 06 70 	lds	r30, 0x7006	; 0x807006 <pMotor>
+ 8dc:	f0 91 07 70 	lds	r31, 0x7007	; 0x807007 <pMotor+0x1>
+ 8e0:	80 87       	std	Z+8, r24	; 0x08
+ 8e2:	91 87       	std	Z+9, r25	; 0x09
+ 8e4:	08 95       	ret
+
+000008e6 <stepperStopMove>:
+ 8e6:	e0 e2       	ldi	r30, 0x20	; 32
+ 8e8:	fb e0       	ldi	r31, 0x0B	; 11
+ 8ea:	80 81       	ld	r24, Z
+ 8ec:	8e 7f       	andi	r24, 0xFE	; 254
+ 8ee:	80 83       	st	Z, r24
+ 8f0:	08 95       	ret
+
+000008f2 <stepperIncrementPosition>:
+ 8f2:	e0 91 06 70 	lds	r30, 0x7006	; 0x807006 <pMotor>
+ 8f6:	f0 91 07 70 	lds	r31, 0x7007	; 0x807007 <pMotor+0x1>
+ 8fa:	20 81       	ld	r18, Z
+ 8fc:	31 81       	ldd	r19, Z+1	; 0x01
+ 8fe:	28 0f       	add	r18, r24
+ 900:	31 1d       	adc	r19, r1
+ 902:	87 fd       	sbrc	r24, 7
+ 904:	3a 95       	dec	r19
+ 906:	20 83       	st	Z, r18
+ 908:	31 83       	std	Z+1, r19	; 0x01
+ 90a:	e0 91 06 70 	lds	r30, 0x7006	; 0x807006 <pMotor>
+ 90e:	f0 91 07 70 	lds	r31, 0x7007	; 0x807007 <pMotor+0x1>
+ 912:	80 81       	ld	r24, Z
+ 914:	91 81       	ldd	r25, Z+1	; 0x01
+ 916:	8d 32       	cpi	r24, 0x2D	; 45
+ 918:	21 e0       	ldi	r18, 0x01	; 1
+ 91a:	92 07       	cpc	r25, r18
+ 91c:	1c f0       	brlt	.+6      	; 0x924 <stepperIncrementPosition+0x32>
+ 91e:	23 85       	ldd	r18, Z+11	; 0x0b
+ 920:	24 60       	ori	r18, 0x04	; 4
+ 922:	23 87       	std	Z+11, r18	; 0x0b
+ 924:	99 23       	and	r25, r25
+ 926:	1c f4       	brge	.+6      	; 0x92e <stepperIncrementPosition+0x3c>
+ 928:	83 85       	ldd	r24, Z+11	; 0x0b
+ 92a:	84 60       	ori	r24, 0x04	; 4
+ 92c:	83 87       	std	Z+11, r24	; 0x0b
+ 92e:	08 95       	ret
+
+00000930 <stepperSetDecay>:
+ 930:	e0 e6       	ldi	r30, 0x60	; 96
+ 932:	f4 e0       	ldi	r31, 0x04	; 4
+ 934:	90 81       	ld	r25, Z
+ 936:	90 68       	ori	r25, 0x80	; 128
+ 938:	90 83       	st	Z, r25
+ 93a:	17 8a       	std	Z+23, r1	; 0x17
+ 93c:	e0 91 06 70 	lds	r30, 0x7006	; 0x807006 <pMotor>
+ 940:	f0 91 07 70 	lds	r31, 0x7007	; 0x807007 <pMotor+0x1>
+ 944:	87 83       	std	Z+7, r24	; 0x07
+ 946:	81 30       	cpi	r24, 0x01	; 1
+ 948:	61 f0       	breq	.+24     	; 0x962 <stepperSetDecay+0x32>
+ 94a:	18 f0       	brcs	.+6      	; 0x952 <stepperSetDecay+0x22>
+ 94c:	82 30       	cpi	r24, 0x02	; 2
+ 94e:	79 f0       	breq	.+30     	; 0x96e <stepperSetDecay+0x3e>
+ 950:	08 95       	ret
+ 952:	e0 e6       	ldi	r30, 0x60	; 96
+ 954:	f4 e0       	ldi	r31, 0x04	; 4
+ 956:	80 81       	ld	r24, Z
+ 958:	8f 77       	andi	r24, 0x7F	; 127
+ 95a:	80 83       	st	Z, r24
+ 95c:	84 e0       	ldi	r24, 0x04	; 4
+ 95e:	87 8b       	std	Z+23, r24	; 0x17
+ 960:	08 95       	ret
+ 962:	e0 e6       	ldi	r30, 0x60	; 96
+ 964:	f4 e0       	ldi	r31, 0x04	; 4
+ 966:	84 81       	ldd	r24, Z+4	; 0x04
+ 968:	80 68       	ori	r24, 0x80	; 128
+ 96a:	84 83       	std	Z+4, r24	; 0x04
+ 96c:	08 95       	ret
+ 96e:	e0 e6       	ldi	r30, 0x60	; 96
+ 970:	f4 e0       	ldi	r31, 0x04	; 4
+ 972:	84 81       	ldd	r24, Z+4	; 0x04
+ 974:	8f 77       	andi	r24, 0x7F	; 127
+ 976:	84 83       	std	Z+4, r24	; 0x04
+ 978:	08 95       	ret
+
+0000097a <stepperSetDirection>:
+ 97a:	81 30       	cpi	r24, 0x01	; 1
+ 97c:	31 f4       	brne	.+12     	; 0x98a <stepperSetDirection+0x10>
+ 97e:	e0 e4       	ldi	r30, 0x40	; 64
+ 980:	f4 e0       	ldi	r31, 0x04	; 4
+ 982:	84 81       	ldd	r24, Z+4	; 0x04
+ 984:	82 60       	ori	r24, 0x02	; 2
+ 986:	84 83       	std	Z+4, r24	; 0x04
+ 988:	08 95       	ret
+ 98a:	e0 e4       	ldi	r30, 0x40	; 64
+ 98c:	f4 e0       	ldi	r31, 0x04	; 4
+ 98e:	84 81       	ldd	r24, Z+4	; 0x04
+ 990:	8d 7f       	andi	r24, 0xFD	; 253
+ 992:	84 83       	std	Z+4, r24	; 0x04
+ 994:	08 95       	ret
+
+00000996 <stepperSetCurrent>:
+ 996:	9c 01       	movw	r18, r24
+ 998:	21 50       	subi	r18, 0x01	; 1
+ 99a:	31 09       	sbc	r19, r1
+ 99c:	2e 3f       	cpi	r18, 0xFE	; 254
+ 99e:	33 40       	sbci	r19, 0x03	; 3
+ 9a0:	38 f4       	brcc	.+14     	; 0x9b0 <stepperSetCurrent+0x1a>
+ 9a2:	e0 91 06 70 	lds	r30, 0x7006	; 0x807006 <pMotor>
+ 9a6:	f0 91 07 70 	lds	r31, 0x7007	; 0x807007 <pMotor+0x1>
+ 9aa:	85 83       	std	Z+5, r24	; 0x05
+ 9ac:	96 83       	std	Z+6, r25	; 0x06
+ 9ae:	08 c0       	rjmp	.+16     	; 0x9c0 <stepperSetCurrent+0x2a>
+ 9b0:	e0 91 06 70 	lds	r30, 0x7006	; 0x807006 <pMotor>
+ 9b4:	f0 91 07 70 	lds	r31, 0x7007	; 0x807007 <pMotor+0x1>
+ 9b8:	83 e3       	ldi	r24, 0x33	; 51
+ 9ba:	91 e0       	ldi	r25, 0x01	; 1
+ 9bc:	85 83       	std	Z+5, r24	; 0x05
+ 9be:	96 83       	std	Z+6, r25	; 0x06
+ 9c0:	e0 ea       	ldi	r30, 0xA0	; 160
+ 9c2:	f6 e0       	ldi	r31, 0x06	; 6
+ 9c4:	10 82       	st	Z, r1
+ 9c6:	a0 91 06 70 	lds	r26, 0x7006	; 0x807006 <pMotor>
+ 9ca:	b0 91 07 70 	lds	r27, 0x7007	; 0x807007 <pMotor+0x1>
+ 9ce:	15 96       	adiw	r26, 0x05	; 5
+ 9d0:	8d 91       	ld	r24, X+
+ 9d2:	9c 91       	ld	r25, X
+ 9d4:	16 97       	sbiw	r26, 0x06	; 6
+ 9d6:	00 24       	eor	r0, r0
+ 9d8:	96 95       	lsr	r25
+ 9da:	87 95       	ror	r24
+ 9dc:	07 94       	ror	r0
+ 9de:	96 95       	lsr	r25
+ 9e0:	87 95       	ror	r24
+ 9e2:	07 94       	ror	r0
+ 9e4:	98 2f       	mov	r25, r24
+ 9e6:	80 2d       	mov	r24, r0
+ 9e8:	1c 96       	adiw	r26, 0x0c	; 12
+ 9ea:	8d 93       	st	X+, r24
+ 9ec:	9c 93       	st	X, r25
+ 9ee:	1d 97       	sbiw	r26, 0x0d	; 13
+ 9f0:	82 83       	std	Z+2, r24	; 0x02
+ 9f2:	1d 96       	adiw	r26, 0x0d	; 13
+ 9f4:	8c 91       	ld	r24, X
+ 9f6:	83 83       	std	Z+3, r24	; 0x03
+ 9f8:	81 e4       	ldi	r24, 0x41	; 65
+ 9fa:	80 83       	st	Z, r24
+ 9fc:	08 95       	ret
+
+000009fe <stepperSetSetPoint>:
+ 9fe:	6a e0       	ldi	r22, 0x0A	; 10
+ a00:	70 e0       	ldi	r23, 0x00	; 0
+ a02:	0e 94 95 06 	call	0xd2a	; 0xd2a <__divmodhi4>
+ a06:	cb 01       	movw	r24, r22
+ a08:	88 0f       	add	r24, r24
+ a0a:	99 1f       	adc	r25, r25
+ a0c:	66 0f       	add	r22, r22
+ a0e:	77 1f       	adc	r23, r23
+ a10:	66 0f       	add	r22, r22
+ a12:	77 1f       	adc	r23, r23
+ a14:	66 0f       	add	r22, r22
+ a16:	77 1f       	adc	r23, r23
+ a18:	68 0f       	add	r22, r24
+ a1a:	79 1f       	adc	r23, r25
+ a1c:	6d 32       	cpi	r22, 0x2D	; 45
+ a1e:	81 e0       	ldi	r24, 0x01	; 1
+ a20:	78 07       	cpc	r23, r24
+ a22:	30 f4       	brcc	.+12     	; 0xa30 <stepperSetSetPoint+0x32>
+ a24:	e0 91 06 70 	lds	r30, 0x7006	; 0x807006 <pMotor>
+ a28:	f0 91 07 70 	lds	r31, 0x7007	; 0x807007 <pMotor+0x1>
+ a2c:	62 83       	std	Z+2, r22	; 0x02
+ a2e:	73 83       	std	Z+3, r23	; 0x03
+ a30:	08 95       	ret
+
+00000a32 <stepperSetPosition>:
+ a32:	6a e0       	ldi	r22, 0x0A	; 10
+ a34:	70 e0       	ldi	r23, 0x00	; 0
+ a36:	0e 94 95 06 	call	0xd2a	; 0xd2a <__divmodhi4>
+ a3a:	cb 01       	movw	r24, r22
+ a3c:	88 0f       	add	r24, r24
+ a3e:	99 1f       	adc	r25, r25
+ a40:	66 0f       	add	r22, r22
+ a42:	77 1f       	adc	r23, r23
+ a44:	66 0f       	add	r22, r22
+ a46:	77 1f       	adc	r23, r23
+ a48:	66 0f       	add	r22, r22
+ a4a:	77 1f       	adc	r23, r23
+ a4c:	68 0f       	add	r22, r24
+ a4e:	79 1f       	adc	r23, r25
+ a50:	6d 32       	cpi	r22, 0x2D	; 45
+ a52:	81 e0       	ldi	r24, 0x01	; 1
+ a54:	78 07       	cpc	r23, r24
+ a56:	30 f4       	brcc	.+12     	; 0xa64 <stepperSetPosition+0x32>
+ a58:	e0 91 06 70 	lds	r30, 0x7006	; 0x807006 <pMotor>
+ a5c:	f0 91 07 70 	lds	r31, 0x7007	; 0x807007 <pMotor+0x1>
+ a60:	60 83       	st	Z, r22
+ a62:	71 83       	std	Z+1, r23	; 0x01
+ a64:	08 95       	ret
+
+00000a66 <stepperAtSetPoint>:
+ a66:	e0 91 06 70 	lds	r30, 0x7006	; 0x807006 <pMotor>
+ a6a:	f0 91 07 70 	lds	r31, 0x7007	; 0x807007 <pMotor+0x1>
+ a6e:	20 81       	ld	r18, Z
+ a70:	31 81       	ldd	r19, Z+1	; 0x01
+ a72:	82 81       	ldd	r24, Z+2	; 0x02
+ a74:	93 81       	ldd	r25, Z+3	; 0x03
+ a76:	28 17       	cp	r18, r24
+ a78:	39 07       	cpc	r19, r25
+ a7a:	11 f4       	brne	.+4      	; 0xa80 <stepperAtSetPoint+0x1a>
+ a7c:	81 e0       	ldi	r24, 0x01	; 1
+ a7e:	08 95       	ret
+ a80:	80 e0       	ldi	r24, 0x00	; 0
+ a82:	08 95       	ret
+
+00000a84 <stepperPosition>:
+ a84:	e0 91 06 70 	lds	r30, 0x7006	; 0x807006 <pMotor>
+ a88:	f0 91 07 70 	lds	r31, 0x7007	; 0x807007 <pMotor+0x1>
+ a8c:	80 81       	ld	r24, Z
+ a8e:	91 81       	ldd	r25, Z+1	; 0x01
+ a90:	08 95       	ret
+
+00000a92 <stepperSetPoint>:
+ a92:	e0 91 06 70 	lds	r30, 0x7006	; 0x807006 <pMotor>
+ a96:	f0 91 07 70 	lds	r31, 0x7007	; 0x807007 <pMotor+0x1>
+ a9a:	82 81       	ldd	r24, Z+2	; 0x02
+ a9c:	93 81       	ldd	r25, Z+3	; 0x03
+ a9e:	08 95       	ret
+
+00000aa0 <stepperSpeed>:
+ aa0:	e0 91 06 70 	lds	r30, 0x7006	; 0x807006 <pMotor>
+ aa4:	f0 91 07 70 	lds	r31, 0x7007	; 0x807007 <pMotor+0x1>
+ aa8:	80 85       	ldd	r24, Z+8	; 0x08
+ aaa:	91 85       	ldd	r25, Z+9	; 0x09
+ aac:	08 95       	ret
+
+00000aae <stepperConfigTimeoutTimer>:
+Returns: none
+Description: Just configures the TCB thats being used for the timeout counter.
+*/
+void stepperConfigTimeoutTimer(uint16_t TCB_PER)
+{
+	systemConfigTCB(stepperTimeoutTimer, TCB_PER);
+ aae:	bc 01       	movw	r22, r24
+ ab0:	80 91 04 70 	lds	r24, 0x7004	; 0x807004 <stepperTimeoutTimer>
+ ab4:	90 91 05 70 	lds	r25, 0x7005	; 0x807005 <stepperTimeoutTimer+0x1>
+ ab8:	0e 94 63 06 	call	0xcc6	; 0xcc6 <systemConfigTCB>
+ abc:	08 95       	ret
+
+00000abe <stepperInit>:
+
+
+void stepperInit()
+{
+	/*Default stepper settings*/
+	STEPPER_DISABLE;
+ abe:	e0 e4       	ldi	r30, 0x40	; 64
+ ac0:	f4 e0       	ldi	r31, 0x04	; 4
+ ac2:	84 81       	ldd	r24, Z+4	; 0x04
+ ac4:	84 60       	ori	r24, 0x04	; 4
+ ac6:	84 83       	std	Z+4, r24	; 0x04
+	stepperSetCurrent(ONE_AND_HALF_AMP_bm);
+ ac8:	83 e3       	ldi	r24, 0x33	; 51
+ aca:	91 e0       	ldi	r25, 0x01	; 1
+ acc:	0e 94 cb 04 	call	0x996	; 0x996 <stepperSetCurrent>
+	stepperSetStepMode(MODE_HALF_STEP_bm);
+ ad0:	81 e0       	ldi	r24, 0x01	; 1
+ ad2:	0e 94 5a 04 	call	0x8b4	; 0x8b4 <stepperSetStepMode>
+	stepperSetSpeed(100);
+ ad6:	84 e6       	ldi	r24, 0x64	; 100
+ ad8:	90 e0       	ldi	r25, 0x00	; 0
+ ada:	0e 94 6c 04 	call	0x8d8	; 0x8d8 <stepperSetSpeed>
+	stepperSetDecay(DECAY_MIXED);
+ ade:	80 e0       	ldi	r24, 0x00	; 0
+ ae0:	0e 94 98 04 	call	0x930	; 0x930 <stepperSetDecay>
+	
+	/*Configures the TCB used for timeout checking*/
+	stepperConfigTimeoutTimer(TCB_PER_1SEC);	
+ ae4:	8d e8       	ldi	r24, 0x8D	; 141
+ ae6:	9b e5       	ldi	r25, 0x5B	; 91
+ ae8:	0e 94 57 05 	call	0xaae	; 0xaae <stepperConfigTimeoutTimer>
+	
+	/*Have to directly access these because the function won't allow -1*/
+	pMotor->position = -1;
+ aec:	e0 91 06 70 	lds	r30, 0x7006	; 0x807006 <pMotor>
+ af0:	f0 91 07 70 	lds	r31, 0x7007	; 0x807007 <pMotor+0x1>
+ af4:	8f ef       	ldi	r24, 0xFF	; 255
+ af6:	9f ef       	ldi	r25, 0xFF	; 255
+ af8:	80 83       	st	Z, r24
+ afa:	91 83       	std	Z+1, r25	; 0x01
+	pMotor->setPoint = -1;
+ afc:	e0 91 06 70 	lds	r30, 0x7006	; 0x807006 <pMotor>
+ b00:	f0 91 07 70 	lds	r31, 0x7007	; 0x807007 <pMotor+0x1>
+ b04:	82 83       	std	Z+2, r24	; 0x02
+ b06:	93 83       	std	Z+3, r25	; 0x03
+ b08:	08 95       	ret
+
+00000b0a <stepperStartTimeoutTimer>:
+Returns: none
+Description: The timeout timer starts counting.
+*/
+void stepperStartTimeoutTimer()
+{
+	systemEnableTCB(stepperTimeoutTimer);
+ b0a:	80 91 04 70 	lds	r24, 0x7004	; 0x807004 <stepperTimeoutTimer>
+ b0e:	90 91 05 70 	lds	r25, 0x7005	; 0x807005 <stepperTimeoutTimer+0x1>
+ b12:	0e 94 77 06 	call	0xcee	; 0xcee <systemEnableTCB>
+ b16:	08 95       	ret
+
+00000b18 <stepperClearTimeoutTimer>:
+Description: Clears the count register for the actual timer and resets
+			the timeoutCounter struct member to zero.
+*/
+void stepperClearTimeoutTimer()
+{
+	stepperTimeoutTimer->CNT = 0;
+ b18:	e0 91 04 70 	lds	r30, 0x7004	; 0x807004 <stepperTimeoutTimer>
+ b1c:	f0 91 05 70 	lds	r31, 0x7005	; 0x807005 <stepperTimeoutTimer+0x1>
+ b20:	12 86       	std	Z+10, r1	; 0x0a
+ b22:	13 86       	std	Z+11, r1	; 0x0b
+	pMotor->timeoutCounter = 0;
+ b24:	e0 91 06 70 	lds	r30, 0x7006	; 0x807006 <pMotor>
+ b28:	f0 91 07 70 	lds	r31, 0x7007	; 0x807007 <pMotor+0x1>
+ b2c:	12 86       	std	Z+10, r1	; 0x0a
+ b2e:	08 95       	ret
+
+00000b30 <stepperStopTimeoutTimer>:
+Returns: none
+Description: Disables the timer.
+*/
+void stepperStopTimeoutTimer()
+{
+	systemDisableTCB(stepperTimeoutTimer);
+ b30:	80 91 04 70 	lds	r24, 0x7004	; 0x807004 <stepperTimeoutTimer>
+ b34:	90 91 05 70 	lds	r25, 0x7005	; 0x807005 <stepperTimeoutTimer+0x1>
+ b38:	0e 94 7c 06 	call	0xcf8	; 0xcf8 <systemDisableTCB>
+ b3c:	08 95       	ret
+
+00000b3e <stepperIncrementTimeoutCount>:
+Returns: none
+Description: Increments the member of stepper_info "timeoutCounter".
+*/
+void stepperIncrementTimeoutCount()
+{
+	pMotor->timeoutCounter++;
+ b3e:	e0 91 06 70 	lds	r30, 0x7006	; 0x807006 <pMotor>
+ b42:	f0 91 07 70 	lds	r31, 0x7007	; 0x807007 <pMotor+0x1>
+ b46:	82 85       	ldd	r24, Z+10	; 0x0a
+ b48:	8f 5f       	subi	r24, 0xFF	; 255
+ b4a:	82 87       	std	Z+10, r24	; 0x0a
+ b4c:	08 95       	ret
+
+00000b4e <stepperSetFlag>:
+Returns: none
+Description: Applies a bitmask to "flags" in stepper_info.
+*/
+void stepperSetFlag(uint8_t flag_bm)
+{
+	pMotor->flags |= flag_bm;
+ b4e:	e0 91 06 70 	lds	r30, 0x7006	; 0x807006 <pMotor>
+ b52:	f0 91 07 70 	lds	r31, 0x7007	; 0x807007 <pMotor+0x1>
+ b56:	93 85       	ldd	r25, Z+11	; 0x0b
+ b58:	89 2b       	or	r24, r25
+ b5a:	83 87       	std	Z+11, r24	; 0x0b
+ b5c:	08 95       	ret
+
+00000b5e <stepperClearFlag>:
+Returns:
+Description: Clears a bit from "flags". Member in stepper_info.
+*/
+void stepperClearFlag(uint8_t flag_bm)
+{
+	pMotor->flags &= ~(flag_bm);
+ b5e:	e0 91 06 70 	lds	r30, 0x7006	; 0x807006 <pMotor>
+ b62:	f0 91 07 70 	lds	r31, 0x7007	; 0x807007 <pMotor+0x1>
+ b66:	80 95       	com	r24
+ b68:	93 85       	ldd	r25, Z+11	; 0x0b
+ b6a:	89 23       	and	r24, r25
+ b6c:	83 87       	std	Z+11, r24	; 0x0b
+ b6e:	08 95       	ret
+
+00000b70 <stepperFlags>:
+Description: Returns the variable flags from stepper_info. Can be compared against the 
+			bitmasks at the top of stepper.h
+*/
+uint8_t stepperFlags()
+{
+	return pMotor->flags;
+ b70:	e0 91 06 70 	lds	r30, 0x7006	; 0x807006 <pMotor>
+ b74:	f0 91 07 70 	lds	r31, 0x7007	; 0x807007 <pMotor+0x1>
+}
+ b78:	83 85       	ldd	r24, Z+11	; 0x0b
+ b7a:	08 95       	ret
+
+00000b7c <stepperGoToZero>:
+			This means the motor can't turn any further and is at position 0.
+			Then resets the position and set point to 0.
+*/
+void stepperGoToZero()
+{
+	stepperSetDirection(DIRECTION_CCW);								//Set direction to count down towards soft
+ b7c:	81 e0       	ldi	r24, 0x01	; 1
+ b7e:	0e 94 bd 04 	call	0x97a	; 0x97a <stepperSetDirection>
+	stepperStartMove();												//Start the stepper PWM signal
+ b82:	0e 94 9b 03 	call	0x736	; 0x736 <stepperStartMove>
+	STEPPER_ENABLE;													//Enable the driver.
+ b86:	e0 e4       	ldi	r30, 0x40	; 64
+ b88:	f4 e0       	ldi	r31, 0x04	; 4
+ b8a:	84 81       	ldd	r24, Z+4	; 0x04
+ b8c:	8b 7f       	andi	r24, 0xFB	; 251
+ b8e:	84 83       	std	Z+4, r24	; 0x04
+	
+	stepperConfigTimeoutTimer(TCB_PER_QUART_SEC);					//Set the period of the timeout timer.
+ b90:	83 ee       	ldi	r24, 0xE3	; 227
+ b92:	96 e1       	ldi	r25, 0x16	; 22
+ b94:	0e 94 57 05 	call	0xaae	; 0xaae <stepperConfigTimeoutTimer>
+	stepperClearTimeoutTimer();										//Clear the timer count if there is one.
+ b98:	0e 94 8c 05 	call	0xb18	; 0xb18 <stepperClearTimeoutTimer>
+	stepperStartTimeoutTimer();										//Start counter.
+ b9c:	0e 94 85 05 	call	0xb0a	; 0xb0a <stepperStartTimeoutTimer>
+	
+	while (pMotor->timeoutCounter < 1) {}
+ ba0:	e0 91 06 70 	lds	r30, 0x7006	; 0x807006 <pMotor>
+ ba4:	f0 91 07 70 	lds	r31, 0x7007	; 0x807007 <pMotor+0x1>
+ ba8:	82 85       	ldd	r24, Z+10	; 0x0a
+ baa:	88 23       	and	r24, r24
+ bac:	c9 f3       	breq	.-14     	; 0xba0 <stepperGoToZero+0x24>
+	
+	stepperStopTimeoutTimer();										//Stop the timer.
+ bae:	0e 94 98 05 	call	0xb30	; 0xb30 <stepperStopTimeoutTimer>
+	stepperStopMove();												//Stop the motor.
+ bb2:	0e 94 73 04 	call	0x8e6	; 0x8e6 <stepperStopMove>
+	
+	stepperSetSetPoint(0);											//Change the current set point.
+ bb6:	80 e0       	ldi	r24, 0x00	; 0
+ bb8:	90 e0       	ldi	r25, 0x00	; 0
+ bba:	0e 94 ff 04 	call	0x9fe	; 0x9fe <stepperSetSetPoint>
+	stepperSetPosition(0);											//Change the current position.
+ bbe:	80 e0       	ldi	r24, 0x00	; 0
+ bc0:	90 e0       	ldi	r25, 0x00	; 0
+ bc2:	0e 94 19 05 	call	0xa32	; 0xa32 <stepperSetPosition>
+	stepperClearFlag(FLAG_GO_TO_ZERO_bm);							//Clear the flag.
+ bc6:	88 e0       	ldi	r24, 0x08	; 8
+ bc8:	0e 94 af 05 	call	0xb5e	; 0xb5e <stepperClearFlag>
+ bcc:	08 95       	ret
+
+00000bce <stepperCurrentLimit>:
+}
+
+
+CURRENT_LIMIT_t stepperCurrentLimit()
+{
+	return pMotor->currentLimit;
+ bce:	e0 91 06 70 	lds	r30, 0x7006	; 0x807006 <pMotor>
+ bd2:	f0 91 07 70 	lds	r31, 0x7007	; 0x807007 <pMotor+0x1>
+}
+ bd6:	85 81       	ldd	r24, Z+5	; 0x05
+ bd8:	96 81       	ldd	r25, Z+6	; 0x06
+ bda:	08 95       	ret
+
+00000bdc <stepperStepMode>:
+
+
+STEP_MODE_t stepperStepMode()
+{
+	return pMotor->stepMode;
+ bdc:	e0 91 06 70 	lds	r30, 0x7006	; 0x807006 <pMotor>
+ be0:	f0 91 07 70 	lds	r31, 0x7007	; 0x807007 <pMotor+0x1>
+ be4:	84 81       	ldd	r24, Z+4	; 0x04
+ be6:	08 95       	ret
+
+00000be8 <systemPortAConfig>:
+Description: Configures all the pins in port A.
+*/
+void systemPortAConfig()
+{
+	
+	PORTA.DIR |= LED1_PIN								//LED Pins as outputs.
+ be8:	e0 e0       	ldi	r30, 0x00	; 0
+ bea:	f4 e0       	ldi	r31, 0x04	; 4
+ bec:	80 81       	ld	r24, Z
+ bee:	8c 69       	ori	r24, 0x9C	; 156
+ bf0:	80 83       	st	Z, r24
+				| LED2_PIN
+				| LED3_PIN
+				| CLK_OUT_PIN;							//CLKOUT pin as output.
+				
+	LED1_OFF;											//Start with all LEDs off.
+ bf2:	84 81       	ldd	r24, Z+4	; 0x04
+ bf4:	8b 7f       	andi	r24, 0xFB	; 251
+ bf6:	84 83       	std	Z+4, r24	; 0x04
+	LED2_OFF;
+ bf8:	84 81       	ldd	r24, Z+4	; 0x04
+ bfa:	87 7f       	andi	r24, 0xF7	; 247
+ bfc:	84 83       	std	Z+4, r24	; 0x04
+	LED3_OFF;
+ bfe:	84 81       	ldd	r24, Z+4	; 0x04
+ c00:	8f 7e       	andi	r24, 0xEF	; 239
+ c02:	84 83       	std	Z+4, r24	; 0x04
+	
+	PORTA.DIR &= ~(ENC_A_PIN							//Encoder pins as input.	
+ c04:	80 81       	ld	r24, Z
+ c06:	8c 7f       	andi	r24, 0xFC	; 252
+ c08:	80 83       	st	Z, r24
+				| ENC_B_PIN);
+				
+	PORTA.PIN0CTRL = PORT_ISC_BOTHEDGES_gc;				//Encoder A pin interrupt enabled.
+ c0a:	81 e0       	ldi	r24, 0x01	; 1
+ c0c:	80 8b       	std	Z+16, r24	; 0x10
+	
+	CCP = CCP_IOREG_gc;
+ c0e:	88 ed       	ldi	r24, 0xD8	; 216
+ c10:	84 bf       	out	0x34, r24	; 52
+	CLKCTRL.MCLKCTRLA = CLKCTRL_CLKOUT_bm;				//Clock out on PA7 (CLK_OUT_PIN)
+ c12:	80 e8       	ldi	r24, 0x80	; 128
+ c14:	80 93 60 00 	sts	0x0060, r24	; 0x800060 <__RODATA_PM_OFFSET__+0x7f8060>
+ c18:	08 95       	ret
+
+00000c1a <systemPortCConfig>:
+Returns: none
+Description: Configures all the pins in port C.
+*/
+void systemPortCConfig()
+{
+	PORTC.DIR |= DIR_PIN								//Direction, step, enable, and home pin all outputs.
+ c1a:	e0 e4       	ldi	r30, 0x40	; 64
+ c1c:	f4 e0       	ldi	r31, 0x04	; 4
+ c1e:	80 81       	ld	r24, Z
+ c20:	87 60       	ori	r24, 0x07	; 7
+ c22:	80 83       	st	Z, r24
+				| STEP_PIN
+				| nENBL_PIN;
+				
+	PORTC.OUT &= ~(nENBL_PIN);							//Enable pin low enables the DRV8825.
+ c24:	84 81       	ldd	r24, Z+4	; 0x04
+ c26:	8b 7f       	andi	r24, 0xFB	; 251
+ c28:	84 83       	std	Z+4, r24	; 0x04
+				
+	PORTC.DIR &= ~nHOME_PIN;							//Home as input.
+ c2a:	80 81       	ld	r24, Z
+ c2c:	87 7f       	andi	r24, 0xF7	; 247
+ c2e:	80 83       	st	Z, r24
+	
+	TCB2.CTRLB = TCB_CCMPEN_bm							//Waveform will override step pin output.
+ c30:	e0 e2       	ldi	r30, 0x20	; 32
+ c32:	fb e0       	ldi	r31, 0x0B	; 11
+ c34:	87 e1       	ldi	r24, 0x17	; 23
+ c36:	81 83       	std	Z+1, r24	; 0x01
+				|TCB_CNTMODE_PWM8_gc;					//TCB2 set to 8-bit PWM mode.
+	TCB2.CTRLA = TCB_CLKSEL_TCA0_gc;					//TCB2 uses TCA0 as clock source.
+ c38:	84 e0       	ldi	r24, 0x04	; 4
+ c3a:	80 83       	st	Z, r24
+ c3c:	08 95       	ret
+
+00000c3e <systemPortDConfig>:
+Returns: none
+Description: Configures all the pins in port D.
+*/
+void systemPortDConfig()
+{
+	PORTD.DIR |= MODE0_PIN								//Mode pins, reset, sleep, and decay as outputs.
+ c3e:	e0 e6       	ldi	r30, 0x60	; 96
+ c40:	f4 e0       	ldi	r31, 0x04	; 4
+ c42:	80 81       	ld	r24, Z
+ c44:	8f 69       	ori	r24, 0x9F	; 159
+ c46:	80 83       	st	Z, r24
+				| MODE2_PIN
+				| nRESET_PIN
+				| nSLEEP_PIN
+				| DECAY_PIN;
+				
+	PORTD.OUT |= (nSLEEP_PIN | nRESET_PIN);				//Sleep and reset needed high for DRV8825 operation.
+ c48:	84 81       	ldd	r24, Z+4	; 0x04
+ c4a:	88 61       	ori	r24, 0x18	; 24
+ c4c:	84 83       	std	Z+4, r24	; 0x04
+				
+	PORTD.DIR &= ~nFAULT_PIN;							//Fault as input.
+ c4e:	80 81       	ld	r24, Z
+ c50:	8f 7d       	andi	r24, 0xDF	; 223
+ c52:	80 83       	st	Z, r24
+	
+	VREF.DAC0REF = VREF_ALWAYSON_bm						//DAC reference voltage always on for VREF_PIN.
+ c54:	83 e8       	ldi	r24, 0x83	; 131
+ c56:	80 93 a2 00 	sts	0x00A2, r24	; 0x8000a2 <__RODATA_PM_OFFSET__+0x7f80a2>
+ c5a:	08 95       	ret
+
+00000c5c <systemPortFConfig>:
+Returns: none
+Description: Configures all the pins in port F.
+*/
+void systemPortFConfig()
+{
+	PORTF.DIR &= ~(AIN_12V_PIN | AIN_3V3_PIN);			//Analog pins as inputs
+ c5c:	e0 ea       	ldi	r30, 0xA0	; 160
+ c5e:	f4 e0       	ldi	r31, 0x04	; 4
+ c60:	80 81       	ld	r24, Z
+ c62:	8f 7c       	andi	r24, 0xCF	; 207
+ c64:	80 83       	st	Z, r24
+	iicInit();
+ c66:	0e 94 8f 00 	call	0x11e	; 0x11e <iicInit>
+ c6a:	08 95       	ret
+
+00000c6c <systemClockConfig>:
+Returns: none
+Description: Selects the 24MHz clock with no prescaler for the main/master clock.
+*/
+void systemClockConfig()
+{
+	CCP = CCP_IOREG_gc;
+ c6c:	88 ed       	ldi	r24, 0xD8	; 216
+ c6e:	84 bf       	out	0x34, r24	; 52
+	CLKCTRL.OSCHFCTRLA = CLKCTRL_FREQSEL_24M_gc			//24MHz frequency.
+ c70:	e0 e6       	ldi	r30, 0x60	; 96
+ c72:	f0 e0       	ldi	r31, 0x00	; 0
+ c74:	95 e2       	ldi	r25, 0x25	; 37
+ c76:	90 87       	std	Z+8, r25	; 0x08
+					| CLKCTRL_AUTOTUNE_bm;				//Enable autotune.
+					
+	CCP = CCP_IOREG_gc;					
+ c78:	84 bf       	out	0x34, r24	; 52
+	CLKCTRL.MCLKCTRLB = 0;						 		//No prescaler, 24MHz clock.
+ c7a:	11 82       	std	Z+1, r1	; 0x01
+ c7c:	08 95       	ret
+
+00000c7e <systemConfigADC>:
+Returns: none
+Description: Configure the ADC to sample the supply voltage.
+*/
+void systemConfigADC()
+{
+	VREF.ADC0REF |= VREF_REFSEL_2V500_gc;				//ADC0 reference as 2.5V;	
+ c7e:	e0 ea       	ldi	r30, 0xA0	; 160
+ c80:	f0 e0       	ldi	r31, 0x00	; 0
+ c82:	80 81       	ld	r24, Z
+ c84:	83 60       	ori	r24, 0x03	; 3
+ c86:	80 83       	st	Z, r24
+	ADC0.CTRLA |= ADC_RESSEL_12BIT_gc					//12 bit conversions.
+ c88:	e0 e0       	ldi	r30, 0x00	; 0
+ c8a:	f6 e0       	ldi	r31, 0x06	; 6
+ c8c:	80 81       	ld	r24, Z
+ c8e:	82 60       	ori	r24, 0x02	; 2
+ c90:	80 83       	st	Z, r24
+				| ADC_FREERUN_bm;						//Enable freerunning mode.
+	ADC0.CTRLC |= ADC_PRESC_DIV256_gc;					//ADC clock equals system clock div 2.
+ c92:	82 81       	ldd	r24, Z+2	; 0x02
+ c94:	8d 60       	ori	r24, 0x0D	; 13
+ c96:	82 83       	std	Z+2, r24	; 0x02
+	ADC0.SAMPCTRL = 20;									//Set sample length to 20 ADC cycles.
+ c98:	84 e1       	ldi	r24, 0x14	; 20
+ c9a:	85 83       	std	Z+5, r24	; 0x05
+	ADC0.CTRLE = ADC_WINCM_BELOW_gc;					//Compare mode set to below.
+ c9c:	81 e0       	ldi	r24, 0x01	; 1
+ c9e:	84 83       	std	Z+4, r24	; 0x04
+	ADC0.MUXPOS = ADC_MUXPOS_AIN21_gc;					//Battery voltage divider is on PF5 which is AIN21.
+ ca0:	95 e1       	ldi	r25, 0x15	; 21
+ ca2:	90 87       	std	Z+8, r25	; 0x08
+	ADC0.MUXNEG = ADC_MUXNEG_GND_gc;					//Negative input to ground.
+ ca4:	90 e4       	ldi	r25, 0x40	; 64
+ ca6:	91 87       	std	Z+9, r25	; 0x09
+	//ADC0.INTCTRL = ADC_WCMP_bm;						//Enable window comparator interrupt.
+	ADC0.WINLT = ADC_LOW_VOLTAGE;						//Low threshold is 11V.
+ ca8:	24 e5       	ldi	r18, 0x54	; 84
+ caa:	39 e0       	ldi	r19, 0x09	; 9
+ cac:	22 8b       	std	Z+18, r18	; 0x12
+ cae:	33 8b       	std	Z+19, r19	; 0x13
+	ADC0.DBGCTRL = ADC_DBGRUN_bm;						//Run while debuggin.
+ cb0:	86 87       	std	Z+14, r24	; 0x0e
+	ADC0.CTRLA |= ADC_ENABLE_bm;						//Enable ADC.
+ cb2:	90 81       	ld	r25, Z
+ cb4:	91 60       	ori	r25, 0x01	; 1
+ cb6:	90 83       	st	Z, r25
+	ADC0.COMMAND = ADC_STCONV_bm;						//Start converting.
+ cb8:	82 87       	std	Z+10, r24	; 0x0a
+ cba:	08 95       	ret
+
+00000cbc <systemADCResult>:
+Returns: The most recent value in the ADC0.RES register.
+Description: read returns.
+*/
+uint16_t systemADCResult()
+{
+	return ADC0.RES;
+ cbc:	80 91 10 06 	lds	r24, 0x0610	; 0x800610 <__RODATA_PM_OFFSET__+0x7f8610>
+ cc0:	90 91 11 06 	lds	r25, 0x0611	; 0x800611 <__RODATA_PM_OFFSET__+0x7f8611>
+}
+ cc4:	08 95       	ret
+
+00000cc6 <systemConfigTCB>:
+Returns: none
+Description: Sets up a TCB in periodic interrupt mode to a set interval, cmp.
+*/
+
+void systemConfigTCB(TCB_t *tcb, uint16_t cmp)
+{
+ cc6:	fc 01       	movw	r30, r24
+	tcb->CTRLA = TCB_CLKSEL_TCA0_gc;					//Select TCA0 as clock source.
+ cc8:	84 e0       	ldi	r24, 0x04	; 4
+ cca:	80 83       	st	Z, r24
+	tcb->CTRLB = TCB_CNTMODE_INT_gc;					//Periodic interrupt mode.
+ ccc:	11 82       	std	Z+1, r1	; 0x01
+	tcb->INTCTRL = TCB_CAPT_bm;							//Enable capture interrupt.
+ cce:	81 e0       	ldi	r24, 0x01	; 1
+ cd0:	85 83       	std	Z+5, r24	; 0x05
+	tcb->CCMP = cmp;									//Set compare value.
+ cd2:	64 87       	std	Z+12, r22	; 0x0c
+ cd4:	75 87       	std	Z+13, r23	; 0x0d
+ cd6:	08 95       	ret
+
+00000cd8 <systemEnableTCA0>:
+*/
+
+void systemEnableTCA0()
+{
+	/*TCA frequency = 23437 Hz = 24,000,000 Hz / 1,024*/
+	TCA0.SINGLE.CTRLA = TCA_SINGLE_CLKSEL_DIV1024_gc			//Will be using TCA0 as source for TCB0
+ cd8:	e0 e0       	ldi	r30, 0x00	; 0
+ cda:	fa e0       	ldi	r31, 0x0A	; 10
+ cdc:	8f e0       	ldi	r24, 0x0F	; 15
+ cde:	80 83       	st	Z, r24
+					| TCA_SINGLE_ENABLE_bm;						//Enable TCA0.
+	TCA0.SINGLE.DBGCTRL = 1;									//Run while debug.
+ ce0:	81 e0       	ldi	r24, 0x01	; 1
+ ce2:	86 87       	std	Z+14, r24	; 0x0e
+	TCA0.SINGLE.PER = 0xFFFF;									//Max value for period.
+ ce4:	8f ef       	ldi	r24, 0xFF	; 255
+ ce6:	9f ef       	ldi	r25, 0xFF	; 255
+ ce8:	86 a3       	std	Z+38, r24	; 0x26
+ cea:	97 a3       	std	Z+39, r25	; 0x27
+ cec:	08 95       	ret
+
+00000cee <systemEnableTCB>:
+Returns: none
+Description: enables a TCB timer.
+*/
+
+void systemEnableTCB(TCB_t *tcb)
+{
+ cee:	fc 01       	movw	r30, r24
+	tcb->CTRLA |= TCB_ENABLE_bm;
+ cf0:	90 81       	ld	r25, Z
+ cf2:	91 60       	ori	r25, 0x01	; 1
+ cf4:	90 83       	st	Z, r25
+ cf6:	08 95       	ret
+
+00000cf8 <systemDisableTCB>:
+Returns: none
+Description: Disables a TCB timer.
+*/
+
+void systemDisableTCB(TCB_t *tcb)
+{
+ cf8:	fc 01       	movw	r30, r24
+	tcb->CTRLA &= ~(TCB_ENABLE_bm);
+ cfa:	90 81       	ld	r25, Z
+ cfc:	9e 7f       	andi	r25, 0xFE	; 254
+ cfe:	90 83       	st	Z, r25
+ d00:	08 95       	ret
+
+00000d02 <__udivmodhi4>:
+ d02:	aa 1b       	sub	r26, r26
+ d04:	bb 1b       	sub	r27, r27
+ d06:	51 e1       	ldi	r21, 0x11	; 17
+ d08:	07 c0       	rjmp	.+14     	; 0xd18 <__udivmodhi4_ep>
+
+00000d0a <__udivmodhi4_loop>:
+ d0a:	aa 1f       	adc	r26, r26
+ d0c:	bb 1f       	adc	r27, r27
+ d0e:	a6 17       	cp	r26, r22
+ d10:	b7 07       	cpc	r27, r23
+ d12:	10 f0       	brcs	.+4      	; 0xd18 <__udivmodhi4_ep>
+ d14:	a6 1b       	sub	r26, r22
+ d16:	b7 0b       	sbc	r27, r23
+
+00000d18 <__udivmodhi4_ep>:
+ d18:	88 1f       	adc	r24, r24
+ d1a:	99 1f       	adc	r25, r25
+ d1c:	5a 95       	dec	r21
+ d1e:	a9 f7       	brne	.-22     	; 0xd0a <__udivmodhi4_loop>
+ d20:	80 95       	com	r24
+ d22:	90 95       	com	r25
+ d24:	bc 01       	movw	r22, r24
+ d26:	cd 01       	movw	r24, r26
+ d28:	08 95       	ret
+
+00000d2a <__divmodhi4>:
+ d2a:	97 fb       	bst	r25, 7
+ d2c:	07 2e       	mov	r0, r23
+ d2e:	16 f4       	brtc	.+4      	; 0xd34 <__divmodhi4+0xa>
+ d30:	00 94       	com	r0
+ d32:	07 d0       	rcall	.+14     	; 0xd42 <__divmodhi4_neg1>
+ d34:	77 fd       	sbrc	r23, 7
+ d36:	09 d0       	rcall	.+18     	; 0xd4a <__divmodhi4_neg2>
+ d38:	0e 94 81 06 	call	0xd02	; 0xd02 <__udivmodhi4>
+ d3c:	07 fc       	sbrc	r0, 7
+ d3e:	05 d0       	rcall	.+10     	; 0xd4a <__divmodhi4_neg2>
+ d40:	3e f4       	brtc	.+14     	; 0xd50 <__divmodhi4_exit>
+
+00000d42 <__divmodhi4_neg1>:
+ d42:	90 95       	com	r25
+ d44:	81 95       	neg	r24
+ d46:	9f 4f       	sbci	r25, 0xFF	; 255
+ d48:	08 95       	ret
+
+00000d4a <__divmodhi4_neg2>:
+ d4a:	70 95       	com	r23
+ d4c:	61 95       	neg	r22
+ d4e:	7f 4f       	sbci	r23, 0xFF	; 255
+
+00000d50 <__divmodhi4_exit>:
+ d50:	08 95       	ret
+
+00000d52 <__tablejump2__>:
+ d52:	ee 0f       	add	r30, r30
+ d54:	ff 1f       	adc	r31, r31
+ d56:	05 90       	lpm	r0, Z+
+ d58:	f4 91       	lpm	r31, Z
+ d5a:	e0 2d       	mov	r30, r0
+ d5c:	09 94       	ijmp
+
+00000d5e <__umulhisi3>:
+ d5e:	a2 9f       	mul	r26, r18
+ d60:	b0 01       	movw	r22, r0
+ d62:	b3 9f       	mul	r27, r19
+ d64:	c0 01       	movw	r24, r0
+ d66:	a3 9f       	mul	r26, r19
+ d68:	70 0d       	add	r23, r0
+ d6a:	81 1d       	adc	r24, r1
+ d6c:	11 24       	eor	r1, r1
+ d6e:	91 1d       	adc	r25, r1
+ d70:	b2 9f       	mul	r27, r18
+ d72:	70 0d       	add	r23, r0
+ d74:	81 1d       	adc	r24, r1
+ d76:	11 24       	eor	r1, r1
+ d78:	91 1d       	adc	r25, r1
+ d7a:	08 95       	ret
+
+00000d7c <__cmpdi2_s8>:
+ d7c:	00 24       	eor	r0, r0
+ d7e:	a7 fd       	sbrc	r26, 7
+ d80:	00 94       	com	r0
+ d82:	2a 17       	cp	r18, r26
+ d84:	30 05       	cpc	r19, r0
+ d86:	40 05       	cpc	r20, r0
+ d88:	50 05       	cpc	r21, r0
+ d8a:	60 05       	cpc	r22, r0
+ d8c:	70 05       	cpc	r23, r0
+ d8e:	80 05       	cpc	r24, r0
+ d90:	90 05       	cpc	r25, r0
+ d92:	08 95       	ret
+
+00000d94 <_exit>:
+ d94:	f8 94       	cli
+
+00000d96 <__stop_program>:
+ d96:	ff cf       	rjmp	.-2      	; 0xd96 <__stop_program>

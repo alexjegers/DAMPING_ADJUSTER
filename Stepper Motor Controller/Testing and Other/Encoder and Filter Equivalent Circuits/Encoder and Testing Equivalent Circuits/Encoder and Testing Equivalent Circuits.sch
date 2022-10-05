@@ -1,0 +1,173 @@
+EESchema Schematic File Version 4
+EELAYER 30 0
+EELAYER END
+$Descr A4 11693 8268
+encoding utf-8
+Sheet 1 1
+Title ""
+Date ""
+Rev ""
+Comp ""
+Comment1 ""
+Comment2 ""
+Comment3 ""
+Comment4 ""
+$EndDescr
+Text Notes 3100 3700 0    50   ~ 0
+Switch Open
+$Comp
+L Device:R R1
+U 1 1 62FAD7EC
+P 2900 3800
+F 0 "R1" H 2970 3800 50  0000 L CNN
+F 1 "R" H 2970 3755 50  0001 L CNN
+F 2 "" V 2830 3800 50  0001 C CNN
+F 3 "~" H 2900 3800 50  0001 C CNN
+	1    2900 3800
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:R R2
+U 1 1 62FADC84
+P 3150 4050
+F 0 "R2" V 3035 4050 50  0000 C CNN
+F 1 "R" V 3034 4050 50  0001 C CNN
+F 2 "" V 3080 4050 50  0001 C CNN
+F 3 "~" H 3150 4050 50  0001 C CNN
+	1    3150 4050
+	0    1    1    0   
+$EndComp
+$Comp
+L Device:C C1
+U 1 1 62FAE96C
+P 3400 4300
+F 0 "C1" H 3515 4300 50  0000 L CNN
+F 1 "C" H 3515 4255 50  0001 L CNN
+F 2 "" H 3438 4150 50  0001 C CNN
+F 3 "~" H 3400 4300 50  0001 C CNN
+	1    3400 4300
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:R R2
+U 1 1 62FAF35E
+P 4750 4000
+F 0 "R2" V 4635 4000 50  0000 C CNN
+F 1 "R" V 4634 4000 50  0001 C CNN
+F 2 "" V 4680 4000 50  0001 C CNN
+F 3 "~" H 4750 4000 50  0001 C CNN
+	1    4750 4000
+	0    1    1    0   
+$EndComp
+$Comp
+L Device:C C1
+U 1 1 62FAF800
+P 5000 4250
+F 0 "C1" H 5115 4250 50  0000 L CNN
+F 1 "C" H 5115 4205 50  0001 L CNN
+F 2 "" H 5038 4100 50  0001 C CNN
+F 3 "~" H 5000 4250 50  0001 C CNN
+	1    5000 4250
+	1    0    0    -1  
+$EndComp
+$Comp
+L Switch:SW_SPST SW?
+U 1 1 62FB03A5
+P 2500 4250
+F 0 "SW?" V 2454 4348 50  0001 L CNN
+F 1 "SW_SPST" V 2545 4348 50  0001 L CNN
+F 2 "" H 2500 4250 50  0001 C CNN
+F 3 "~" H 2500 4250 50  0001 C CNN
+	1    2500 4250
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	2900 3950 2900 4050
+Wire Wire Line
+	2500 4050 2900 4050
+Connection ~ 2900 4050
+Wire Wire Line
+	2900 4050 3000 4050
+Wire Wire Line
+	2500 4450 2500 4550
+Wire Wire Line
+	2500 4550 2950 4550
+Wire Wire Line
+	3400 4550 3400 4450
+$Comp
+L power:GND #PWR?
+U 1 1 62FB2000
+P 2950 4550
+F 0 "#PWR?" H 2950 4300 50  0001 C CNN
+F 1 "GND" H 2955 4377 50  0000 C CNN
+F 2 "" H 2950 4550 50  0001 C CNN
+F 3 "" H 2950 4550 50  0001 C CNN
+	1    2950 4550
+	1    0    0    -1  
+$EndComp
+Connection ~ 2950 4550
+Wire Wire Line
+	2950 4550 3400 4550
+$Comp
+L power:+3.3V #PWR?
+U 1 1 62FB24C7
+P 2900 3600
+F 0 "#PWR?" H 2900 3450 50  0001 C CNN
+F 1 "+3.3V" H 2915 3773 50  0000 C CNN
+F 2 "" H 2900 3600 50  0001 C CNN
+F 3 "" H 2900 3600 50  0001 C CNN
+	1    2900 3600
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	2900 3600 2900 3650
+$Comp
+L Switch_001:SW_SPST_CLOSED SW?
+U 1 1 62FB4670
+P 4250 4250
+F 0 "SW?" V 4200 3600 50  0001 L CNN
+F 1 "SW_SPST_CLOSED" V 4300 3550 50  0001 L CNN
+F 2 "" H 4250 4250 50  0001 C CNN
+F 3 "" H 4250 4250 50  0001 C CNN
+	1    4250 4250
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	4250 4050 4250 4000
+Wire Wire Line
+	4250 4000 4600 4000
+Wire Wire Line
+	4900 4000 5000 4000
+Wire Wire Line
+	5000 4000 5000 4100
+Wire Wire Line
+	4250 4450 4250 4550
+Wire Wire Line
+	4250 4550 4650 4550
+Wire Wire Line
+	5000 4550 5000 4400
+$Comp
+L power:GND #PWR?
+U 1 1 62FB60F7
+P 4650 4550
+F 0 "#PWR?" H 4650 4300 50  0001 C CNN
+F 1 "GND" H 4655 4377 50  0000 C CNN
+F 2 "" H 4650 4550 50  0001 C CNN
+F 3 "" H 4650 4550 50  0001 C CNN
+	1    4650 4550
+	1    0    0    -1  
+$EndComp
+Connection ~ 4650 4550
+Wire Wire Line
+	4650 4550 5000 4550
+Text Notes 4350 3700 0    50   ~ 0
+Switch Closed
+Wire Wire Line
+	3300 4050 3400 4050
+Wire Wire Line
+	3400 4050 3400 4150
+Text Notes 2200 4900 0    50   ~ 0
+f = 1 / ((2*pi) * (R1 + R2) * C1)
+Text Notes 4100 4900 0    50   ~ 0
+f = 1 / ((2*pi) * R1 * C1)
+$EndSCHEMATC

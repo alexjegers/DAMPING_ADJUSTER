@@ -1,0 +1,264 @@
+EESchema Schematic File Version 4
+EELAYER 30 0
+EELAYER END
+$Descr A4 11693 8268
+encoding utf-8
+Sheet 1 1
+Title ""
+Date ""
+Rev ""
+Comp ""
+Comment1 ""
+Comment2 ""
+Comment3 ""
+Comment4 ""
+$EndDescr
+$Comp
+L Connector_Generic:Conn_01x04 J1
+U 1 1 632DE4A5
+P 9500 1550
+F 0 "J1" H 9580 1542 50  0000 L CNN
+F 1 "Comm_Connector" H 9580 1451 50  0000 L CNN
+F 2 "" H 9500 1550 50  0001 C CNN
+F 3 "~" H 9500 1550 50  0001 C CNN
+	1    9500 1550
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:+12V #PWR01
+U 1 1 632E10F7
+P 9200 1350
+F 0 "#PWR01" H 9200 1200 50  0001 C CNN
+F 1 "+12V" H 9215 1523 50  0000 C CNN
+F 2 "" H 9200 1350 50  0001 C CNN
+F 3 "" H 9200 1350 50  0001 C CNN
+	1    9200 1350
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	9200 1350 9200 1450
+Wire Wire Line
+	9200 1450 9300 1450
+$Comp
+L power:GND #PWR02
+U 1 1 632E167F
+P 9200 1850
+F 0 "#PWR02" H 9200 1600 50  0001 C CNN
+F 1 "GND" H 9205 1677 50  0000 C CNN
+F 2 "" H 9200 1850 50  0001 C CNN
+F 3 "" H 9200 1850 50  0001 C CNN
+	1    9200 1850
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	9200 1850 9200 1750
+Wire Wire Line
+	9200 1750 9300 1750
+Text GLabel 9300 1550 0    50   Input ~ 0
+SDA
+Text GLabel 9300 1650 0    50   Input ~ 0
+SCL
+$Comp
+L Connector_Generic:Conn_01x04 J2
+U 1 1 632E3322
+P 9500 2550
+F 0 "J2" H 9580 2542 50  0000 L CNN
+F 1 "Comm_Connector" H 9580 2451 50  0000 L CNN
+F 2 "" H 9500 2550 50  0001 C CNN
+F 3 "~" H 9500 2550 50  0001 C CNN
+	1    9500 2550
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:+12V #PWR03
+U 1 1 632E3328
+P 9200 2350
+F 0 "#PWR03" H 9200 2200 50  0001 C CNN
+F 1 "+12V" H 9215 2523 50  0000 C CNN
+F 2 "" H 9200 2350 50  0001 C CNN
+F 3 "" H 9200 2350 50  0001 C CNN
+	1    9200 2350
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	9200 2350 9200 2450
+Wire Wire Line
+	9200 2450 9300 2450
+$Comp
+L power:GND #PWR04
+U 1 1 632E3330
+P 9200 2850
+F 0 "#PWR04" H 9200 2600 50  0001 C CNN
+F 1 "GND" H 9205 2677 50  0000 C CNN
+F 2 "" H 9200 2850 50  0001 C CNN
+F 3 "" H 9200 2850 50  0001 C CNN
+	1    9200 2850
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	9200 2850 9200 2750
+Wire Wire Line
+	9200 2750 9300 2750
+Text GLabel 9300 2550 0    50   Input ~ 0
+SDA
+Text GLabel 9300 2650 0    50   Input ~ 0
+SCL
+$Comp
+L Connector_Generic:Conn_01x04 J3
+U 1 1 632E4ADE
+P 9500 3550
+F 0 "J3" H 9580 3542 50  0000 L CNN
+F 1 "Comm_Connector" H 9580 3451 50  0000 L CNN
+F 2 "" H 9500 3550 50  0001 C CNN
+F 3 "~" H 9500 3550 50  0001 C CNN
+	1    9500 3550
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:+12V #PWR05
+U 1 1 632E4AE4
+P 9200 3350
+F 0 "#PWR05" H 9200 3200 50  0001 C CNN
+F 1 "+12V" H 9215 3523 50  0000 C CNN
+F 2 "" H 9200 3350 50  0001 C CNN
+F 3 "" H 9200 3350 50  0001 C CNN
+	1    9200 3350
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	9200 3350 9200 3450
+Wire Wire Line
+	9200 3450 9300 3450
+$Comp
+L power:GND #PWR06
+U 1 1 632E4AEC
+P 9200 3850
+F 0 "#PWR06" H 9200 3600 50  0001 C CNN
+F 1 "GND" H 9205 3677 50  0000 C CNN
+F 2 "" H 9200 3850 50  0001 C CNN
+F 3 "" H 9200 3850 50  0001 C CNN
+	1    9200 3850
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	9200 3850 9200 3750
+Wire Wire Line
+	9200 3750 9300 3750
+Text GLabel 9300 3550 0    50   Input ~ 0
+SDA
+Text GLabel 9300 3650 0    50   Input ~ 0
+SCL
+$Comp
+L Connector_Generic:Conn_01x04 J4
+U 1 1 632E538B
+P 9500 4550
+F 0 "J4" H 9580 4542 50  0000 L CNN
+F 1 "Comm_Connector" H 9580 4451 50  0000 L CNN
+F 2 "" H 9500 4550 50  0001 C CNN
+F 3 "~" H 9500 4550 50  0001 C CNN
+	1    9500 4550
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:+12V #PWR07
+U 1 1 632E5391
+P 9200 4350
+F 0 "#PWR07" H 9200 4200 50  0001 C CNN
+F 1 "+12V" H 9215 4523 50  0000 C CNN
+F 2 "" H 9200 4350 50  0001 C CNN
+F 3 "" H 9200 4350 50  0001 C CNN
+	1    9200 4350
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	9200 4350 9200 4450
+Wire Wire Line
+	9200 4450 9300 4450
+$Comp
+L power:GND #PWR08
+U 1 1 632E5399
+P 9200 4850
+F 0 "#PWR08" H 9200 4600 50  0001 C CNN
+F 1 "GND" H 9205 4677 50  0000 C CNN
+F 2 "" H 9200 4850 50  0001 C CNN
+F 3 "" H 9200 4850 50  0001 C CNN
+	1    9200 4850
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	9200 4850 9200 4750
+Wire Wire Line
+	9200 4750 9300 4750
+Text GLabel 9300 4550 0    50   Input ~ 0
+SDA
+Text GLabel 9300 4650 0    50   Input ~ 0
+SCL
+$Comp
+L Device:C C?
+U 1 1 632EA05E
+P 8850 1600
+F 0 "C?" H 8735 1646 50  0000 R CNN
+F 1 "C" H 8735 1555 50  0000 R CNN
+F 2 "" H 8888 1450 50  0001 C CNN
+F 3 "~" H 8850 1600 50  0001 C CNN
+	1    8850 1600
+	-1   0    0    -1  
+$EndComp
+Wire Wire Line
+	8850 1450 9200 1450
+Connection ~ 9200 1450
+Wire Wire Line
+	8850 1750 9200 1750
+Connection ~ 9200 1750
+$Comp
+L Device:C C?
+U 1 1 632EAB4A
+P 8850 2600
+F 0 "C?" H 8735 2646 50  0000 R CNN
+F 1 "C" H 8735 2555 50  0000 R CNN
+F 2 "" H 8888 2450 50  0001 C CNN
+F 3 "~" H 8850 2600 50  0001 C CNN
+	1    8850 2600
+	-1   0    0    -1  
+$EndComp
+Wire Wire Line
+	8850 2450 9200 2450
+Connection ~ 9200 2450
+Wire Wire Line
+	8850 2750 9200 2750
+Connection ~ 9200 2750
+$Comp
+L Device:C C?
+U 1 1 632EB4F3
+P 8850 3600
+F 0 "C?" H 8735 3646 50  0000 R CNN
+F 1 "C" H 8735 3555 50  0000 R CNN
+F 2 "" H 8888 3450 50  0001 C CNN
+F 3 "~" H 8850 3600 50  0001 C CNN
+	1    8850 3600
+	-1   0    0    -1  
+$EndComp
+Wire Wire Line
+	8850 3450 9200 3450
+Connection ~ 9200 3450
+Wire Wire Line
+	8850 3750 9200 3750
+Connection ~ 9200 3750
+$Comp
+L Device:C C?
+U 1 1 632EBF11
+P 8850 4600
+F 0 "C?" H 8735 4646 50  0000 R CNN
+F 1 "C" H 8735 4555 50  0000 R CNN
+F 2 "" H 8888 4450 50  0001 C CNN
+F 3 "~" H 8850 4600 50  0001 C CNN
+	1    8850 4600
+	-1   0    0    -1  
+$EndComp
+Wire Wire Line
+	8850 4450 9200 4450
+Connection ~ 9200 4450
+Wire Wire Line
+	8850 4750 9200 4750
+Connection ~ 9200 4750
+$EndSCHEMATC

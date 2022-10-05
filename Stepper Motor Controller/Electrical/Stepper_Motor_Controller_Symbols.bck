@@ -1,0 +1,23 @@
+EESchema-DOCLIB  Version 2.0
+#
+$CMP AVR32DA32
+D 8-bit AVR MCU
+$ENDCMP
+#
+$CMP DRV8825
+D Stepper Motor Driver
+$ENDCMP
+#
+$CMP PER231-P19-N0010
+D Open Center Rotary Encoder
+$ENDCMP
+#
+$CMP SN74LVC2G17DBVR
+D Schmitt Trigger, Non Inverting
+$ENDCMP
+#
+$CMP UA78M33CKVURG3
+D 3.3V Linear Voltage Regulator
+$ENDCMP
+#
+#End Doc Library
