@@ -15,19 +15,19 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY
   5 .debug_aranges 000002c0  00000000  00000000  00000ea0  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_info   00005b0f  00000000  00000000  00001160  2**0
+  6 .debug_info   00005b11  00000000  00000000  00001160  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_abbrev 00002c44  00000000  00000000  00006c6f  2**0
+  7 .debug_abbrev 00002c44  00000000  00000000  00006c71  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_line   00001527  00000000  00000000  000098b3  2**0
+  8 .debug_line   0000152e  00000000  00000000  000098b5  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_frame  00000698  00000000  00000000  0000addc  2**2
+  9 .debug_frame  00000698  00000000  00000000  0000ade4  2**2
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_str    000026fe  00000000  00000000  0000b474  2**0
+ 10 .debug_str    000026fe  00000000  00000000  0000b47c  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_loc    00000ccc  00000000  00000000  0000db72  2**0
+ 11 .debug_loc    00000c78  00000000  00000000  0000db7a  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_ranges 00000280  00000000  00000000  0000e83e  2**0
+ 12 .debug_ranges 00000280  00000000  00000000  0000e7f2  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -1609,34 +1609,34 @@ int main(void)
  936:	90 68       	ori	r25, 0x80	; 128
  938:	90 83       	st	Z, r25
  93a:	17 8a       	std	Z+23, r1	; 0x17
- 93c:	e0 91 06 70 	lds	r30, 0x7006	; 0x807006 <pMotor>
- 940:	f0 91 07 70 	lds	r31, 0x7007	; 0x807007 <pMotor+0x1>
- 944:	87 83       	std	Z+7, r24	; 0x07
- 946:	81 30       	cpi	r24, 0x01	; 1
- 948:	61 f0       	breq	.+24     	; 0x962 <stepperSetDecay+0x32>
- 94a:	18 f0       	brcs	.+6      	; 0x952 <stepperSetDecay+0x22>
- 94c:	82 30       	cpi	r24, 0x02	; 2
- 94e:	79 f0       	breq	.+30     	; 0x96e <stepperSetDecay+0x3e>
- 950:	08 95       	ret
+ 93c:	81 30       	cpi	r24, 0x01	; 1
+ 93e:	19 f0       	breq	.+6      	; 0x946 <stepperSetDecay+0x16>
+ 940:	82 30       	cpi	r24, 0x02	; 2
+ 942:	39 f0       	breq	.+14     	; 0x952 <stepperSetDecay+0x22>
+ 944:	0c c0       	rjmp	.+24     	; 0x95e <stepperSetDecay+0x2e>
+ 946:	e0 e6       	ldi	r30, 0x60	; 96
+ 948:	f4 e0       	ldi	r31, 0x04	; 4
+ 94a:	94 81       	ldd	r25, Z+4	; 0x04
+ 94c:	90 68       	ori	r25, 0x80	; 128
+ 94e:	94 83       	std	Z+4, r25	; 0x04
+ 950:	0e c0       	rjmp	.+28     	; 0x96e <stepperSetDecay+0x3e>
  952:	e0 e6       	ldi	r30, 0x60	; 96
  954:	f4 e0       	ldi	r31, 0x04	; 4
- 956:	80 81       	ld	r24, Z
- 958:	8f 77       	andi	r24, 0x7F	; 127
- 95a:	80 83       	st	Z, r24
- 95c:	84 e0       	ldi	r24, 0x04	; 4
- 95e:	87 8b       	std	Z+23, r24	; 0x17
- 960:	08 95       	ret
- 962:	e0 e6       	ldi	r30, 0x60	; 96
- 964:	f4 e0       	ldi	r31, 0x04	; 4
- 966:	84 81       	ldd	r24, Z+4	; 0x04
- 968:	80 68       	ori	r24, 0x80	; 128
- 96a:	84 83       	std	Z+4, r24	; 0x04
- 96c:	08 95       	ret
- 96e:	e0 e6       	ldi	r30, 0x60	; 96
- 970:	f4 e0       	ldi	r31, 0x04	; 4
- 972:	84 81       	ldd	r24, Z+4	; 0x04
- 974:	8f 77       	andi	r24, 0x7F	; 127
- 976:	84 83       	std	Z+4, r24	; 0x04
+ 956:	94 81       	ldd	r25, Z+4	; 0x04
+ 958:	9f 77       	andi	r25, 0x7F	; 127
+ 95a:	94 83       	std	Z+4, r25	; 0x04
+ 95c:	08 c0       	rjmp	.+16     	; 0x96e <stepperSetDecay+0x3e>
+ 95e:	e0 e6       	ldi	r30, 0x60	; 96
+ 960:	f4 e0       	ldi	r31, 0x04	; 4
+ 962:	80 81       	ld	r24, Z
+ 964:	8f 77       	andi	r24, 0x7F	; 127
+ 966:	80 83       	st	Z, r24
+ 968:	84 e0       	ldi	r24, 0x04	; 4
+ 96a:	87 8b       	std	Z+23, r24	; 0x17
+ 96c:	80 e0       	ldi	r24, 0x00	; 0
+ 96e:	e0 91 06 70 	lds	r30, 0x7006	; 0x807006 <pMotor>
+ 972:	f0 91 07 70 	lds	r31, 0x7007	; 0x807007 <pMotor+0x1>
+ 976:	87 83       	std	Z+7, r24	; 0x07
  978:	08 95       	ret
 
 0000097a <stepperSetDirection>:
@@ -1803,8 +1803,8 @@ void stepperConfigTimeoutTimer(uint16_t TCB_PER)
  abc:	08 95       	ret
 
 00000abe <stepperInit>:
-
-
+			memory.
+*/
 void stepperInit()
 {
 	/*Default stepper settings*/
@@ -1974,7 +1974,7 @@ void stepperGoToZero()
 	stepperStartTimeoutTimer();										//Start counter.
  b9c:	0e 94 85 05 	call	0xb0a	; 0xb0a <stepperStartTimeoutTimer>
 	
-	while (pMotor->timeoutCounter < 1) {}
+	while (pMotor->timeoutCounter < 1) {}							//Wait for it to timeout.
  ba0:	e0 91 06 70 	lds	r30, 0x7006	; 0x807006 <pMotor>
  ba4:	f0 91 07 70 	lds	r31, 0x7007	; 0x807007 <pMotor+0x1>
  ba8:	82 85       	ldd	r24, Z+10	; 0x0a
@@ -2000,9 +2000,9 @@ void stepperGoToZero()
  bcc:	08 95       	ret
 
 00000bce <stepperCurrentLimit>:
-}
-
-
+Returns: returns STEPPER_INFO_struct.currentLimit
+Description: see returns
+*/
 CURRENT_LIMIT_t stepperCurrentLimit()
 {
 	return pMotor->currentLimit;
@@ -2014,8 +2014,9 @@ CURRENT_LIMIT_t stepperCurrentLimit()
  bda:	08 95       	ret
 
 00000bdc <stepperStepMode>:
-
-
+Returns: STEPPER_INFO_struct.stepMode
+Description: see returns
+*/
 STEP_MODE_t stepperStepMode()
 {
 	return pMotor->stepMode;
