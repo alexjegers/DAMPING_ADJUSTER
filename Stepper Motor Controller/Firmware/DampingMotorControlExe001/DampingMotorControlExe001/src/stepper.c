@@ -183,7 +183,7 @@ Description: Takes parameter from DECAY_MODE_t.
 */
 void stepperSetDecay(DECAY_MODE_t decayMode)
 {
-	PORTD.DIR |= DECAY_PIN							//Set decay pin as output in case it's set to input from previous decay mode setting.
+	PORTD.DIR |= DECAY_PIN;							//Set decay pin as output in case it's set to input from previous decay mode setting.
 	PORTD.PIN7CTRL = 0;								//Clear the input disable bit from mixed decay.
 
 	switch (decayMode)
