@@ -21,8 +21,8 @@ Allocating common symbols
 Common symbol       size              file
 
 internalAddress     0x1               src/iic.o
-motorPrev           0xe               src/stepper.o
-motor               0xe               src/stepper.o
+motorPrev           0x10              src/stepper.o
+motor               0x10              src/stepper.o
 
 Discarded input sections
 
@@ -75,6 +75,8 @@ Discarded input sections
                 0x00000000       0x14 src/stepper.o
  .text.stepperCheckForChange
                 0x00000000       0x3a src/stepper.o
+ .text.stepperPreviousPosition
+                0x00000000        0xe src/stepper.o
  .data.pMotorPrev
                 0x00000000        0x2 src/stepper.o
  .text          0x00000000        0x0 src/system.o
@@ -336,7 +338,7 @@ END GROUP
 .rela.plt
  *(.rela.plt)
 
-.text           0x00000000      0xd98
+.text           0x00000000      0xd88
  *(.vectors)
  .vectors       0x00000000       0xb0 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/AVR-Dx_DFP/1.6.76/gcc/dev/avr32da32/avrxmega3/crtavr32da32.o
                 0x00000000                __vector_default
@@ -503,149 +505,149 @@ END GROUP
                 0x000004d0       0x38 src/iic_handlers.o
                 0x000004d0                handlerBatteryVoltage
  .text.__vector_6
-                0x00000508       0x6c src/interrupts.o
+                0x00000508       0x56 src/interrupts.o
                 0x00000508                __vector_6
  .text.__vector_42
-                0x00000574       0x92 src/interrupts.o
-                0x00000574                __vector_42
+                0x0000055e       0x92 src/interrupts.o
+                0x0000055e                __vector_42
  .text.__vector_12
-                0x00000606       0x52 src/interrupts.o
-                0x00000606                __vector_12
+                0x000005f0       0x52 src/interrupts.o
+                0x000005f0                __vector_12
  .text.__vector_13
-                0x00000658       0x4e src/interrupts.o
-                0x00000658                __vector_13
- .text.main     0x000006a6       0x90 src/main.o
-                0x000006a6                main
+                0x00000642       0x4e src/interrupts.o
+                0x00000642                __vector_13
+ .text.main     0x00000690       0x90 src/main.o
+                0x00000690                main
  .text.stepperStartMove
-                0x00000736      0x17e src/stepper.o
-                0x00000736                stepperStartMove
+                0x00000720      0x17e src/stepper.o
+                0x00000720                stepperStartMove
  .text.stepperSetStepMode
-                0x000008b4       0x24 src/stepper.o
-                0x000008b4                stepperSetStepMode
+                0x0000089e       0x24 src/stepper.o
+                0x0000089e                stepperSetStepMode
  .text.stepperSetSpeed
-                0x000008d8        0xe src/stepper.o
-                0x000008d8                stepperSetSpeed
+                0x000008c2        0xe src/stepper.o
+                0x000008c2                stepperSetSpeed
  .text.stepperStopMove
-                0x000008e6        0xc src/stepper.o
-                0x000008e6                stepperStopMove
+                0x000008d0        0xc src/stepper.o
+                0x000008d0                stepperStopMove
  .text.stepperIncrementPosition
-                0x000008f2       0x3e src/stepper.o
-                0x000008f2                stepperIncrementPosition
+                0x000008dc       0x1e src/stepper.o
+                0x000008dc                stepperIncrementPosition
  .text.stepperSetDecay
-                0x00000930       0x4a src/stepper.o
-                0x00000930                stepperSetDecay
+                0x000008fa       0x4a src/stepper.o
+                0x000008fa                stepperSetDecay
  .text.stepperSetDirection
-                0x0000097a       0x1c src/stepper.o
-                0x0000097a                stepperSetDirection
+                0x00000944       0x1c src/stepper.o
+                0x00000944                stepperSetDirection
  .text.stepperSetCurrent
-                0x00000996       0x68 src/stepper.o
-                0x00000996                stepperSetCurrent
+                0x00000960       0x68 src/stepper.o
+                0x00000960                stepperSetCurrent
  .text.stepperSetSetPoint
-                0x000009fe       0x34 src/stepper.o
-                0x000009fe                stepperSetSetPoint
+                0x000009c8       0x34 src/stepper.o
+                0x000009c8                stepperSetSetPoint
  .text.stepperSetPosition
-                0x00000a32       0x34 src/stepper.o
-                0x00000a32                stepperSetPosition
+                0x000009fc       0x3c src/stepper.o
+                0x000009fc                stepperSetPosition
  .text.stepperAtSetPoint
-                0x00000a66       0x1e src/stepper.o
-                0x00000a66                stepperAtSetPoint
+                0x00000a38       0x1e src/stepper.o
+                0x00000a38                stepperAtSetPoint
  .text.stepperPosition
-                0x00000a84        0xe src/stepper.o
-                0x00000a84                stepperPosition
+                0x00000a56        0xe src/stepper.o
+                0x00000a56                stepperPosition
  .text.stepperSetPoint
-                0x00000a92        0xe src/stepper.o
-                0x00000a92                stepperSetPoint
+                0x00000a64        0xe src/stepper.o
+                0x00000a64                stepperSetPoint
  .text.stepperSpeed
-                0x00000aa0        0xe src/stepper.o
-                0x00000aa0                stepperSpeed
+                0x00000a72        0xe src/stepper.o
+                0x00000a72                stepperSpeed
  .text.stepperConfigTimeoutTimer
-                0x00000aae       0x10 src/stepper.o
-                0x00000aae                stepperConfigTimeoutTimer
+                0x00000a80       0x10 src/stepper.o
+                0x00000a80                stepperConfigTimeoutTimer
  .text.stepperInit
-                0x00000abe       0x4c src/stepper.o
-                0x00000abe                stepperInit
+                0x00000a90       0x50 src/stepper.o
+                0x00000a90                stepperInit
  .text.stepperStartTimeoutTimer
-                0x00000b0a        0xe src/stepper.o
-                0x00000b0a                stepperStartTimeoutTimer
+                0x00000ae0        0xe src/stepper.o
+                0x00000ae0                stepperStartTimeoutTimer
  .text.stepperClearTimeoutTimer
-                0x00000b18       0x18 src/stepper.o
-                0x00000b18                stepperClearTimeoutTimer
+                0x00000aee       0x18 src/stepper.o
+                0x00000aee                stepperClearTimeoutTimer
  .text.stepperStopTimeoutTimer
-                0x00000b30        0xe src/stepper.o
-                0x00000b30                stepperStopTimeoutTimer
+                0x00000b06        0xe src/stepper.o
+                0x00000b06                stepperStopTimeoutTimer
  .text.stepperIncrementTimeoutCount
-                0x00000b3e       0x10 src/stepper.o
-                0x00000b3e                stepperIncrementTimeoutCount
+                0x00000b14       0x10 src/stepper.o
+                0x00000b14                stepperIncrementTimeoutCount
  .text.stepperSetFlag
-                0x00000b4e       0x10 src/stepper.o
-                0x00000b4e                stepperSetFlag
+                0x00000b24       0x10 src/stepper.o
+                0x00000b24                stepperSetFlag
  .text.stepperClearFlag
-                0x00000b5e       0x12 src/stepper.o
-                0x00000b5e                stepperClearFlag
+                0x00000b34       0x12 src/stepper.o
+                0x00000b34                stepperClearFlag
  .text.stepperFlags
-                0x00000b70        0xc src/stepper.o
-                0x00000b70                stepperFlags
+                0x00000b46        0xc src/stepper.o
+                0x00000b46                stepperFlags
  .text.stepperGoToZero
-                0x00000b7c       0x52 src/stepper.o
-                0x00000b7c                stepperGoToZero
+                0x00000b52       0x6c src/stepper.o
+                0x00000b52                stepperGoToZero
  .text.stepperCurrentLimit
-                0x00000bce        0xe src/stepper.o
-                0x00000bce                stepperCurrentLimit
+                0x00000bbe        0xe src/stepper.o
+                0x00000bbe                stepperCurrentLimit
  .text.stepperStepMode
-                0x00000bdc        0xc src/stepper.o
-                0x00000bdc                stepperStepMode
+                0x00000bcc        0xc src/stepper.o
+                0x00000bcc                stepperStepMode
  .text.systemPortAConfig
-                0x00000be8       0x32 src/system.o
-                0x00000be8                systemPortAConfig
+                0x00000bd8       0x32 src/system.o
+                0x00000bd8                systemPortAConfig
  .text.systemPortCConfig
-                0x00000c1a       0x24 src/system.o
-                0x00000c1a                systemPortCConfig
+                0x00000c0a       0x24 src/system.o
+                0x00000c0a                systemPortCConfig
  .text.systemPortDConfig
-                0x00000c3e       0x1e src/system.o
-                0x00000c3e                systemPortDConfig
+                0x00000c2e       0x1e src/system.o
+                0x00000c2e                systemPortDConfig
  .text.systemPortFConfig
-                0x00000c5c       0x10 src/system.o
-                0x00000c5c                systemPortFConfig
+                0x00000c4c       0x10 src/system.o
+                0x00000c4c                systemPortFConfig
  .text.systemClockConfig
-                0x00000c6c       0x12 src/system.o
-                0x00000c6c                systemClockConfig
+                0x00000c5c       0x12 src/system.o
+                0x00000c5c                systemClockConfig
  .text.systemConfigADC
-                0x00000c7e       0x3e src/system.o
-                0x00000c7e                systemConfigADC
+                0x00000c6e       0x3e src/system.o
+                0x00000c6e                systemConfigADC
  .text.systemADCResult
-                0x00000cbc        0xa src/system.o
-                0x00000cbc                systemADCResult
+                0x00000cac        0xa src/system.o
+                0x00000cac                systemADCResult
  .text.systemConfigTCB
-                0x00000cc6       0x12 src/system.o
-                0x00000cc6                systemConfigTCB
+                0x00000cb6       0x12 src/system.o
+                0x00000cb6                systemConfigTCB
  .text.systemEnableTCA0
-                0x00000cd8       0x16 src/system.o
-                0x00000cd8                systemEnableTCA0
+                0x00000cc8       0x16 src/system.o
+                0x00000cc8                systemEnableTCA0
  .text.systemEnableTCB
-                0x00000cee        0xa src/system.o
-                0x00000cee                systemEnableTCB
+                0x00000cde        0xa src/system.o
+                0x00000cde                systemEnableTCB
  .text.systemDisableTCB
-                0x00000cf8        0xa src/system.o
-                0x00000cf8                systemDisableTCB
+                0x00000ce8        0xa src/system.o
+                0x00000ce8                systemDisableTCB
  .text.libgcc.div
-                0x00000d02       0x28 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avrxmega3\libgcc.a(_udivmodhi4.o)
-                0x00000d02                __udivmodhi4
+                0x00000cf2       0x28 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avrxmega3\libgcc.a(_udivmodhi4.o)
+                0x00000cf2                __udivmodhi4
  .text.libgcc.div
-                0x00000d2a       0x28 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avrxmega3\libgcc.a(_divmodhi4.o)
-                0x00000d2a                _div
-                0x00000d2a                __divmodhi4
- .text.libgcc   0x00000d52        0xc c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avrxmega3\libgcc.a(_tablejump2.o)
-                0x00000d52                __tablejump2__
+                0x00000d1a       0x28 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avrxmega3\libgcc.a(_divmodhi4.o)
+                0x00000d1a                _div
+                0x00000d1a                __divmodhi4
+ .text.libgcc   0x00000d42        0xc c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avrxmega3\libgcc.a(_tablejump2.o)
+                0x00000d42                __tablejump2__
  .text.libgcc.mul
-                0x00000d5e       0x1e c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avrxmega3\libgcc.a(_umulhisi3.o)
-                0x00000d5e                __umulhisi3
- .text.libgcc   0x00000d7c       0x18 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avrxmega3\libgcc.a(_cmpdi2_s8.o)
-                0x00000d7c                __cmpdi2_s8
-                0x00000d94                . = ALIGN (0x2)
+                0x00000d4e       0x1e c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avrxmega3\libgcc.a(_umulhisi3.o)
+                0x00000d4e                __umulhisi3
+ .text.libgcc   0x00000d6c       0x18 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avrxmega3\libgcc.a(_cmpdi2_s8.o)
+                0x00000d6c                __cmpdi2_s8
+                0x00000d84                . = ALIGN (0x2)
  *(.fini9)
- .fini9         0x00000d94        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avrxmega3\libgcc.a(_exit.o)
-                0x00000d94                _exit
-                0x00000d94                exit
+ .fini9         0x00000d84        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avrxmega3\libgcc.a(_exit.o)
+                0x00000d84                _exit
+                0x00000d84                exit
  *(.fini9)
  *(.fini8)
  *(.fini8)
@@ -664,16 +666,16 @@ END GROUP
  *(.fini1)
  *(.fini1)
  *(.fini0)
- .fini0         0x00000d94        0x4 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avrxmega3\libgcc.a(_exit.o)
+ .fini0         0x00000d84        0x4 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avrxmega3\libgcc.a(_exit.o)
  *(.fini0)
-                0x00000d98                _etext = .
+                0x00000d88                _etext = .
 
 .rodata
  *(.rodata)
  *(.rodata*)
  *(.gnu.linkonce.r*)
 
-.data           0x00807000        0x8 load address 0x00000d98
+.data           0x00807000        0x8 load address 0x00000d88
                 0x00807000                PROVIDE (__data_start, .)
  *(.data)
  *(.data*)
@@ -692,25 +694,25 @@ END GROUP
                 0x00807008                _edata = .
                 0x00807008                PROVIDE (__data_end, .)
 
-.bss            0x00807008       0x1d
+.bss            0x00807008       0x21
                 0x00807008                PROVIDE (__bss_start, .)
  *(.bss)
  *(.bss*)
  *(COMMON)
  COMMON         0x00807008        0x1 src/iic.o
                 0x00807008                internalAddress
- COMMON         0x00807009       0x1c src/stepper.o
+ COMMON         0x00807009       0x20 src/stepper.o
                 0x00807009                motorPrev
-                0x00807017                motor
-                0x00807025                PROVIDE (__bss_end, .)
-                0x00000d98                __data_load_start = LOADADDR (.data)
-                0x00000da0                __data_load_end = (__data_load_start + SIZEOF (.data))
+                0x00807019                motor
+                0x00807029                PROVIDE (__bss_end, .)
+                0x00000d88                __data_load_start = LOADADDR (.data)
+                0x00000d90                __data_load_end = (__data_load_start + SIZEOF (.data))
 
-.noinit         0x00807025        0x0
+.noinit         0x00807029        0x0
                 [!provide]                PROVIDE (__noinit_start, .)
  *(.noinit*)
                 [!provide]                PROVIDE (__noinit_end, .)
-                0x00807025                _end = .
+                0x00807029                _end = .
                 [!provide]                PROVIDE (__heap_start, .)
 
 .eeprom         0x00810000        0x0
@@ -781,7 +783,7 @@ END GROUP
 .debug_sfnames
  *(.debug_sfnames)
 
-.debug_aranges  0x00000000      0x2c0
+.debug_aranges  0x00000000      0x2c8
  *(.debug_aranges)
  .debug_aranges
                 0x00000000       0x20 src/encoder.o
@@ -794,23 +796,23 @@ END GROUP
  .debug_aranges
                 0x00000130       0x20 src/main.o
  .debug_aranges
-                0x00000150      0x100 src/stepper.o
+                0x00000150      0x108 src/stepper.o
  .debug_aranges
-                0x00000250       0x70 src/system.o
+                0x00000258       0x70 src/system.o
 
 .debug_pubnames
  *(.debug_pubnames)
 
-.debug_info     0x00000000     0x5b11
+.debug_info     0x00000000     0x5b6a
  *(.debug_info .gnu.linkonce.wi.*)
  .debug_info    0x00000000     0x2316 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/AVR-Dx_DFP/1.6.76/gcc/dev/avr32da32/avrxmega3/crtavr32da32.o
  .debug_info    0x00002316      0x262 src/encoder.o
  .debug_info    0x00002578      0x874 src/iic.o
- .debug_info    0x00002dec      0x4b3 src/iic_handlers.o
- .debug_info    0x0000329f      0x665 src/interrupts.o
- .debug_info    0x00003904      0x400 src/main.o
- .debug_info    0x00003d04      0xc7c src/stepper.o
- .debug_info    0x00004980     0x1191 src/system.o
+ .debug_info    0x00002dec      0x4c1 src/iic_handlers.o
+ .debug_info    0x000032ad      0x665 src/interrupts.o
+ .debug_info    0x00003912      0x400 src/main.o
+ .debug_info    0x00003d12      0xcc7 src/stepper.o
+ .debug_info    0x000049d9     0x1191 src/system.o
 
 .debug_abbrev   0x00000000     0x2c44
  *(.debug_abbrev)
@@ -823,52 +825,52 @@ END GROUP
  .debug_abbrev  0x00002761      0x2e3 src/stepper.o
  .debug_abbrev  0x00002a44      0x200 src/system.o
 
-.debug_line     0x00000000     0x152e
+.debug_line     0x00000000     0x1559
  *(.debug_line .debug_line.* .debug_line_end)
  .debug_line    0x00000000      0x19f C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/AVR-Dx_DFP/1.6.76/gcc/dev/avr32da32/avrxmega3/crtavr32da32.o
  .debug_line    0x0000019f      0x11b src/encoder.o
  .debug_line    0x000002ba      0x3e4 src/iic.o
  .debug_line    0x0000069e      0x240 src/iic_handlers.o
- .debug_line    0x000008de      0x1fa src/interrupts.o
- .debug_line    0x00000ad8      0x1b6 src/main.o
- .debug_line    0x00000c8e      0x5d7 src/stepper.o
- .debug_line    0x00001265      0x2c9 src/system.o
+ .debug_line    0x000008de      0x1ee src/interrupts.o
+ .debug_line    0x00000acc      0x1b6 src/main.o
+ .debug_line    0x00000c82      0x60e src/stepper.o
+ .debug_line    0x00001290      0x2c9 src/system.o
 
-.debug_frame    0x00000000      0x698
+.debug_frame    0x00000000      0x6a0
  *(.debug_frame)
  .debug_frame   0x00000000       0x24 src/encoder.o
  .debug_frame   0x00000024      0x138 src/iic.o
  .debug_frame   0x0000015c       0xf4 src/iic_handlers.o
- .debug_frame   0x00000250      0x17c src/interrupts.o
- .debug_frame   0x000003cc       0x24 src/main.o
- .debug_frame   0x000003f0      0x1e4 src/stepper.o
- .debug_frame   0x000005d4       0xc4 src/system.o
+ .debug_frame   0x00000250      0x174 src/interrupts.o
+ .debug_frame   0x000003c4       0x24 src/main.o
+ .debug_frame   0x000003e8      0x1f4 src/stepper.o
+ .debug_frame   0x000005dc       0xc4 src/system.o
 
-.debug_str      0x00000000     0x26fe
+.debug_str      0x00000000     0x2754
  *(.debug_str)
  .debug_str     0x00000000      0xf34 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/AVR-Dx_DFP/1.6.76/gcc/dev/avr32da32/avrxmega3/crtavr32da32.o
  .debug_str     0x00000f34      0x28f src/encoder.o
                                 0x2ca (size before relaxing)
  .debug_str     0x000011c3      0x438 src/iic.o
                                 0x641 (size before relaxing)
- .debug_str     0x000015fb      0x242 src/iic_handlers.o
-                                0x4c8 (size before relaxing)
- .debug_str     0x0000183d       0x9c src/interrupts.o
+ .debug_str     0x000015fb      0x25b src/iic_handlers.o
+                                0x4ee (size before relaxing)
+ .debug_str     0x00001856       0x9c src/interrupts.o
                                 0x5ab (size before relaxing)
- .debug_str     0x000018d9       0xf1 src/main.o
+ .debug_str     0x000018f2       0xf1 src/main.o
                                 0x3bc (size before relaxing)
- .debug_str     0x000019ca      0x332 src/stepper.o
-                                0x970 (size before relaxing)
- .debug_str     0x00001cfc      0xa02 src/system.o
+ .debug_str     0x000019e3      0x36f src/stepper.o
+                                0x9d3 (size before relaxing)
+ .debug_str     0x00001d52      0xa02 src/system.o
                                 0xe7e (size before relaxing)
 
-.debug_loc      0x00000000      0xc78
+.debug_loc      0x00000000      0xc5c
  *(.debug_loc)
  .debug_loc     0x00000000      0x35f src/iic.o
  .debug_loc     0x0000035f      0x1f8 src/iic_handlers.o
- .debug_loc     0x00000557      0x359 src/interrupts.o
- .debug_loc     0x000008b0      0x3a0 src/stepper.o
- .debug_loc     0x00000c50       0x28 src/system.o
+ .debug_loc     0x00000557      0x33f src/interrupts.o
+ .debug_loc     0x00000896      0x39e src/stepper.o
+ .debug_loc     0x00000c34       0x28 src/system.o
 
 .debug_macinfo
  *(.debug_macinfo)
@@ -888,15 +890,15 @@ END GROUP
 .debug_pubtypes
  *(.debug_pubtypes)
 
-.debug_ranges   0x00000000      0x280
+.debug_ranges   0x00000000      0x288
  *(.debug_ranges)
  .debug_ranges  0x00000000       0x10 src/encoder.o
  .debug_ranges  0x00000010       0x90 src/iic.o
  .debug_ranges  0x000000a0       0x40 src/iic_handlers.o
  .debug_ranges  0x000000e0       0x28 src/interrupts.o
  .debug_ranges  0x00000108       0x10 src/main.o
- .debug_ranges  0x00000118      0x108 src/stepper.o
- .debug_ranges  0x00000220       0x60 src/system.o
+ .debug_ranges  0x00000118      0x110 src/stepper.o
+ .debug_ranges  0x00000228       0x60 src/system.o
 
 .debug_macro
  *(.debug_macro)

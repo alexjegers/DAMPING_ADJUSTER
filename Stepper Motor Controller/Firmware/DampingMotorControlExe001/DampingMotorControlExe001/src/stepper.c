@@ -17,6 +17,7 @@ Description:
 #include "stepper.h"
 #include <avr/eeprom.h>
 #include "eeprom.h"
+#include <stdbool.h>
 
 STEPPER_INFO_t motor;								//Stepper object.
 STEPPER_INFO_t *pMotor = &motor;					//Pointer to stepper object.
@@ -39,7 +40,7 @@ void stepperInit()
 {
 	/*Default stepper settings*/
 	STEPPER_DISABLE;
-	stepperSetCurrent(ONE_AND_HALF_AMP_bm);
+	stepperSetCurrent(TWO_AMP_bm);
 	stepperSetStepMode(MODE_HALF_STEP_bm);
 	stepperSetSpeed(100);
 	stepperSetDecay(DECAY_MIXED);
@@ -50,7 +51,7 @@ void stepperInit()
 	/*Have to directly access these because the function won't allow -1*/
 	pMotor->position = -1;
 	pMotor->setPoint = -1;
-	
+	pMotor->previousPosition = -1;
 }
 
 
@@ -161,17 +162,8 @@ Description: Adds direction to the current position of the motor.
 */
 void stepperIncrementPosition(int8_t direction)
 {
+	pMotor->previousPosition = pMotor->position;		//Record the current position before changing it.
 	pMotor->position += direction;					//Add the change in rotation to current position.			
-	
-	/*If the motor position is out of bounds, set the error flag*/
-	if (pMotor->position > 300)
-	{
-		pMotor->flags |= FLAG_ERROR_bm;
-	}
-	if (pMotor->position < 0)
-	{
-		pMotor->flags |= FLAG_ERROR_bm;
-	}
 }
 
 
@@ -284,6 +276,8 @@ Description: Writes param position to position of stepper motor struct.
 */
 void stepperSetPosition(int16_t position)
 {
+	pMotor->previousPosition = pMotor->position;				//Record the current position before changing it.
+
 	/*Makes sure position is a multiple of 10*/
 	position = position / 10;
 	position = position * 10;
@@ -504,6 +498,8 @@ Description: Starts turning the stepper towards position 0 until it times out.
 */
 void stepperGoToZero()
 {
+	bool motorIsMoving = true;
+	
 	stepperSetDirection(DIRECTION_CCW);								//Set direction to count down towards soft
 	stepperStartMove();												//Start the stepper PWM signal
 	STEPPER_ENABLE;													//Enable the driver.
@@ -512,7 +508,22 @@ void stepperGoToZero()
 	stepperClearTimeoutTimer();										//Clear the timer count if there is one.
 	stepperStartTimeoutTimer();										//Start counter.
 	
-	while (pMotor->timeoutCounter < 1) {}							//Wait for it to timeout.
+	/*Wait for the timeout flag to be set or for the previous position to be
+	greater than the current position. If the motor stops where the encoder
+	is on an edge it will keep firing the encoder interrupt and resetting the
+	timeoutCounter.*/
+	while (motorIsMoving == true) 
+	{
+		if (pMotor->timeoutCounter >= 2)
+		{
+			motorIsMoving = false;
+		}
+		if (pMotor->previousPosition < pMotor->position)
+		{
+			motorIsMoving = false;
+		}
+		
+	}							
 	
 	stepperStopTimeoutTimer();										//Stop the timer.
 	stepperStopMove();												//Stop the motor.
@@ -542,4 +553,10 @@ Description: see returns
 STEP_MODE_t stepperStepMode()
 {
 	return pMotor->stepMode;
+}
+
+
+int16_t stepperPreviousPosition()
+{
+	return pMotor->previousPosition;
 }

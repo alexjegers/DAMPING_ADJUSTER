@@ -14,12 +14,10 @@
 /*Port A interrupt for encoder*/
 ISR(PORTA_PORT_vect)
 {
-	LED1_ON;
 	stepperClearTimeoutTimer();									//Reset the timeout counter because it just moved a step.
 	int8_t direction = encoderRotDirection();					//Determine direction motor is rotating.
 	stepperIncrementPosition(direction);						//Add/subtract from the current position.
 	PORTA.INTFLAGS = ENC_A_PIN;									//Clear interrupt flag.
-	LED1_OFF;
 }
 
 /*IIC interrupt for incoming data*/

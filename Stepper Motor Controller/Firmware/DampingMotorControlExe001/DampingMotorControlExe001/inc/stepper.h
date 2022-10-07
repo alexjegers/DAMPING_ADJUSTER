@@ -60,7 +60,9 @@ typedef enum CURRENT_LIMIT_enum
 	HALF_AMP_bm =					102,
 	ONE_AMP_bm =					203,
 	ONE_AND_QUARTER_AMP_bm =		255,
-	ONE_AND_HALF_AMP_bm =			307
+	ONE_AND_HALF_AMP_bm =			307,
+	ONE_AND_THREE_QUART_AMP_bm =	357,
+	TWO_AMP_bm =					410
 }CURRENT_LIMIT_t;
 
 
@@ -77,6 +79,7 @@ typedef enum DECAY_MODES_enum
 typedef struct STEPPER_INFO_struct
 {
 	int16_t position;
+	int16_t previousPosition;						//Had to add this in for stepperGoToZero func.
 	int16_t setPoint;
 	STEP_MODE_t stepMode;
 	CURRENT_LIMIT_t currentLimit;
@@ -119,7 +122,7 @@ void stepperStopTimeoutTimer();						//Stops the timeout timer.
 /*Functions to write to the stepper info struct*/
 void stepperSetSetPoint(int16_t setPoint);			//Sets the set point.
 void stepperSetPosition(int16_t position);			//Overrides the position.
-void stepperSetStepMode(STEP_MODE_t mode);				//Sets the stepping mode for the stepper.
+void stepperSetStepMode(STEP_MODE_t mode);			//Sets the stepping mode for the stepper.
 void stepperSetSpeed(uint16_t speedInRPM);			//Writes to speedInRPM in STEPPER_INFO struct.
 void stepperIncrementPosition(int8_t direction);	//Increments stepper position by +-1 when the encoder interrupt fires.
 void stepperSetDecay(DECAY_MODE_t decayMode);		//Sets the decay mode.
@@ -130,6 +133,7 @@ void stepperClearFlag(uint8_t flag_bm);				//Clears a flag in the flags struct.
 /*Functions to read from the stepper info struct*/
 uint8_t stepperAtSetPoint();						//Returns 0 if the position does not match the set point.
 int16_t stepperPosition();							//Returns the current position of the stepper motor.
+int16_t stepperPreviousPosition();					//Returns the previous position of the stepper.
 int16_t stepperSetPoint();							//Returns the current set point of the stepper motor.
 uint16_t stepperSpeed();							//Returns speed.
 uint8_t stepperFlags();								//Returns the status flags.
