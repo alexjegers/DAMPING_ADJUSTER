@@ -6,3 +6,5 @@
 *.map
 *.srec
 *.o
+*.elf
+Stepper Motor Controller/Firmware/DampingMotorControlExe001/DampingMotorControlExe001/Debug/DampingMotorControlExe001.elf
