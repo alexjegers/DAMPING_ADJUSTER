@@ -62,10 +62,12 @@ void eepromWriteBlock(void *src, uint8_t* dst, uint8_t size)
 
 
 /*
-Function:
-Params:
-Returns:
-Description:
+Function: eepromReadBlock
+Params: *src: pointer to the start of the data in eeprom to read.
+		*dst: pointer to the start of the location to copy it to.
+		size: size of the data being read.
+Returns: none
+Description: copies data from *scr to *dst.
 */
 void eepromReadBlock(uint8_t *src, void *dst, uint8_t size)
 {
@@ -76,7 +78,12 @@ void eepromReadBlock(uint8_t *src, void *dst, uint8_t size)
 	}
 }
 
-
+/*
+Function: eepromWaitWhileBusy
+Params: none
+Returns: none
+Description: does nothing while eeprom is busy.
+*/
 void eepromWaitWhileBusy()
 {
 	while ((NVMCTRL.STATUS & NVMCTRL_EEBUSY_bm) != 0) {}

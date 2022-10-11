@@ -13,11 +13,12 @@ Description:
 */
 
 #include <avr/io.h>
+#include <stdbool.h>
 #include "system.h"
 #include "stepper.h"
 #include <avr/eeprom.h>
 #include "eeprom.h"
-#include <stdbool.h>
+
 
 STEPPER_INFO_t motor;								//Stepper object.
 STEPPER_INFO_t *pMotor = &motor;					//Pointer to stepper object.
@@ -426,21 +427,22 @@ Returns: none
 Description: Clears the count register for the actual timer and resets
 			the timeoutCounter struct member to zero.
 */
-void stepperClearTimeoutTimer()
+void stepperClearTimeoutAmount()
 {
-	stepperTimeoutTimer->CNT = 0;
-	pMotor->timeoutCounter = 0;
+	pMotor->timeoutAmount = 0;
 }
 
 /*
 Function: stepperStopTimeoutTimer
 Params: none
 Returns: none
-Description: Disables the timer.
+Description: Disables the timer. Clear timer CNT and timeoutAmount.
 */
 void stepperStopTimeoutTimer()
 {
 	systemDisableTCB(stepperTimeoutTimer);
+	stepperClearTimeoutAmount();
+	stepperClearTimeoutCnt();
 }
 
 /*
@@ -449,9 +451,9 @@ Params: none
 Returns: none
 Description: Increments the member of stepper_info "timeoutCounter".
 */
-void stepperIncrementTimeoutCount()
+void stepperIncrementTimeoutAmount()
 {
-	pMotor->timeoutCounter++;
+	pMotor->timeoutAmount++;
 }
 
 /*
@@ -498,32 +500,19 @@ Description: Starts turning the stepper towards position 0 until it times out.
 */
 void stepperGoToZero()
 {
-	bool motorIsMoving = true;
-	
 	stepperSetDirection(DIRECTION_CCW);								//Set direction to count down towards soft
 	stepperStartMove();												//Start the stepper PWM signal
 	STEPPER_ENABLE;													//Enable the driver.
 	
-	stepperConfigTimeoutTimer(TCB_PER_QUART_SEC);					//Set the period of the timeout timer.
-	stepperClearTimeoutTimer();										//Clear the timer count if there is one.
+	stepperConfigTimeoutTimer(TCB_FREQ_15HZ);						//Set the period of the timeout timer.
+	stepperClearTimeoutAmount();									//Clear the timer count if there is one.
 	stepperStartTimeoutTimer();										//Start counter.
 	
 	/*Wait for the timeout flag to be set or for the previous position to be
 	greater than the current position. If the motor stops where the encoder
 	is on an edge it will keep firing the encoder interrupt and resetting the
 	timeoutCounter.*/
-	while (motorIsMoving == true) 
-	{
-		if (pMotor->timeoutCounter >= 2)
-		{
-			motorIsMoving = false;
-		}
-		if (pMotor->previousPosition < pMotor->position)
-		{
-			motorIsMoving = false;
-		}
-		
-	}							
+	while (pMotor->timeoutAmount < 15) {}							
 	
 	stepperStopTimeoutTimer();										//Stop the timer.
 	stepperStopMove();												//Stop the motor.
@@ -555,8 +544,57 @@ STEP_MODE_t stepperStepMode()
 	return pMotor->stepMode;
 }
 
+/*
+Function: stepperTimeoutAmount
+Params: none
+Returns: the amount the stepper timeout timer has timed out.
+Description: see returns
+*/
+uint8_t stepperTimeoutAmount()
+{
+	return pMotor->timeoutAmount;
+}
 
+/*
+Function: stepperPreviousPosition
+Params: none
+Returns: the previous position of the stepper motor...
+Description: ... used to determine if it is spinning the correct direction.
+*/
 int16_t stepperPreviousPosition()
 {
 	return pMotor->previousPosition;
+}
+
+/*
+Function: stepperTimeoutCnt
+Params: none
+Returns: the CNT register of the stepper timeout timer.
+Description: see returns.
+*/
+uint16_t stepperTimeoutCnt()
+{
+	return stepperTimeoutTimer->CNT;
+}
+
+/*
+Function: stepperClearTimeoutCnt
+Params: none
+Returns: none
+Description: sets the CNT register of the stepper timeout timer to zero.
+*/
+void stepperClearTimeoutCnt()
+{
+	stepperTimeoutTimer->CNT = 0;
+}
+
+/*
+Function: stpperIsMoving
+Params: none
+Returns: true if the stepper step timer is running signifying that the motor is turning.
+Description: see returns.
+*/
+bool stepperIsMoving()
+{
+	return TCB2.STATUS;
 }

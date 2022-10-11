@@ -8,6 +8,8 @@
 #ifndef STEPPER_H_
 #define STEPPER_H_
 
+#include <stdbool.h>
+
 /*Address in EEPROM where the stepper info struct is stored*/
 #define STEPPER_INFO_EEPROM_ADDR	(uint8_t*)0x140A
 
@@ -85,7 +87,7 @@ typedef struct STEPPER_INFO_struct
 	CURRENT_LIMIT_t currentLimit;
 	DECAY_MODE_t decayMode;
 	uint16_t speedInRPM;
-	uint8_t timeoutCounter;
+	uint8_t timeoutAmount;
 	
 	uint8_t flags;									//See #define's for description and bitmasks.
 		
@@ -110,14 +112,18 @@ void stepperStartMove();							//Starts moving the stepper motor.
 void stepperStopMove();								//Stops the stepper motor.
 void stepperSetDirection(uint8_t direction);		//Sets which way the motor will rotate.
 void stepperGoToZero();								//Moves the motor position to zero.
+bool stepperIsMoving();								//Returns the status of the STEP PWM timer to determine if the motor is currently moving.
+
 
 /*Stepper timeout timer control*/
 void stepperConfigTimeoutTimer(uint16_t TCB_PER);	//Called in stepperInit.
 void stepperStartTimeoutTimer();					//Timer starts counting.
-void stepperIncrementTimeoutCount();				//Increment the amount of times the timer has overflowed.
-uint8_t stepperTimeoutCounter();					//Returns timeout counter.
-void stepperClearTimeoutTimer();					//Reset the count.
+void stepperIncrementTimeoutAmount();				//Increment the amount of times the timer has overflowed.
+uint8_t stepperTimeoutAmount();						//Returns timeoutAmount, the amount of times it has timed-out, not the TCB CNT register.
+void stepperClearTimeoutAmount();					//Reset the count of timeoutAmount, doesnt effect the actual TCB CNT register.
 void stepperStopTimeoutTimer();						//Stops the timeout timer.
+uint16_t stepperTimeoutCnt();						//Returns the TCB CNT register.
+void stepperClearTimeoutCnt();						//Resets the TCB CNT register to zero.
 
 /*Functions to write to the stepper info struct*/
 void stepperSetSetPoint(int16_t setPoint);			//Sets the set point.

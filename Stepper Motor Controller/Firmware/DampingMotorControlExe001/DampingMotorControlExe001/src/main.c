@@ -37,9 +37,10 @@ int main(void)
 	/*Load default stepper settings*/
 	stepperInit();
 		
-	/*Wait until the correct position is written from the master.*/
+	/*Wait until the correct position is written from the master or go to zero flag is set.*/
 	while ((stepperPosition() == -1) || (stepperSetPoint() == -1)) 
 	{
+		/*If the goToZero flag is set, run stepperGoToZero.*/
 		if ((stepperFlags() & FLAG_GO_TO_ZERO_bm) != 0)
 		{
 			stepperGoToZero();
@@ -48,9 +49,27 @@ int main(void)
 	
     while (1) 
     {
-		/*While the stepper position is not equal to the set point*/
-		while (stepperAtSetPoint() == 0)					
+		/*While the stepper position is not equal to the set point...*/
+		while ((stepperAtSetPoint() == 0))					
 		{
+			/*If the stepper isn't already moving, start the timeout timer*/
+			if (stepperIsMoving() == false)				
+			{
+				stepperClearTimeoutAmount();						//Clear the current timeout amount.
+				stepperClearTimeoutCnt();							//Clear the actual timer count register.
+				stepperStartTimeoutTimer();							//Start the timer.
+			}
+			
+			/*If the stepper timesout more than 10 times in a row while moving, assume
+				that it is stuck, change the set point to the position that it's stuck
+				on, and stop trying to move it.*/
+			if (stepperTimeoutAmount() > 10)
+			{
+				stepperSetSetPoint(stepperPosition());
+				break;
+			}
+			
+			/*Determine direction of rotation.*/
 			if (stepperPosition() < stepperSetPoint())
 			{
 				stepperSetDirection(DIRECTION_CW);
@@ -59,6 +78,8 @@ int main(void)
 			{
 				stepperSetDirection(DIRECTION_CCW);
 			}
+			
+			/*Start moving*/
 			stepperStartMove();
 			STEPPER_ENABLE;
 		}
@@ -66,9 +87,9 @@ int main(void)
 		/*When the stepper position is equal to the set point*/
 		STEPPER_DISABLE;
 		stepperStopMove();
+		stepperStopTimeoutTimer();
 		
-		
-		/*If the go to zero flag is set run the go to zero function*/
+		/*If the go to zero flag is set run the go to zero function.*/
 		if ((stepperFlags() & FLAG_GO_TO_ZERO_bm) != 0)
 		{
 			stepperGoToZero();

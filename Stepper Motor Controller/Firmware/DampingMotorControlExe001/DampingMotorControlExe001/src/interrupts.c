@@ -14,7 +14,16 @@
 /*Port A interrupt for encoder*/
 ISR(PORTA_PORT_vect)
 {
-	stepperClearTimeoutTimer();									//Reset the timeout counter because it just moved a step.
+	if (stepperTimeoutCnt() > 850 || stepperTimeoutCnt() < 550)
+	{
+		stepperIncrementTimeoutAmount();
+	}
+	else
+	{
+		stepperClearTimeoutAmount();
+	}
+	stepperClearTimeoutCnt();
+	
 	int8_t direction = encoderRotDirection();					//Determine direction motor is rotating.
 	stepperIncrementPosition(direction);						//Add/subtract from the current position.
 	PORTA.INTFLAGS = ENC_A_PIN;									//Clear interrupt flag.
@@ -57,6 +66,6 @@ ISR(TCB0_INT_vect)
 /*Stepper timeout interrupt.*/
 ISR(TCB1_INT_vect)
 {
-	stepperIncrementTimeoutCount();		//Increment timeout counter.
+	stepperIncrementTimeoutAmount();	//Increment timeout counter.
 	TCB1.INTFLAGS = TCB_CAPT_bm;		//Clear the interrupt flag.
 }

@@ -48,6 +48,7 @@
 #define LED3_OFF				PORTA.OUT &= ~LED3_PIN
 
 /*Periods for timeout timers*/
+#define TCB_FREQ_15HZ			1562
 #define TCB_PER_EIGHT_SEC		2929
 #define TCB_PER_QUART_SEC		5859
 #define TCB_PER_HALF_SEC		11718
