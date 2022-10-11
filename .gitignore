@@ -8,3 +8,4 @@
 *.o
 *.elf
 Stepper Motor Controller/Firmware/DampingMotorControlExe001/DampingMotorControlExe001/Debug/DampingMotorControlExe001.elf
+Stepper Motor Controller/Firmware/DampingMotorControlExe001/DampingMotorControlExe001/Debug/src/stepper.o
