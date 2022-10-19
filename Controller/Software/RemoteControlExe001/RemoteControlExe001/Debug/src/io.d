@@ -1,4 +1,4 @@
-scr/stepper.d scr/stepper.o scr/stepper.o: ../scr/stepper.cpp \
+src/io.d src/io.o src/io.o: ../src/io.cpp \
  C:\Program\ Files\ (x86)\Atmel\Studio\7.0\Packs\atmel\UC3D_DFP\1.0.54\include\ATUC128D3/avr32/io.h \
  C:\Program\ Files\ (x86)\Atmel\Studio\7.0\Packs\atmel\UC3D_DFP\1.0.54\include\ATUC128D3/avr32/uc128d3.h \
  C:\Program\ Files\ (x86)\Atmel\Studio\7.0\Packs\atmel\UC3D_DFP\1.0.54\include\ATUC128D3/avr32/core_sc0_212.h \
@@ -29,7 +29,7 @@ scr/stepper.d scr/stepper.o scr/stepper.o: ../scr/stepper.cpp \
  C:\Program\ Files\ (x86)\Atmel\Studio\7.0\Packs\atmel\UC3D_DFP\1.0.54\include\ATUC128D3/avr32/usbc_200.h \
  C:\Program\ Files\ (x86)\Atmel\Studio\7.0\Packs\atmel\UC3D_DFP\1.0.54\include\ATUC128D3/avr32/wdt_410.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr32\avr32-gnu-toolchain\bin\../lib/gcc/avr32/4.4.7/../../../../avr32/include/stdint.h \
- ../inc/stepper.h
+ ../inc/system.h
 
 C:\Program\ Files\ (x86)\Atmel\Studio\7.0\Packs\atmel\UC3D_DFP\1.0.54\include\ATUC128D3/avr32/io.h:
 
@@ -91,4 +91,4 @@ C:\Program\ Files\ (x86)\Atmel\Studio\7.0\Packs\atmel\UC3D_DFP\1.0.54\include\AT
 
 c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr32\avr32-gnu-toolchain\bin\../lib/gcc/avr32/4.4.7/../../../../avr32/include/stdint.h:
 
-../inc/stepper.h:
+../inc/system.h:
