@@ -12,6 +12,7 @@
 #define PM								(*(volatile avr32_pm_t*) 0xFFFF1400)
 #define PM_UNLOCK_KEY					0xAA << 24
 #define PM_CPUSEL_CPUDIV_bm				1 << 7
+#define PM_CPUSEL_DIV_3					2
 #define PM_MCCTRL_MCSEL_OSC0_bm			1
 #define PM_SR_CKRDY_bm					1 << 5
 

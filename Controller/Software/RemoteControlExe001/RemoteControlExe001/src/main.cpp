@@ -5,7 +5,7 @@
  * Author : AJ992
  */ 
 
-#define F_CPU					24000000 //Needed for delay.h
+#define F_CPU					6000000 //Needed for delay.h
 
 #include <avr32/io.h>
 #include <stdint.h>
@@ -16,13 +16,13 @@
 #include <intc.h>
 #include <delay.h>
 
+ST7789 lcd;
 
 int main(void)
 {
 	/*Debug LEDs as IO and output.*/
 	ioSetPinIO(&LED_PORT, LED1_PIN | LED2_PIN | LED3_PIN);		
 	ioSetPinOutput(&LED_PORT, LED1_PIN | LED2_PIN | LED3_PIN);
-	LED3_ON;
 	
 	/*Enable OSC0 and select it as the main clock*/
 	systemOSC0init();
@@ -45,11 +45,14 @@ int main(void)
 	intEnableSwitchInterrupts();				
 
 	delay_init();
- 	lcdInit();
-	
+ 	lcd.lcdInit();
+	LED3_ON;
 	while(1)
     {
-
+		ioPinHigh(&PORTB, 1);
+		delay_us(100);
+		ioPinLow(&PORTB, 1);
+		delay_us(100);
     }
 }
 

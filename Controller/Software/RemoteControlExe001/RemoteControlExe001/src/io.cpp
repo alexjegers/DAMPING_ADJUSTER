@@ -54,6 +54,18 @@ void ioSetPinOutput(avr32_gpio_port_t* port, uint32_t pin)
 }
 
 /*
+Function: ioSetPinInput
+Params: port: IO port A or B.
+		pin: pin within port.
+Returns: none
+Description: sets pin as an input.
+*/
+void ioSetPinInput(avr32_gpio_port_t* port, uint32_t pin)
+{
+	port->oderc = pin;
+}
+
+/*
 Function: ioPinHigh
 Params: port: IO port A or B.
 		pin: pin within port.
