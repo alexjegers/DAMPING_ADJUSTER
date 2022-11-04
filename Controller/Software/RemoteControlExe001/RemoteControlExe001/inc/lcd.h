@@ -17,40 +17,58 @@
 #define LCD_WR_bm					1 << 15
 #define LCD_RESET_bm				1 << 16
 
-#define LCD_DATA_PORT_bm			PORTB
+#define LCD_DATA_PORT				PORTB
 #define LCD_DATA_PINS_bm			255
 
 /*ST7789V Macros*/
-#define MADCTL_MY					1 << 7
-#define MADCTL_MX					1 << 6
-#define MADCTL_MV					1 << 5
-#define MADCTL_ML					1 << 4
-#define MADCTL_RGB					1 << 3
-#define MADCTL_MH					1 << 2
+#define ST7789_MADCTL_MY					1 << 7
+#define ST7789_MADCTL_MX					1 << 6
+#define ST7789_MADCTL_MV					1 << 5
+#define ST7789_MADCTL_ML					1 << 4
+#define ST7789_MADCTL_RGB					1 << 3
+#define ST7789_MADCTL_MH					1 << 2
+#define ST7789_DISPON						0x29
+#define ST7789_SLPOUT						0x11
+#define ST7789_RAMWR						0x2C
+#define ST7789_RDDST						0x09
+#define ST7789_COLMOD						0x3A
+#define ST7789_COLMOD_65K					(0x5 << 4)
+#define ST7789_COLMOD_16BIT					0x5
+#define ST7789_SWRESET						0x01
+#define ST7789_CASET						0x2A
+#define ST7789_RASET						0x2B
+#define ST7789_RDDID						0x04
 
-/*Starting coordinates*/
-#define X_START						10
-#define X_END						239
-#define Y_START						10
-#define Y_END						300
-#define TOTAL_PIXELS				((X_END + 1) - X_START) * ((Y_END + 1) - Y_START)
+/*Max screen coordinates*/
+#define X_MIN						0
+#define X_MAX						239
+#define Y_MIN						0
+#define Y_MAX						319
+#define MAX_PIXELS					76800
 
-
+#define COLOR_BLACK					0x0000
+#define COLOR_WHITE					0xFFFF
 class ST7789
 {
-	public:
-	void lcdInit();									//Configures pins and initializes LCD.
-	void lcdWriteData8bit(uint8_t data);			//Writes one byte with DC high.
-	void lcdWriteData16bit(uint16_t data);			//Writes 2 bytes with DC high.
-	void lcdWriteAddr(uint8_t addr);				//Writes  1 byte with DC low.
-	uint8_t lcdReadAddr(uint8_t addr, uint8_t numBytes); //Reads numByte bytes from the LCD.
-	void lcdBegin();								//Pulls CS low.
-	void lcdEnd();									//Pulls CS high.
-	void waitForStatus();
-	void readStatus();
-	
+	public:	
+	void init();										//Configures pins and initializes LCD.
+	void clearDisplay();								//Fills the screen black.
+	void setDisplayArea(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2);				//Sets the start and end points on the screen.
+	void drawRectangle(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2, uint16_t color);	//Draws a rectangle constrained by (x1,y1) and (x2, y2).
+	void drawText(char let[], uint16_t x1, uint16_t y1, const uint8_t font[], uint16_t color);						//Writes a string to the screen in desired font.
 	private:
-	uint8_t lcdReadBuffer[5];						//Holds data when reading from the screen.
+	uint8_t readBuffer[5];								//Holds data when reading from the screen.
+	void displayOn();									//Turns on the display.
+	void exitSleep();									//Pulls lcd out of sleep mode.
+	void setColorMode();								//Puts it in 16 bit, 65k mode.
+	void hwReset();										//Hardware reset.
+	void swReset();										//Software reset.
+	void readStatus();									//Reads the LCD status register into readBuffer[] array.				
+	void writeData(uint8_t data);						//Writes one byte with DC high.
+	void writeAddr(uint8_t addr);						//Writes  1 byte with DC low.
+	uint8_t readData();									//Returns a byte read from the screen.
+	void begin();										//Pulls CS low.
+	void end();											//Pulls CS high.
 };
 
 

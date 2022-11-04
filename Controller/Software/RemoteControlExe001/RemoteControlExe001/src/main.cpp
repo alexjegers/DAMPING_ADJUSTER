@@ -5,7 +5,7 @@
  * Author : AJ992
  */ 
 
-#define F_CPU					6000000 //Needed for delay.h
+#define F_CPU					24000000 //Needed for delay.h
 
 #include <avr32/io.h>
 #include <stdint.h>
@@ -15,9 +15,18 @@
 #include "lcd.h"
 #include <intc.h>
 #include <delay.h>
+#include "fonts.h"
+#include "menu.h"
 
 ST7789 lcd;
 
+button optionsButton(120, 280, "Options", font16pt);
+button rearButton(120, 150, "Rear", font16pt);
+button frontButton(120, 30, "Front", font16pt);
+label frontLeftLabel(60, 80, 12, font36pt);
+label frontRightLabel(180, 80, 12, font36pt);
+label rearLeftLabel(60, 200, 23, font36pt);
+label rearRightLabel(180, 200, 23, font36pt);
 int main(void)
 {
 	/*Debug LEDs as IO and output.*/
@@ -45,14 +54,18 @@ int main(void)
 	intEnableSwitchInterrupts();				
 
 	delay_init();
- 	lcd.lcdInit();
+ 	lcd.init();
+	optionsButton.load();
+	rearButton.load();
+	frontButton.load();
+	frontLeftLabel.load();
+	frontRightLabel.load();
+	rearLeftLabel.load();
+	rearRightLabel.load();
 	LED3_ON;
 	while(1)
     {
-		ioPinHigh(&PORTB, 1);
-		delay_us(100);
-		ioPinLow(&PORTB, 1);
-		delay_us(100);
+
     }
 }
 

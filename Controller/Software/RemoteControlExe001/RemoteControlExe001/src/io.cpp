@@ -148,10 +148,11 @@ void ioInterruptMode(avr32_gpio_port_t* port, uint8_t intMode, uint32_t pin)
 }
 
 /*
-Function:
-Params:
-Returns:
-Description:
+Function: ioClearIntFlag
+Params: port: Port A or B.
+		pin: which pin within the port.
+Returns: none
+Description: clears the interrupt flag of a certain pin.
 */
 void ioClearIntFlag(avr32_gpio_port_t* port, uint32_t pin)
 {

@@ -70,7 +70,8 @@ src/main.d src/main.o src/main.o: ../src/main.cpp \
  ../src/ASF/common/services/clock/uc3d/pll.h \
  ../src/ASF/common/services/clock/genclk.h \
  ../src/ASF/common/services/clock/uc3d/genclk.h \
- ../src/ASF/avr32/drivers/cpu/cycle_counter/cycle_counter.h
+ ../src/ASF/avr32/drivers/cpu/cycle_counter/cycle_counter.h \
+ ../inc/fonts.h ../inc/menu.h
 
 C:\Program\ Files\ (x86)\Atmel\Studio\7.0\Packs\atmel\UC3D_DFP\1.0.54\include\ATUC128D3/avr32/io.h:
 
@@ -225,3 +226,7 @@ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr32\avr32-gnu-toolchain\bi
 ../src/ASF/common/services/clock/uc3d/genclk.h:
 
 ../src/ASF/avr32/drivers/cpu/cycle_counter/cycle_counter.h:
+
+../inc/fonts.h:
+
+../inc/menu.h:

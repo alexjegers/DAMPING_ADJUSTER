@@ -61,7 +61,7 @@ bool systemMainClockSelect()
 		PM.pbasel = PM_CPUSEL_CPUDIV_bm;
 		
 		PM.unlock = (PM_UNLOCK_KEY) | 0x10;
-		PM.pbbsel = PM_CPUSEL_CPUDIV_bm;
+		PM.pbbsel = PM_CPUSEL_CPUDIV_bm ;
 		
 		/*Select OSC0 as source for main clock*/
 		PM.unlock = (PM_UNLOCK_KEY) | 0x00;								//Unlock MCCTRL.

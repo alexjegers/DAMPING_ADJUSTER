@@ -4,8 +4,15 @@
  * Created: 10/16/2022 6:59:16 PM
  *  Author: AJ992
  */ 
+/*
+Function:
+Params:
+Returns:
+Description:
+*/
 
-#define F_CPU					6000000 //Needed for delay.h
+
+#define F_CPU					24000000 //Needed for delay.h
 
 #include <avr32/io.h>
 #include <stdint.h>
@@ -14,260 +21,379 @@
 #include "interrupts.h"
 #include "lcd.h"
 #include <delay.h>
+#include "fonts.h"
 
-
-
-void ST7789::lcdInit()
+/*
+Function: init
+Params: none
+Returns: none
+Description: Configures the LCD control and data pins. Resets the LCD, turns it on
+			loads basic settings, and fills the screen all black.
+*/
+void ST7789::init()
 {
-	ioSetPinIO(&LCD_PORT, LCD_BACKLIGHT_PIN_bm | LCD_CS_bm | LCD_RD_bm
-				| LCD_DC_bm | LCD_WR_bm | LCD_RESET_bm);				//All control pins as IO.
-	ioSetPinOutput(&LCD_PORT, LCD_BACKLIGHT_PIN_bm | LCD_CS_bm | LCD_RD_bm
-				| LCD_DC_bm | LCD_WR_bm | LCD_RESET_bm);				//All control pins as output.
+	/*Give GPIO control of the LCD control pins*/
+	ioSetPinIO(&LCD_PORT, LCD_WR_bm 
+						| LCD_RD_bm 
+						| LCD_RESET_bm 
+						| LCD_DC_bm 
+						| LCD_CS_bm);
+						
+	/*Set all the LCD control pins as outputs*/
+	ioSetPinOutput(&LCD_PORT, LCD_WR_bm
+							| LCD_RD_bm
+							| LCD_RESET_bm
+							| LCD_DC_bm
+							| LCD_CS_bm);
 	
-	ioSetPinIO(&LCD_DATA_PORT_bm, LCD_DATA_PINS_bm);					//Set all the data pins as IO.
-	ioSetPinOutput(&LCD_DATA_PORT_bm, LCD_DATA_PINS_bm);				//Set all data pins as outputs.
+	/*Drive all pins high to start*/
+	ioPinHigh(&LCD_PORT, LCD_WR_bm
+						| LCD_RD_bm
+						| LCD_RESET_bm	
+						| LCD_DC_bm
+						| LCD_CS_bm);
+						
+	/*Allow GPIO to control the data lines, and set them as outputs*/					
+	ioSetPinIO(&LCD_DATA_PORT, LCD_DATA_PINS_bm);
+	ioSetPinOutput(&LCD_DATA_PORT, LCD_DATA_PINS_bm);
 	
-	ioPinHigh(&LCD_PORT, LCD_CS_bm | LCD_RESET_bm | LCD_RD_bm | LCD_WR_bm);			//Start with chip select high.
-	//ioPinLow(&LCD_PORT, LCD_WR_bm);										//Start with the write signal low.
-
-	delay_ms(100);
-
-	/*HW Reset*/
-	ioPinHigh(&LCD_PORT, LCD_RESET_bm);
-	delay_ms(10);
-	ioPinLow(&LCD_PORT, LCD_RESET_bm);
-	delay_ms(100);
-	ioPinHigh(&LCD_PORT, LCD_RESET_bm);
-	delay_ms(1000);
-
-	/*SW Reset*/
-	lcdBegin();
-	lcdWriteAddr(0x01);
-	lcdEnd();
+	hwReset();							//Hardware reset.
+	swReset();							//Software reset.
+	delay_us(100000);					//Required after reset.
+	exitSleep();						//Screen is in sleep mode after reset, take it out of sleep.
+	delay_us(100000);					//Required after exiting sleep mode.
+	setColorMode();						//Change the color settings.
+	displayOn();						//Turn the display on.
 	
-	delay_ms(500);
-
-	/*Exit sleep mode*/
-	lcdBegin();
-	lcdWriteAddr(0x11);
-	lcdEnd();
-	
-	/*Required after exiting sleep mode.*/
-	delay_ms(500);			
-
-	/*Select color mode RBG565*/
-	lcdBegin();
-	lcdWriteAddr(0x3A);
-	lcdWriteData8bit(0x55);
-	lcdEnd();
-
-	/*MADCTL register pg 217, sets the orientation of the screen*/
-	lcdBegin();
-	lcdWriteAddr(0x36);
-	lcdWriteData8bit(0);
-	lcdEnd();
-	
-
-	
-	/*Normal display mode as opposed to partial display mode*/
-	lcdBegin();
-	lcdWriteAddr(0x13);
-	lcdEnd();
-
-	/*Tearing effect off*/
-	lcdBegin();
-	lcdWriteAddr(0x34);
-	lcdEnd();
-	
-	/*Display on*/
-	lcdBegin();
-	delay_ms(500);
-	lcdWriteAddr(0x29);
-	delay_ms(500);
-	lcdEnd();
-	
-	delay_ms(120);
-
-	delay_ms(1000);	
-		
-	/*Set range of screen from (0,0) to (239,319).*/
-	lcdBegin();
-	lcdWriteAddr(0x2A);			//X direction.
-	lcdWriteData16bit(X_START);		//X Start.
-	lcdWriteData16bit(X_END);		//X End.
-	lcdEnd();
-	
-	waitForStatus();
-		
-	delay_ms(1000);
-
-	lcdBegin();
-	lcdWriteAddr(0x2B);			//Y Direction
-	lcdWriteData16bit(Y_START);		//Y Start.
-	lcdWriteData16bit(Y_END);		//Y End.
-	lcdEnd();	
-
-	waitForStatus();
-			
-	delay_us(100);
-
-	lcdBegin();
-	lcdWriteAddr(0x2C);
-	for (uint32_t i = 0; i < TOTAL_PIXELS; i++)
+	/*Fills the screen all black*/
+	setDisplayArea(X_MIN, Y_MIN, X_MAX, Y_MAX);
+	begin();
+	writeAddr(ST7789_RAMWR);
+	for (int i = 0; i < MAX_PIXELS; i++)
 	{
-		lcdWriteData16bit(0xf800);
+		writeData(0x00);
+		writeData(0x00);
 	}
-	lcdEnd();
-	
+	end();
 }
 
-
-void ST7789::lcdWriteData8bit(uint8_t data)
+/*
+Function: hwReset
+Params: none
+Returns: none
+Description: Hardware reset, see datasheet for default HW reset values.
+*/
+void ST7789::hwReset()
 {
-	ioPinHigh(&LCD_PORT, LCD_DC_bm);								//DC pin high for data.
-	ioPinHigh(&LCD_PORT, LCD_RD_bm);								//Read pin high for write.
-	
-	ioPinLow(&LCD_PORT, LCD_WR_bm);									//Release latch.
-	
-	delay_us(100);	
-	
-	/*Write the data to the bus*/
-	ioPinHigh(&LCD_DATA_PORT_bm, 
-				(uint32_t)data & 0x000000FF);						//Cast and mask to not overwrite the rest of Port B.
-	ioPinLow(&LCD_DATA_PORT_bm, 
-				(~(uint32_t)data) & 0x000000FF);					//Cast and mask to not overwrite the rest of Port B.
-	
-	ioPinHigh(&LCD_PORT, LCD_WR_bm);								//Latch in the data.
-	
-	delay_us(100);													//Wait for a bit.
-	
-
-	
+	LED2_ON;
+	ioPinLow(&LCD_PORT, LCD_RESET_bm);		//Drive reset low.
+	delay_ms(200);							//Hold for 200ms for good measure (10us minimum is required).
+	ioPinHigh(&LCD_PORT, LCD_RESET_bm);		//Release the reset.
+	delay_ms(250);							//Wait for 250ms before doing anything (120ms is required).
+	LED2_OFF;
 }
 
-void ST7789::lcdWriteData16bit(uint16_t data)
+/*
+Function: begin
+Params: none
+Returns: none
+Description: Pulls chip select low. This signals the start of a transmission.
+*/
+void ST7789::begin()
 {
-	/*One pixel is 16 bits, can only send 8 bits at a time.*/
-	union dataSplit
-	{
-		uint16_t data;
-		struct bytes 
-		{
-			uint8_t msb;
-			uint8_t lsb;
-		}bytes;
-	}dataUnion;
-	
-	dataUnion.data = data;
-	
-	ioPinHigh(&LCD_PORT, LCD_DC_bm);								//DCX pin high for data.
-	ioPinHigh(&LCD_PORT, LCD_RD_bm);								//RD pin high for write.
-	ioPinLow(&LCD_PORT, LCD_WR_bm);									//Release latch.
-
-	delay_us(100);													//Wait for a bit	
-	/*Write the msb to the bus*/
-	ioPinHigh(&LCD_DATA_PORT_bm, 
-				(uint32_t)dataUnion.bytes.msb & 0x000000FF);		//Cast and mask to not overwrite the rest of Port B.
-	ioPinLow(&LCD_DATA_PORT_bm, 
-				(~(uint32_t)dataUnion.bytes.msb) & 0x000000FF);		//Cast and mask to not overwrite the rest of Port B.
-	ioPinHigh(&LCD_PORT, LCD_WR_bm);								//Latch in the data.
-	
-	delay_us(1000);													//Wait for a bit.
-	
-	ioPinLow(&LCD_PORT, LCD_WR_bm);									//Release latch.
-	
-	delay_us(100);													//Wait a bit.
-	
-	/*Write the lsb to the bus*/
-	ioPinHigh(&LCD_DATA_PORT_bm, 
-			(uint32_t)dataUnion.bytes.lsb & 0x000000FF);			//Cast and mask to not overwrite the rest of Port B.
-	ioPinLow(&LCD_DATA_PORT_bm, 
-			(~(uint32_t)dataUnion.bytes.lsb) & 0x000000FF);			//Cast and mask to not overwrite the rest of Port B.
-	
-	delay_us(100);
-	ioPinHigh(&LCD_PORT, LCD_WR_bm);								//Latch in the data.	
-	
-	delay_us(100);													//Wait for a bit.
-	
-
+	ioPinLow(&LCD_PORT, LCD_CS_bm);				//Drive CS low starts transmission.
 }
 
-
-void ST7789::lcdWriteAddr(uint8_t command)
+/*
+Function: end
+Params: none
+Returns: none
+Description: Pulls chip select high, this signals the end of a transmission.
+*/
+void ST7789::end()
 {
-	ioPinLow(&LCD_PORT, LCD_WR_bm);									//Release latch.		
-
-	delay_us(100);	
-	
-	ioPinLow(&LCD_PORT, LCD_DC_bm);									//DC pin low for addr.
-	ioPinHigh(&LCD_PORT, LCD_RD_bm);								//Read pin high for write.
-	
-	/*Write the msb to the bus*/
-	ioPinHigh(&LCD_DATA_PORT_bm, (uint32_t)command & 0x000000FF);
-	ioPinLow(&LCD_DATA_PORT_bm, (~(uint32_t)command) & 0x000000FF);
-	
-	ioPinHigh(&LCD_PORT, LCD_WR_bm);								//Latch in data.
-	
-	delay_us(100);													//Wait a bit
-	
-
+	ioPinHigh(&LCD_PORT, LCD_CS_bm);			//Drive CS high ends transmission.
 }
 
-
-uint8_t ST7789::lcdReadAddr(uint8_t addr, uint8_t numBytes)
+/*
+Function: writeAddr
+Params: addr: one byte address.
+Returns: none
+Description: writes an address to the LCD, controls the DC/X pin automatically,
+			does not toggle chip select.
+*/
+void ST7789::writeAddr(uint8_t addr)
 {
-	ioPinLow(&LCD_PORT, LCD_DC_bm);									//DC pin low for addr.
+	/*DC pin has to get set before driving WR low*/
+	ioPinLow(&LCD_PORT, LCD_DC_bm);								//DC pin low when sending an address.
+	ioPinLow(&LCD_PORT, LCD_WR_bm);								//WR pin low before data gets written to bus.
 	
-	/*Write the msb to the bus*/
-	ioPinHigh(&LCD_DATA_PORT_bm, (uint32_t)addr & 0x000000FF);
-	ioPinLow(&LCD_DATA_PORT_bm, (~(uint32_t)addr) & 0x000000FF);
-	ioPinHigh(&LCD_PORT, LCD_WR_bm);								//Latch in the addr and leave it high.
+	/*Write the address to the data bus on Port B*/
+	ioPinHigh(&LCD_DATA_PORT, (uint32_t)addr & 0x000000FF);		 
+	ioPinLow(&LCD_DATA_PORT, ~((uint32_t)addr) & 0x000000FF);
 	
-	ioSetPinInput(&LCD_DATA_PORT_bm, LCD_DATA_PINS_bm);				//Configure data pins as inputs.
-	ioPinLow(&LCD_PORT, LCD_RD_bm);									//Read pin low, ready read data.
-	ioPinHigh(&LCD_PORT, LCD_DC_bm);								//DC pin high for data.
-	delay_us(10);
+	ioPinHigh(&LCD_PORT, LCD_WR_bm);							//WR high latches in the data (has to stay high minimum 15ns).	
+}
+
+/*
+Function: writeData
+Params: data: one byte.
+Returns: none
+Description: writes one byte data or parameter to the LCD. Function controls 
+			the DC/X pin but not the chip select pin. Must repeatedly call function
+			to write more than one byte.
+*/
+void ST7789::writeData(uint8_t data)
+{
+	/*DC pin has to get set before driving WR low*/
+	ioPinHigh(&LCD_PORT, LCD_DC_bm);							//DC pin high when sending a data.
+	ioPinLow(&LCD_PORT, LCD_WR_bm);								//WR pin low before data gets written to bus.
 	
-	for (uint8_t i = 0; i < numBytes; i++)
-	{
-		ioPinHigh(&LCD_PORT, LCD_RD_bm);							//Read in data.
-		delay_us(10);						
-		lcdReadBuffer[i] = ioReadPort(&LCD_DATA_PORT_bm);			//Read the port.
-		delay_us(10);
-		ioPinLow(&LCD_PORT, LCD_RD_bm);								//Release the latch
-		delay_us(10);	
-	}
-	ioSetPinOutput(&LCD_DATA_PORT_bm, LCD_DATA_PINS_bm);			//Return pins to outputs.
-	lcdEnd();														//CS high.
-	ioPinHigh(&LCD_PORT, LCD_RD_bm);								//Return read to high.
-	ioPinLow(&LCD_PORT, LCD_WR_bm);									//Return write to low.
-	return lcdReadBuffer[3];
+	/*Write the address to the data bus on Port B*/
+	ioPinHigh(&LCD_DATA_PORT, (uint32_t)data & 0x000000FF);
+	ioPinLow(&LCD_DATA_PORT, ~((uint32_t)data) & 0x000000FF);
+
+	ioPinHigh(&LCD_PORT, LCD_WR_bm);							//WR high latches in the data (has to stay high minimum 15ns).
 }
 
-void ST7789::lcdBegin()
+/*
+Function: displayOn
+Params: none
+Returns: none
+Description: Turns the display on. Turning the display on causes the contents
+			of the LCD RAM to be visible.
+*/
+void ST7789::displayOn()
 {
-	ioPinLow(&LCD_PORT, LCD_CS_bm);
-	delay_ms(5);
+	begin();
+	writeAddr(ST7789_DISPON);
+	delay_us(3);
+	end();
 }
 
-void ST7789::lcdEnd()
+/*
+Function: exitSleep
+Params: none
+Returns: none
+Description: The LCD is in sleep mode after a reset, some registers are not accessible
+			when in sleep. This function takes the LCD out of sleep mode. Delay is
+			required after exiting sleep before anything else is written.
+*/
+void ST7789::exitSleep()
 {
-	ioPinHigh(&LCD_PORT, LCD_CS_bm);
-	delay_ms(5);
+	begin();
+	writeAddr(ST7789_SLPOUT);
+	end();
+	delay_ms(1000);				//Must wait at least 120ms before sending other commands.
 }
 
-void ST7789::waitForStatus()
+/*
+Function: readData
+Params: none
+Returns: LCD_DATA_PORT: one byte received from the LCD.
+Description: This is called after writing an address to the screen. Function
+			handles DC/X, RD, and WR pins. Returns one byte received from the
+			LCD.
+*/
+uint8_t ST7789::readData()
 {
-	while ((lcdReadBuffer[1] == 0x09) && (lcdReadBuffer[2] == 0x09) && (lcdReadBuffer[3] == 0x09) && (lcdReadBuffer[4] == 0x09))
-	{
-	}
+	/*Set the data pins to inputs*/
+	ioSetPinInput(&LCD_DATA_PORT, LCD_DATA_PINS_bm);
+	
+	ioPinHigh(&LCD_PORT, LCD_DC_bm);					//This has to be set before RD moves low.
+	delay_us(5);										//Minimum time 0ns.
+	ioPinLow(&LCD_PORT, LCD_RD_bm);						
+	delay_us(5);										//RD has to be low for 15ns before going high.
+	ioPinHigh(&LCD_PORT, LCD_RD_bm);					//This will strobe the data.
+	delay_us(5);										//Has to be held hig for 15ns.
+	
+	/*Return the first byte of port B*/
+	return (uint8_t)(ioReadPort(&LCD_DATA_PORT) & 0x000000FF);
 }
 
+/*
+Function: readStatus
+Params: none
+Returns: none
+Description: reads the LCD status register (RDDST, 0x09) into the read buffer array.
+*/
 void ST7789::readStatus()
 {
-	/*Read status register*/
-	lcdBegin();
-	lcdReadAddr(0x09, 5);
-	lcdEnd();
+	begin();
+	writeAddr(ST7789_RDDST);
+	for (uint8_t i = 0; i < 4; i++)
+	{
+		readBuffer[i] = readData();
+	}
+	end();
+	delay_ms(1000);
+}
 
+/*
+Function: setColorMode
+Params: none
+Returns: none
+Description: Sets the color mode settings to 16 bit and 65k colors.
+*/
+void ST7789::setColorMode()
+{
+	begin();
+	writeAddr(ST7789_COLMOD);
+	writeData(ST7789_COLMOD_65K | ST7789_COLMOD_16BIT);
+	end();
+}
+
+/*
+Function: swReset
+Params: none
+Returns: none
+Description: Performs a software reset of the LCD driver.
+*/
+void ST7789::swReset()
+{
+	begin();
+	writeAddr(ST7789_SWRESET);
+	end();
+	delay_ms(250);						//Minimum of 120ms required.
+}
+
+/*
+Function: setDisplayArea
+Params: x1: the starting x coordinate.
+		y1: the starting y coordinate.
+		x2: the ending x coordinate.
+		y2: the ending y coordinate.
+Returns: none
+Description: Sets the area of the screen that the next write to the LCD
+			RAM will be displayed.
+*/
+void ST7789::setDisplayArea(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2)
+{
+	begin();
+	writeAddr(ST7789_CASET);
+	writeData(x1 >> 8);
+	writeData(x1);
+	writeData(x2 >> 8);
+	writeData(x2);
+	end();
+	
+	begin();
+	writeAddr(ST7789_RASET);
+	writeData(y1 >> 8);
+	writeData(y1);
+	writeData(y2 >> 8);
+	writeData(y2);
+	end();
+}
+
+/*
+Function: clearDisplay
+Params: none
+Returns: none
+Description: Fills the contents of the LCD RAM with black.
+*/
+void ST7789::clearDisplay()
+{
+	begin();
+	writeAddr(ST7789_RAMWR);
+	for (int i = 0; i < MAX_PIXELS; i++)
+	{
+		writeData(0x00);
+		writeData(0x00);
+	}
+	end();
+}
+
+/*
+Function: drawRectangle
+Params: x1: the left most edge of the rectangle.
+		y1: the top most edge of the rectangle.
+		x2: the right most edge of the rectangle.
+		y2: the bottom edge of the rectangle.
+Returns: none
+Description: Writes a rectangle to the screen constrained by the coordinates
+			(x1,y1) and (x2,y2), top left and bottom right corners respectively.
+*/
+void ST7789::drawRectangle(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2, uint16_t color)
+{
+	setDisplayArea(x1, y1, x2, y2);
+	begin();
+	writeAddr(ST7789_RAMWR);
+	for (uint16_t y = 0; y < y2; y++)
+	{
+		for (uint16_t x = 0; x < x2; x++)
+		{
+			writeData(color);
+		}
+	}
+	end();
+}
+
+/*
+Function: drawText
+Params: let[]: Array of character to write to the screen.
+		x1: the position of the top left corner of the first character on the x axis.
+		y1: the position of the top left corner of the first character on the y axis.
+		*font: pointer to the array of the desired font.
+Returns: none
+Description: writes a string to the screen in a certain location in the selected font.
+*/
+void ST7789::drawText(char let[], uint16_t x1, uint16_t y1, const uint8_t font[], uint16_t color)
+{
+	uint8_t i = 0;
+	uint8_t stringLength = 0;
+	uint16_t charWidth = font[0];
+	uint16_t charHeight = font[1];
+	uint16_t charPadding = font[2];
+	//While loops determines how many characters are in the word, stores in length//
+	while (let[i] != 0)
+	{
+		stringLength++;
+		i++;
+	}
+	
+	for (unsigned int j = 0; j < stringLength; j++) //This loop iterates the following for each character in the word.
+	{
+		char currentChar = let[j];
+		
+		//Defines the range of the screen that a single character will take up and
+		//adjusts over to the right for each character when the loop iterates.
+		//////////////////////////////////////////////////////////////////////////
+		setDisplayArea(x1 + (j*(charWidth - charPadding)), y1, x1 + charWidth + ((j*(charWidth-charPadding))), y1+charHeight);
+		//////////////////////////////////////////////////////////////////////////
+		
+		delay_ms(1);
+		
+		begin();
+		writeAddr(0x2C); //Starts the write to frame memory
+		uint16_t totalBytes = ((charWidth + 1) / 8) * (charHeight);		//Determines total number of bytes in the whole character,
+																//this determines how many writes will be made to frame memory.
+		uint8_t currentBit = 0;
+
+		for (unsigned int byteCounter = 0; byteCounter < totalBytes; byteCounter++)
+		{
+			//For loop below sets val to one byte based on byteCounter and parses through
+			//each bit in the byte and writes 0x0000 (white) for each 1 bit and 0xffff
+			//(black) for each 0 bit. This happens for each byte in the array until
+			//byteCounter == totalBytes.
+			//////////////////////////////////////////////////////////////////////////
+			for (int i = 0; i < 8; i++)
+			{
+				currentBit = (font[(((currentChar - 31) * totalBytes)) + byteCounter]);	//[(currentChar - 31) * 105] converts the char ASCII value to the correct index in the array
+				currentBit = (currentBit >> i) & 0x01;
+				if (currentBit == 1)
+				{
+					writeData(color >> 8);
+					writeData(color);
+				}
+				else
+				{
+					writeData(~(color >> 8));
+					writeData(~(color >> 8));
+				}
+			}
+			//////////////////////////////////////////////////////////////////////////
+		}
+	}
+	end();
 }
