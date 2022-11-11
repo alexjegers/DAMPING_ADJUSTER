@@ -1,4 +1,6 @@
-src/interrupts.d src/interrupts.o src/interrupts.o: ../src/interrupts.cpp \
+src/ASF/avr32/drivers/twim/twim.d src/ASF/avr32/drivers/twim/twim.o \
+ src/ASF/avr32/drivers/twim/twim.o: ../src/ASF/avr32/drivers/twim/twim.c \
+ ../src/ASF/avr32/drivers/twim/twim.h \
  C:\Program\ Files\ (x86)\Atmel\Studio\7.0\Packs\atmel\UC3D_DFP\1.0.54\include\ATUC128D3/avr32/io.h \
  C:\Program\ Files\ (x86)\Atmel\Studio\7.0\Packs\atmel\UC3D_DFP\1.0.54\include\ATUC128D3/avr32/uc128d3.h \
  C:\Program\ Files\ (x86)\Atmel\Studio\7.0\Packs\atmel\UC3D_DFP\1.0.54\include\ATUC128D3/avr32/core_sc0_212.h \
@@ -29,7 +31,6 @@ src/interrupts.d src/interrupts.o src/interrupts.o: ../src/interrupts.cpp \
  C:\Program\ Files\ (x86)\Atmel\Studio\7.0\Packs\atmel\UC3D_DFP\1.0.54\include\ATUC128D3/avr32/usbc_200.h \
  C:\Program\ Files\ (x86)\Atmel\Studio\7.0\Packs\atmel\UC3D_DFP\1.0.54\include\ATUC128D3/avr32/wdt_410.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr32\avr32-gnu-toolchain\bin\../lib/gcc/avr32/4.4.7/../../../../avr32/include/stdint.h \
- ../inc/system.h ../inc/io.h ../src/ASF/avr32/drivers/intc/intc.h \
  ../src/ASF/avr32/utils/compiler.h \
  ../src/ASF/avr32/utils/preprocessor/preprocessor.h \
  ../src/ASF/avr32/utils/preprocessor/tpaste.h \
@@ -57,7 +58,14 @@ src/interrupts.d src/interrupts.o src/interrupts.o: ../src/interrupts.cpp \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr32\avr32-gnu-toolchain\bin\../lib/gcc/avr32/4.4.7/include/stdbool.h \
  ../src/ASF/common/utils/interrupt.h \
  ../src/ASF/common/utils/interrupt/interrupt_avr32.h \
- ../src/ASF/avr32/utils/preprocessor/tpaste.h ../inc/displayStates.h
+ ../src/ASF/avr32/utils/preprocessor/tpaste.h \
+ ../src/ASF/avr32/drivers/intc/intc.h \
+ ../src/ASF/avr32/utils/status_codes.h ../src/config/conf_twim.h \
+ ../src/ASF/common/boards/board.h \
+ ../src/ASF/avr32/boards/stk600/rcuc3d/stk600_rcuc3d.h \
+ ../src/ASF/avr32/boards/stk600/rcuc3d/led.h
+
+../src/ASF/avr32/drivers/twim/twim.h:
 
 C:\Program\ Files\ (x86)\Atmel\Studio\7.0\Packs\atmel\UC3D_DFP\1.0.54\include\ATUC128D3/avr32/io.h:
 
@@ -119,12 +127,6 @@ C:\Program\ Files\ (x86)\Atmel\Studio\7.0\Packs\atmel\UC3D_DFP\1.0.54\include\AT
 
 c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr32\avr32-gnu-toolchain\bin\../lib/gcc/avr32/4.4.7/../../../../avr32/include/stdint.h:
 
-../inc/system.h:
-
-../inc/io.h:
-
-../src/ASF/avr32/drivers/intc/intc.h:
-
 ../src/ASF/avr32/utils/compiler.h:
 
 ../src/ASF/avr32/utils/preprocessor/preprocessor.h:
@@ -181,4 +183,14 @@ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr32\avr32-gnu-toolchain\bi
 
 ../src/ASF/avr32/utils/preprocessor/tpaste.h:
 
-../inc/displayStates.h:
+../src/ASF/avr32/drivers/intc/intc.h:
+
+../src/ASF/avr32/utils/status_codes.h:
+
+../src/config/conf_twim.h:
+
+../src/ASF/common/boards/board.h:
+
+../src/ASF/avr32/boards/stk600/rcuc3d/stk600_rcuc3d.h:
+
+../src/ASF/avr32/boards/stk600/rcuc3d/led.h:

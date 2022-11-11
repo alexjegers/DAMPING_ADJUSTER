@@ -33,19 +33,28 @@
 #define PORTB							(*(avr32_gpio_port_t*) 0xFFFF2A00)
 #define GPIO_IMR_CHANGE_bm				0
 #define GPIO_IMR_RISING_bm				1
-#define GPIO_IMR_FALLING_bm				1 << 2
+#define GPIO_IMR_FALLING_bm				1 << 1
+#define GPIO_PMR_FUNCTION_A				0x0
+#define GPIO_PMR_FUNCTION_B				0x1
+#define GPIO_PMR_FUNCTION_C				0x2
+#define GPIO_PMR_FUNCTION_D				0x3
+
+#define TWI_DATA_PIN_bm					1 << 10
+#define TWI_CLK_PIN_bm					1 << 9
 
 /*****GPIO Control*****/
-void ioSetPinIO(avr32_gpio_port_t* port, uint32_t pin);							//Sets pin to GPIO function.
-void ioSetPinPeripheral(avr32_gpio_port_t* port, uint32_t pin);					//Sets pin to peripheral control.
-void ioSetPinOutput(avr32_gpio_port_t* port, uint32_t pin);						//Sets pin as an output.
-void ioSetPinInput(avr32_gpio_port_t* port, uint32_t pin);						//Sets pin as an input.
-void ioPinHigh(avr32_gpio_port_t* port, uint32_t pin);							//Drives pin high.
-void ioPinLow(avr32_gpio_port_t* port, uint32_t pin);							//Drives pin low.
-uint32_t ioReadPort(avr32_gpio_port_t* port);									//Returns the pin value register for Port x.
-void ioEnableInterrupt(avr32_gpio_port_t* port, uint32_t pin);					//Enables an interrupt.
-void ioDisableInterrupt(avr32_gpio_port_t* port, uint32_t pin);					//Disables an interrupt.
-void ioInterruptMode(avr32_gpio_port_t* port, uint8_t intMode, uint32_t pin);	//Sets interrupt mode.
-void ioClearIntFlag(avr32_gpio_port_t* port, uint32_t pin);						//Clears an interrupt flag.
+void ioSetPinIO(avr32_gpio_port_t* port, uint32_t pin);									//Sets pin to GPIO function.
+void ioSetPinPeripheral(avr32_gpio_port_t* port, uint32_t pin);							//Sets pin to peripheral control.
+void ioSetPeripheralFunction(avr32_gpio_port_t* port, uint32_t pin, uint8_t function);	//Set the peripheral function.				
+void ioSetPinOutput(avr32_gpio_port_t* port, uint32_t pin);								//Sets pin as an output.
+void ioSetPinInput(avr32_gpio_port_t* port, uint32_t pin);								//Sets pin as an input.
+void ioPinHigh(avr32_gpio_port_t* port, uint32_t pin);									//Drives pin high.
+void ioPinLow(avr32_gpio_port_t* port, uint32_t pin);									//Drives pin low.
+uint32_t ioReadPort(avr32_gpio_port_t* port);											//Returns the pin value register for Port x.
+void ioEnableInterrupt(avr32_gpio_port_t* port, uint32_t pin);							//Enables an interrupt.
+void ioDisableInterrupt(avr32_gpio_port_t* port, uint32_t pin);							//Disables an interrupt.
+void ioInterruptMode(avr32_gpio_port_t* port, uint8_t intMode, uint32_t pin);			//Sets interrupt mode.
+void ioClearIntFlag(avr32_gpio_port_t* port, uint32_t pin);								//Clears an interrupt flag.
+uint32_t ioIntFlags(avr32_gpio_port_t* port);											//Returns interrupt flags register.
 
 #endif /* IO_H_ */

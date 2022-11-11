@@ -48,6 +48,10 @@
 
 #define COLOR_BLACK					0x0000
 #define COLOR_WHITE					0xFFFF
+#define COLOR_PINK					0xFCFC
+#define COLOR_BLUE					0x5C1F
+#define COLOR_GRAY					0xBDF7
+
 class ST7789
 {
 	public:	
@@ -55,7 +59,9 @@ class ST7789
 	void clearDisplay();								//Fills the screen black.
 	void setDisplayArea(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2);				//Sets the start and end points on the screen.
 	void drawRectangle(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2, uint16_t color);	//Draws a rectangle constrained by (x1,y1) and (x2, y2).
-	void drawText(char let[], uint16_t x1, uint16_t y1, const uint8_t font[], uint16_t color);						//Writes a string to the screen in desired font.
+	void drawBorderedRect(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2, 
+						uint8_t borderWidth, uint16_t borderColor, uint16_t insideColor);
+	void drawText(char let[], uint16_t x1, uint16_t y1, const uint8_t font[], uint16_t charColor, uint16_t backColor);				//Writes a string to the screen in desired font.
 	private:
 	uint8_t readBuffer[5];								//Holds data when reading from the screen.
 	void displayOn();									//Turns on the display.

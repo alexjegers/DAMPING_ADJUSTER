@@ -51,18 +51,14 @@ Description: Enables a divider of 2 for CPU, PBA, and PBB clock. Sets OSC0 as ma
 */
 bool systemMainClockSelect()
 {
+	/*
+	Enable 1 wait cycle for reads from flash because we are 
+	going to be running faster than 33MHz.
+	*/
+	AVR32_FLASHCDW.fcr = FLASHCDW_FCR_WAITSTATE;
+	
 	if ((SCIF.pclksr & SCIF_PCLKSR_OSC0RDY_bm) != 0)
 	{
-		/*Divide the main clock by 2 for the CPU, PBA, and PBB clocks*/
-		PM.unlock = (PM_UNLOCK_KEY) | 0x04;
-		PM.cpusel = PM_CPUSEL_CPUDIV_bm;
-		
-		PM.unlock = (PM_UNLOCK_KEY) | 0x0C;
-		PM.pbasel = PM_CPUSEL_CPUDIV_bm;
-		
-		PM.unlock = (PM_UNLOCK_KEY) | 0x10;
-		PM.pbbsel = PM_CPUSEL_CPUDIV_bm ;
-		
 		/*Select OSC0 as source for main clock*/
 		PM.unlock = (PM_UNLOCK_KEY) | 0x00;								//Unlock MCCTRL.
 		PM.mcctrl = PM_MCCTRL_MCSEL_OSC0_bm;							//Select OSC0 as main clock.

@@ -27,6 +27,8 @@
 #define SCIF_GCCTRL_DIVEN_bm			1 << 1
 #define SCIF_GCCTRL_CEN_bm				1
 
+#define FLASHCDW_FCR_WAITSTATE			1 << 6
+
 #define CPU_SR							(*(volatile avr32_sr_t*) 0x00)
 
 

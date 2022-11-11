@@ -17,16 +17,10 @@
 #include <delay.h>
 #include "fonts.h"
 #include "menu.h"
+#include "displayStates.h"
+#include "stepper.h"
 
-ST7789 lcd;
 
-button optionsButton(120, 280, "Options", font16pt);
-button rearButton(120, 150, "Rear", font16pt);
-button frontButton(120, 30, "Front", font16pt);
-label frontLeftLabel(60, 80, 12, font36pt);
-label frontRightLabel(180, 80, 12, font36pt);
-label rearLeftLabel(60, 200, 23, font36pt);
-label rearRightLabel(180, 200, 23, font36pt);
 int main(void)
 {
 	/*Debug LEDs as IO and output.*/
@@ -44,25 +38,32 @@ int main(void)
 		LED2_ON;
 	}
 
-
 	/*Switches as IO inputs, enable falling interrupt for all*/
 	ioSetPinIO(&SW_PORT, SW1_bm | SW2_bm | SW3_bm | SW4_bm | SW5_bm);
 	ioEnableInterrupt(&SW_PORT, SW1_bm | SW2_bm | SW3_bm | SW4_bm | SW5_bm);
 	ioInterruptMode(&SW_PORT, GPIO_IMR_FALLING_bm, 
 					SW1_bm | SW2_bm | SW3_bm | SW4_bm | SW5_bm);
 	
-	intEnableSwitchInterrupts();				
-
+	/*Initialize ASF delay library.*/
 	delay_init();
- 	lcd.init();
-	optionsButton.load();
-	rearButton.load();
-	frontButton.load();
-	frontLeftLabel.load();
-	frontRightLabel.load();
-	rearLeftLabel.load();
-	rearRightLabel.load();
-	LED3_ON;
+	
+	/*Initialize the LCD then delete instance, ST7789 is inherited by button and label*/
+	ST7789 *lcd = new ST7789;	
+	lcd->init();
+	delete lcd;
+
+	/*Assign the function pointers for the switches and load stateA*/
+	setBtnEventHandlers();
+	stateA();
+	
+	/*Initialize interrupts for the switches.*/
+	intEnableSwitchInterrupts();	
+	
+	/*Initialize IIC peripheral and pins*/
+	ioSetPinPeripheral(&PORTA, TWI_DATA_PIN_bm | TWI_CLK_PIN_bm);
+	
+	frontLeft.stepperInfo.position = 5;
+	frontRight.stepperInfo.position = 5;
 	while(1)
     {
 

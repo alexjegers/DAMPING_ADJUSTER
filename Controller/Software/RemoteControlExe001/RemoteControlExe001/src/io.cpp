@@ -41,6 +41,15 @@ void ioSetPinPeripheral(avr32_gpio_port_t* port, uint32_t pin)
 	port->gperc = pin;
 }
 
+/*************UNTESTED*****************/
+void ioSetPeripheralFunction(avr32_gpio_port_t* port, uint32_t pin, uint8_t function)
+{
+	port->pmr0c = pin;
+	port->pmr1c = pin;
+	port->pmr0s = (function << pin) & pin;
+	port->pmr1s = (function << (pin - 1)) & pin;
+}
+
 /*
 Function: ioSetPinOutput
 Params: port: IO port A or B.
@@ -157,4 +166,16 @@ Description: clears the interrupt flag of a certain pin.
 void ioClearIntFlag(avr32_gpio_port_t* port, uint32_t pin)
 {
 	port->ifrc = pin;
+}
+
+/*
+Function: ioIntFlags
+Params: port: Port A or B.
+		pin: which pin within the port.
+Returns: the interrupt flag register
+Description: Returns the interrupt flag register for a specific port.
+*/
+uint32_t ioIntFlags(avr32_gpio_port_t* port)
+{
+	return port->ifr;
 }

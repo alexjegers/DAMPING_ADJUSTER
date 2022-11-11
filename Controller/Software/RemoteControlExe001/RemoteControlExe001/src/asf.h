@@ -83,4 +83,7 @@
 // From module: System Clock Control - UC3 D implementation
 #include <sysclk.h>
 
+// From module: TWI - Two-Wire Master Interface
+#include <twim.h>
+
 #endif // ASF_H

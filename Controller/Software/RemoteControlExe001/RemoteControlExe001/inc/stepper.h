@@ -15,6 +15,9 @@
 #define FLAG_ERROR_bm				(1 << 2)			//Something bad happened somewhere.
 #define FLAG_GO_TO_ZERO_bm			(1 << 3)			//Flag is set to instruct the program to run the stepperGoToZero function.
 
+#define EEPROM_DEVICE_ADDR			0b101000
+
+
 /*Step mode constants for DRV8825*/
 typedef enum STEPPER_STEP_MODES_enum
 {
@@ -63,32 +66,45 @@ typedef enum DECAY_MODES_enum
 }DECAY_MODE_t;
 
 
-/*Main struct holding all the live information on the stepper motor*/
-typedef struct STEPPER_INFO_struct
-{
-	int16_t position;
-	int16_t previousPosition;						//Had to add this in for stepperGoToZero func.
-	int16_t setPoint;
-	STEP_MODE_t stepMode;
-	CURRENT_LIMIT_t currentLimit;
-	DECAY_MODE_t decayMode;
-	uint16_t speedInRPM;
-	uint8_t timeoutAmount;
-	
-	uint8_t flags;									//See #define's for description and bitmasks.
-	
-	/*A write to current.dacData must be shifted left 6 bits.*/
-	union CURRENT_LIMIT
-	{
-		uint16_t dacData;
-		struct DAC_VALUE
-		{
-			uint8_t lsb;
-			uint8_t msb;
-		}dacStruct;
-	}current;
-	
-}STEPPER_INFO_t;
 
+/*Main struct holding all the live information on the stepper motor*/
+class STEPPER_MOTOR
+{
+	public:
+
+	struct STEPPER_INFO_struct
+	{
+		int16_t position;
+		int16_t previousPosition;						//Had to add this in for stepperGoToZero func.
+		int16_t setPoint;
+		STEP_MODE_t stepMode;
+		CURRENT_LIMIT_t currentLimit;
+		DECAY_MODE_t decayMode;
+		uint16_t speedInRPM;
+		uint8_t timeoutAmount;
+		
+		uint8_t flags;									//See #define's for description and bitmasks.
+		
+		/*A write to current.dacData must be shifted left 6 bits.*/
+		union CURRENT_LIMIT
+		{
+			uint16_t dacData;
+			struct DAC_VALUE
+			{
+				uint8_t lsb;
+				uint8_t msb;
+			}dacStruct;
+		}current;
+	}stepperInfo;
+	
+	void saveSettings();								//Writes the STEPPER_INFO struct to EEPROM.
+	void loadSettings();								//Loads the STEPPER_INFO struct from EEPROM.
+	private:
+};
+
+extern STEPPER_MOTOR frontLeft;
+extern STEPPER_MOTOR frontRight;
+extern STEPPER_MOTOR rearLeft;
+extern STEPPER_MOTOR rearRight;
 
 #endif /* STEPPER_H_ */

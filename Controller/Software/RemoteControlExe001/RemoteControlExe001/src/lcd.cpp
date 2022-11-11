@@ -323,10 +323,31 @@ void ST7789::drawRectangle(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2, u
 	{
 		for (uint16_t x = 0; x < x2; x++)
 		{
+			writeData(color >> 8);
 			writeData(color);
 		}
 	}
 	end();
+}
+
+/*
+Function: drawBorderedRect
+Params: x1: the left most edge of the rectangle.
+		y1: the top most edge of the rectangle.
+		x2: the right most edge of the rectangle.
+		y2: the bottom edge of the rectangle.
+		borderWidth: width of the border in pixels.
+		borderColor: color of the border.
+		insideColor: color of the rectangle inside the border.
+Returns: none
+Description: Writes a rectangle with a border to the screen constrained by the coordinates
+			(x1,y1) and (x2,y2), top left and bottom right corners respectively.
+*/
+void ST7789::drawBorderedRect(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2, uint8_t borderWidth, uint16_t borderColor, uint16_t insideColor)
+{
+	drawRectangle(x1, y1, x2, y2, borderColor);						//Rectangle border.
+	drawRectangle(x1 + borderWidth, y1 + borderWidth, 
+				x2 - borderWidth, y2 -borderWidth, insideColor);	//Inner rectangle.	
 }
 
 /*
@@ -338,7 +359,7 @@ Params: let[]: Array of character to write to the screen.
 Returns: none
 Description: writes a string to the screen in a certain location in the selected font.
 */
-void ST7789::drawText(char let[], uint16_t x1, uint16_t y1, const uint8_t font[], uint16_t color)
+ void ST7789::drawText(char let[], uint16_t x1, uint16_t y1, const uint8_t font[], uint16_t charColor, uint16_t backColor)
 {
 	uint8_t i = 0;
 	uint8_t stringLength = 0;
@@ -383,13 +404,13 @@ void ST7789::drawText(char let[], uint16_t x1, uint16_t y1, const uint8_t font[]
 				currentBit = (currentBit >> i) & 0x01;
 				if (currentBit == 1)
 				{
-					writeData(color >> 8);
-					writeData(color);
+					writeData(charColor >> 8);
+					writeData(charColor);
 				}
 				else
 				{
-					writeData(~(color >> 8));
-					writeData(~(color >> 8));
+					writeData(backColor >> 8);
+					writeData(backColor);
 				}
 			}
 			//////////////////////////////////////////////////////////////////////////
