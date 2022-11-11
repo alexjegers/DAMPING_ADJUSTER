@@ -164,7 +164,7 @@ Description: Adds direction to the current position of the motor.
 void stepperIncrementPosition(int8_t direction)
 {
 	pMotor->previousPosition = pMotor->position;		//Record the current position before changing it.
-	pMotor->position += direction;					//Add the change in rotation to current position.			
+	pMotor->position += direction;						//Add the change in rotation to current position.			
 }
 
 
@@ -597,4 +597,9 @@ Description: see returns.
 bool stepperIsMoving()
 {
 	return TCB2.STATUS;
+}
+
+void stepperSetPosition()
+{
+	
 }

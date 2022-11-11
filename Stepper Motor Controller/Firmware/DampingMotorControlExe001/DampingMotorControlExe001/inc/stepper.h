@@ -114,7 +114,6 @@ void stepperSetDirection(uint8_t direction);		//Sets which way the motor will ro
 void stepperGoToZero();								//Moves the motor position to zero.
 bool stepperIsMoving();								//Returns the status of the STEP PWM timer to determine if the motor is currently moving.
 
-
 /*Stepper timeout timer control*/
 void stepperConfigTimeoutTimer(uint16_t TCB_PER);	//Called in stepperInit.
 void stepperStartTimeoutTimer();					//Timer starts counting.
@@ -128,6 +127,7 @@ void stepperClearTimeoutCnt();						//Resets the TCB CNT register to zero.
 /*Functions to write to the stepper info struct*/
 void stepperSetSetPoint(int16_t setPoint);			//Sets the set point.
 void stepperSetPosition(int16_t position);			//Overrides the position.
+void stepperSetPosition();
 void stepperSetStepMode(STEP_MODE_t mode);			//Sets the stepping mode for the stepper.
 void stepperSetSpeed(uint16_t speedInRPM);			//Writes to speedInRPM in STEPPER_INFO struct.
 void stepperIncrementPosition(int8_t direction);	//Increments stepper position by +-1 when the encoder interrupt fires.

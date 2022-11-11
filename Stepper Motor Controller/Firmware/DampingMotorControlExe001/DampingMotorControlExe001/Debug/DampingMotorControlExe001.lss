@@ -1267,10 +1267,11 @@ int main(void)
 	stepperInit();
  6cc:	0e 94 6c 05 	call	0xad8	; 0xad8 <stepperInit>
 		
-	/*Wait until the correct position is written from the master.*/
+	/*Wait until the correct position is written from the master or go to zero flag is set.*/
 	while ((stepperPosition() == -1) || (stepperSetPoint() == -1)) 
  6d0:	05 c0       	rjmp	.+10     	; 0x6dc <main+0x2e>
 	{
+		/*If the goToZero flag is set, run stepperGoToZero.*/
 		if ((stepperFlags() & FLAG_GO_TO_ZERO_bm) != 0)
  6d2:	0e 94 ba 05 	call	0xb74	; 0xb74 <stepperFlags>
  6d6:	83 fd       	sbrc	r24, 3
@@ -1281,7 +1282,7 @@ int main(void)
 	/*Load default stepper settings*/
 	stepperInit();
 		
-	/*Wait until the correct position is written from the master.*/
+	/*Wait until the correct position is written from the master or go to zero flag is set.*/
 	while ((stepperPosition() == -1) || (stepperSetPoint() == -1)) 
  6dc:	0e 94 4f 05 	call	0xa9e	; 0xa9e <stepperPosition>
  6e0:	01 96       	adiw	r24, 0x01	; 1
@@ -1291,7 +1292,7 @@ int main(void)
  6ea:	99 f3       	breq	.-26     	; 0x6d2 <main+0x24>
  6ec:	29 c0       	rjmp	.+82     	; 0x740 <main+0x92>
     {
-		/*While the stepper position is not equal to the set point, and it hasn't timed out more than 20 times*/
+		/*While the stepper position is not equal to the set point...*/
 		while ((stepperAtSetPoint() == 0))					
 		{
 			/*If the stepper isn't already moving, start the timeout timer*/
@@ -1300,14 +1301,17 @@ int main(void)
  6f2:	81 11       	cpse	r24, r1
  6f4:	06 c0       	rjmp	.+12     	; 0x702 <main+0x54>
 			{
-				stepperClearTimeoutAmount();
+				stepperClearTimeoutAmount();						//Clear the current timeout amount.
  6f6:	0e 94 9b 05 	call	0xb36	; 0xb36 <stepperClearTimeoutAmount>
-				stepperClearTimeoutCnt();
+				stepperClearTimeoutCnt();							//Clear the actual timer count register.
  6fa:	0e 94 da 05 	call	0xbb4	; 0xbb4 <stepperClearTimeoutCnt>
-				stepperStartTimeoutTimer();
+				stepperStartTimeoutTimer();							//Start the timer.
  6fe:	0e 94 94 05 	call	0xb28	; 0xb28 <stepperStartTimeoutTimer>
 			}
 			
+			/*If the stepper timesout more than 10 times in a row while moving, assume
+				that it is stuck, change the set point to the position that it's stuck
+				on, and stop trying to move it.*/
 			if (stepperTimeoutAmount() > 10)
  702:	0e 94 cd 05 	call	0xb9a	; 0xb9a <stepperTimeoutAmount>
  706:	8b 30       	cpi	r24, 0x0B	; 11
@@ -1320,7 +1324,7 @@ int main(void)
  712:	1a c0       	rjmp	.+52     	; 0x748 <main+0x9a>
 			}
 			
-			/*Determine direction of rotation*/
+			/*Determine direction of rotation.*/
 			if (stepperPosition() < stepperSetPoint())
  714:	0e 94 4f 05 	call	0xa9e	; 0xa9e <stepperPosition>
  718:	ec 01       	movw	r28, r24
@@ -1354,7 +1358,7 @@ int main(void)
 	
     while (1) 
     {
-		/*While the stepper position is not equal to the set point, and it hasn't timed out more than 20 times*/
+		/*While the stepper position is not equal to the set point...*/
 		while ((stepperAtSetPoint() == 0))					
  740:	0e 94 40 05 	call	0xa80	; 0xa80 <stepperAtSetPoint>
  744:	88 23       	and	r24, r24
@@ -1375,7 +1379,7 @@ int main(void)
 		stepperStopTimeoutTimer();
  756:	0e 94 e1 05 	call	0xbc2	; 0xbc2 <stepperStopTimeoutTimer>
 		
-		/*If the go to zero flag is set run the go to zero function*/
+		/*If the go to zero flag is set run the go to zero function.*/
 		if ((stepperFlags() & FLAG_GO_TO_ZERO_bm) != 0)
  75a:	0e 94 ba 05 	call	0xb74	; 0xb74 <stepperFlags>
  75e:	83 ff       	sbrs	r24, 3
@@ -1386,8 +1390,8 @@ int main(void)
  766:	ec cf       	rjmp	.-40     	; 0x740 <main+0x92>
 
 00000768 <stepperStartMove>:
-
-
+Description: ... used to determine if it is spinning the correct direction.
+*/
 int16_t stepperPreviousPosition()
 {
 	return pMotor->previousPosition;
@@ -1917,8 +1921,9 @@ int16_t stepperPreviousPosition()
  ba4:	08 95       	ret
 
 00000ba6 <stepperTimeoutCnt>:
-
-
+Returns: the CNT register of the stepper timeout timer.
+Description: see returns.
+*/
 uint16_t stepperTimeoutCnt()
 {
 	return stepperTimeoutTimer->CNT;
@@ -1930,8 +1935,9 @@ uint16_t stepperTimeoutCnt()
  bb2:	08 95       	ret
 
 00000bb4 <stepperClearTimeoutCnt>:
-
-
+Returns: none
+Description: sets the CNT register of the stepper timeout timer to zero.
+*/
 void stepperClearTimeoutCnt()
 {
 	stepperTimeoutTimer->CNT = 0;
@@ -1958,11 +1964,11 @@ void stepperStopTimeoutTimer()
  bd6:	08 95       	ret
 
 00000bd8 <stepperGoToZero>:
+			This means the motor can't turn any further and is at position 0.
 			Then resets the position and set point to 0.
 */
 void stepperGoToZero()
 {
-	
 	stepperSetDirection(DIRECTION_CCW);								//Set direction to count down towards soft
  bd8:	81 e0       	ldi	r24, 0x01	; 1
  bda:	0e 94 c6 04 	call	0x98c	; 0x98c <stepperSetDirection>
@@ -2014,9 +2020,9 @@ void stepperGoToZero()
  c28:	08 95       	ret
 
 00000c2a <stepperIsMoving>:
-}
-
-
+Returns: true if the stepper step timer is running signifying that the motor is turning.
+Description: see returns.
+*/
 bool stepperIsMoving()
 {
 	return TCB2.STATUS;
