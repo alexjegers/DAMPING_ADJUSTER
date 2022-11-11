@@ -313,6 +313,11 @@
       (scale (xyz 1 1 1))
       (rotate (xyz -90 0 0))
     )
+    (model "C:/Users/AJ992/Documents/My Projects/DAMPING_ADJUSTER/Controller/CAD/STEP/1027-001.STEP"
+      (at (xyz 0 0 0))
+      (scale (xyz 1 1 1))
+      (rotate (xyz -90 0 0))
+    )
   )
 
   (module Controller_Borad:RY24049B0-00 (layer F.Cu) (tedit 6320A30B) (tstamp 63221CF7)
@@ -595,6 +600,11 @@
       (scale (xyz 1 1 1))
       (rotate (xyz -90 0 0))
     )
+    (model "C:/Users/AJ992/Documents/My Projects/DAMPING_ADJUSTER/Controller/CAD/STEP/1027-001.STEP"
+      (at (xyz 0 0 0))
+      (scale (xyz 1 1 1))
+      (rotate (xyz -90 0 0))
+    )
   )
 
   (module Button_Switch_SMD:SW_Push_1P1T_NO_6x6mm_H9.5mm (layer F.Cu) (tedit 5CA1CA7F) (tstamp 6320D4E8)
@@ -642,6 +652,11 @@
       (scale (xyz 1 1 1))
       (rotate (xyz -90 0 0))
     )
+    (model "C:/Users/AJ992/Documents/My Projects/DAMPING_ADJUSTER/Controller/CAD/STEP/1027-001.STEP"
+      (at (xyz 0 0 0))
+      (scale (xyz 1 1 1))
+      (rotate (xyz -90 0 0))
+    )
   )
 
   (module Button_Switch_SMD:SW_Push_1P1T_NO_6x6mm_H9.5mm (layer F.Cu) (tedit 5CA1CA7F) (tstamp 631258E8)
@@ -685,6 +700,11 @@
     (pad 2 smd rect (at -3.975 2.25) (size 1.55 1.3) (layers F.Cu F.Paste F.Mask)
       (net 38 "/Controller Board Buttons/SW2+"))
     (model "C:/Users/AJ992/Documents/My Projects/DAMPING_ADJUSTER/Controller Board/CAD/STEP/1027-001.STEP"
+      (at (xyz 0 0 0))
+      (scale (xyz 1 1 1))
+      (rotate (xyz -90 0 0))
+    )
+    (model "C:/Users/AJ992/Documents/My Projects/DAMPING_ADJUSTER/Controller/CAD/STEP/1027-001.STEP"
       (at (xyz 0 0 0))
       (scale (xyz 1 1 1))
       (rotate (xyz -90 0 0))
