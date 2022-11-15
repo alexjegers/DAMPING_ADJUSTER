@@ -31,10 +31,11 @@
     <AsfFrameworkConfig>
       <framework-data>
         <options>
+          <option id="avr32.drivers.gpio" value="Add" config="" content-id="Atmel.ASF" />
           <option id="avr32.drivers.twim" value="Add" config="" content-id="Atmel.ASF" />
           <option id="common.boards" value="Add" config="" content-id="Atmel.ASF" />
           <option id="common.services.delay" value="Add" config="" content-id="Atmel.ASF" />
-          <option id="avr32.drivers.gpio" value="Add" config="" content-id="Atmel.ASF" />
+          <option id="common.services.basic.twi" value="Add" config="" content-id="Atmel.ASF" />
           <option id="common.applications.user_application" value="Add" config="" content-id="Atmel.ASF" />
         </options>
         <configurations>
@@ -43,6 +44,7 @@
           <configuration key="config.avr32.utils.gccstartup" value="yes" default="yes" content-id="Atmel.ASF" />
           <configuration key="config.utils.interrupt.intc" value="yes" default="yes" content-id="Atmel.ASF" />
           <configuration key="config.avr32.drivers.intc.exception" value="yes" default="yes" content-id="Atmel.ASF" />
+          <configuration key="config.common.services.basic.twi.mode" value="both" default="both" content-id="Atmel.ASF" />
         </configurations>
         <files>
           <file path="src/ASF/avr32/boards/stk600/rcuc3d/init.c" framework="" version="" source="avr32/boards/stk600/rcuc3d/init.c" changed="False" content-id="Atmel.ASF" />
@@ -94,6 +96,11 @@
           <file path="src/Config/conf_twim.h" framework="" version="3.52.0" source="avr32\drivers\twim\module_config\conf_twim.h" changed="False" content-id="Atmel.ASF" />
           <file path="src/ASF/avr32/drivers/gpio/gpio.c" framework="" version="3.52.0" source="avr32\drivers\gpio\gpio.c" changed="False" content-id="Atmel.ASF" />
           <file path="src/ASF/avr32/drivers/gpio/gpio.h" framework="" version="3.52.0" source="avr32\drivers\gpio\gpio.h" changed="False" content-id="Atmel.ASF" />
+          <file path="src/ASF/avr32/drivers/twis/twis.c" framework="" version="3.52.0" source="avr32\drivers\twis\twis.c" changed="False" content-id="Atmel.ASF" />
+          <file path="src/ASF/avr32/drivers/twis/twis.h" framework="" version="3.52.0" source="avr32\drivers\twis\twis.h" changed="False" content-id="Atmel.ASF" />
+          <file path="src/Config/conf_twis.h" framework="" version="3.52.0" source="avr32\drivers\twis\module_config\conf_twis.h" changed="False" content-id="Atmel.ASF" />
+          <file path="src/ASF/common/services/twi/uc3_twim/twi_master.h" framework="" version="3.52.0" source="common\services\twi\uc3_twim\twi_master.h" changed="False" content-id="Atmel.ASF" />
+          <file path="src/ASF/common/services/twi/twi_master.h" framework="" version="3.52.0" source="common\services\twi\twi_master.h" changed="False" content-id="Atmel.ASF" />
         </files>
         <documentation help="https://asf.microchip.com/docs/3.52.0/common.applications.user_application.stk600-rcuc3d/html/index.html" />
         <offline-documentation help="" />
@@ -152,6 +159,8 @@
             <Value>../src/ASF/common/services/delay</Value>
             <Value>../src/ASF/avr32/drivers/twim</Value>
             <Value>../src/ASF/avr32/drivers/gpio</Value>
+            <Value>../src/ASF/avr32/drivers/twis</Value>
+            <Value>../src/ASF/common/services/twi</Value>
           </ListValues>
         </avr32gcc.compiler.directories.IncludePaths>
         <avr32gcc.compiler.optimization.level>Optimize for size (-Os)</avr32gcc.compiler.optimization.level>
@@ -184,6 +193,8 @@
             <Value>../src/ASF/common/services/clock</Value>
             <Value>../src/ASF/common/services/delay</Value>
             <Value>../src/ASF/avr32/drivers/twim</Value>
+            <Value>../src/ASF/avr32/drivers/twis</Value>
+            <Value>../src/ASF/common/services/twi</Value>
           </ListValues>
         </avr32gcccpp.compiler.directories.IncludePaths>
         <avr32gcccpp.compiler.optimization.level>Optimize for size (-Os)</avr32gcccpp.compiler.optimization.level>
@@ -216,6 +227,8 @@
             <Value>../src/ASF/common/services/delay</Value>
             <Value>../src/ASF/avr32/drivers/twim</Value>
             <Value>../src/ASF/avr32/drivers/gpio</Value>
+            <Value>../src/ASF/avr32/drivers/twis</Value>
+            <Value>../src/ASF/common/services/twi</Value>
           </ListValues>
         </avr32gcccpp.assembler.general.IncludePaths>
         <avr32gcccpp.preprocessingassembler.general.IncludePaths>
@@ -236,6 +249,8 @@
             <Value>../src/ASF/common/services/delay</Value>
             <Value>../src/ASF/avr32/drivers/twim</Value>
             <Value>../src/ASF/avr32/drivers/gpio</Value>
+            <Value>../src/ASF/avr32/drivers/twis</Value>
+            <Value>../src/ASF/common/services/twi</Value>
           </ListValues>
         </avr32gcccpp.preprocessingassembler.general.IncludePaths>
       </Avr32GccCpp>
@@ -272,6 +287,8 @@
             <Value>../src/ASF/common/services/delay</Value>
             <Value>../src/ASF/avr32/drivers/twim</Value>
             <Value>../src/ASF/avr32/drivers/gpio</Value>
+            <Value>../src/ASF/avr32/drivers/twis</Value>
+            <Value>../src/ASF/common/services/twi</Value>
           </ListValues>
         </avr32gcc.compiler.directories.IncludePaths>
         <avr32gcc.compiler.optimization.level>Optimize (-O1)</avr32gcc.compiler.optimization.level>
@@ -306,6 +323,8 @@
             <Value>../src/ASF/common/services/clock</Value>
             <Value>../src/ASF/common/services/delay</Value>
             <Value>../src/ASF/avr32/drivers/twim</Value>
+            <Value>../src/ASF/avr32/drivers/twis</Value>
+            <Value>../src/ASF/common/services/twi</Value>
           </ListValues>
         </avr32gcccpp.compiler.directories.IncludePaths>
         <avr32gcccpp.compiler.optimization.level>Optimize (-O1)</avr32gcccpp.compiler.optimization.level>
@@ -339,6 +358,8 @@
             <Value>../src/ASF/common/services/delay</Value>
             <Value>../src/ASF/avr32/drivers/twim</Value>
             <Value>../src/ASF/avr32/drivers/gpio</Value>
+            <Value>../src/ASF/avr32/drivers/twis</Value>
+            <Value>../src/ASF/common/services/twi</Value>
           </ListValues>
         </avr32gcccpp.assembler.general.IncludePaths>
         <avr32gcccpp.assembler.debugging.DebugLevel>Default (-g)</avr32gcccpp.assembler.debugging.DebugLevel>
@@ -360,6 +381,8 @@
             <Value>../src/ASF/common/services/delay</Value>
             <Value>../src/ASF/avr32/drivers/twim</Value>
             <Value>../src/ASF/avr32/drivers/gpio</Value>
+            <Value>../src/ASF/avr32/drivers/twis</Value>
+            <Value>../src/ASF/common/services/twi</Value>
           </ListValues>
         </avr32gcccpp.preprocessingassembler.general.IncludePaths>
         <avr32gcccpp.preprocessingassembler.debugging.DebugLevel>Default (-Wa,-g)</avr32gcccpp.preprocessingassembler.debugging.DebugLevel>
@@ -368,6 +391,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="inc\fonts.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="inc\iic.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="inc\interrupts.h">
@@ -389,6 +415,9 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="inc\system.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\ASF\avr32\drivers\twim\twim.c">
       <SubType>compile</SubType>
     </Compile>
     <None Include="src\asf.h">
@@ -463,10 +492,13 @@
     <Compile Include="src\ASF\avr32\drivers\intc\intc.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="src\ASF\avr32\drivers\twim\twim.c">
+    <None Include="src\ASF\avr32\drivers\twim\twim.h">
+      <SubType>compile</SubType>
+    </None>
+    <Compile Include="src\ASF\avr32\drivers\twis\twis.c">
       <SubType>compile</SubType>
     </Compile>
-    <None Include="src\ASF\avr32\drivers\twim\twim.h">
+    <None Include="src\ASF\avr32\drivers\twis\twis.h">
       <SubType>compile</SubType>
     </None>
     <Compile Include="src\ASF\avr32\utils\startup\startup_uc3.S">
@@ -538,6 +570,18 @@
     <None Include="src\config\conf_twim.h">
       <SubType>compile</SubType>
     </None>
+    <None Include="src\config\conf_twis.h">
+      <SubType>compile</SubType>
+    </None>
+    <None Include="src\ASF\common\services\twi\uc3_twim\twi_master.h">
+      <SubType>compile</SubType>
+    </None>
+    <None Include="src\ASF\common\services\twi\twi_master.h">
+      <SubType>compile</SubType>
+    </None>
+    <Compile Include="src\i2c.cpp">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="src\interrupts.cpp">
       <SubType>compile</SubType>
     </Compile>
@@ -578,6 +622,7 @@
     <Folder Include="src\ASF\avr32\drivers\gpio\" />
     <Folder Include="src\ASF\avr32\drivers\intc\" />
     <Folder Include="src\ASF\avr32\drivers\twim\" />
+    <Folder Include="src\ASF\avr32\drivers\twis\" />
     <Folder Include="src\ASF\avr32\utils\" />
     <Folder Include="src\ASF\avr32\utils\header_files\" />
     <Folder Include="src\ASF\avr32\utils\linker_scripts\" />
@@ -593,6 +638,8 @@
     <Folder Include="src\ASF\common\services\clock\" />
     <Folder Include="src\ASF\common\services\clock\uc3d\" />
     <Folder Include="src\ASF\common\services\delay\" />
+    <Folder Include="src\ASF\common\services\twi\" />
+    <Folder Include="src\ASF\common\services\twi\uc3_twim\" />
     <Folder Include="src\ASF\common\utils\" />
     <Folder Include="src\ASF\common\utils\interrupt\" />
     <Folder Include="src\config\" />

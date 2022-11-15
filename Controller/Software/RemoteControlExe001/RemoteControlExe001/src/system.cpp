@@ -9,6 +9,7 @@
 #include <stdint.h>
 #include "system.h"
 #include "io.h"
+#include <compiler.h>
 /*
 Function:
 Params:
@@ -71,4 +72,14 @@ bool systemMainClockSelect()
 	{
 		return false;
 	}
+}
+
+void systemEnableInterrupts()
+{
+	sysreg_write(AVR32_SR, sysreg_read(AVR32_SR) & ~(AVR32_SR_GM_MASK));
+}
+
+void systemDisableInterrupts()
+{
+	sysreg_write(AVR32_SR, sysreg_read(AVR32_SR) | AVR32_SR_GM_MASK);
 }

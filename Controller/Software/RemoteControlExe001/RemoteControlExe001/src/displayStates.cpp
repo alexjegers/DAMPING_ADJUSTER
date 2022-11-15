@@ -4,6 +4,12 @@
  * Created: 11/4/2022 6:43:10 PM
  *  Author: AJ992
  */ 
+/*
+Function:
+Params:
+Returns:
+Description:
+*/
 
 #include <stdio.h>
 #include <stdint.h>
@@ -26,9 +32,15 @@ label rearRightLabel(180, 200, "19", font36pt);
 
 button optionsButton(120, 280, "Options", font16pt);
 
-/* currentNum is global so I can access it with the debugger */
-uint8_t currentNum = 0;
-
+/*
+Function: setBtnEventHandlers
+Params: none 
+Returns: none
+Description: The button event handlers tell the system which function to run if said
+			button is selected or focused when a switch is pressed. For example, 
+			if frontButton is focused and the up switch is pressed the function stateC
+			will be ran. A button cannot be selected if it is not focused.
+*/
 void setBtnEventHandlers()
 {	
 	frontButton		.focusedEventHandlers(&stateC, &stateB, &stateD, &noChange, &noChange);
@@ -39,6 +51,13 @@ void setBtnEventHandlers()
 	rearButton		.selectedEventHandlers(&stateH, &stateI, &stateB, &noChange, &noChange);
 }
 
+/*
+Function: handleNewEvent
+Params: LCD_DISPLAY_EVENTS currentEvent: the last switch that was pressed.
+Returns: none 
+Description: Determines if the focused button is selected, if it is run the selected
+			event handler, otherwise run the focused event handler.
+*/
 void handleNewEvent(LCD_DISPLAY_EVENTS currentEvent)
 {
 	if (button::selectedBtn != NULL)
@@ -165,6 +184,12 @@ void stateC()
 	rearRightLabel.load();	
 }
 
+/*
+Function: stateD 
+Params: none 
+Returns: none
+Description: Main form, front button selected.
+*/
 void stateD()
 {
 	frontButton.setSelected();
@@ -177,6 +202,12 @@ void stateD()
 	rearRightLabel.load();	
 }
 
+/*
+Function: stateE
+Params: none
+Returns: none
+Description: Main form, rear button selected.
+*/
 void stateE()
 {
 	rearButton.setSelected();
@@ -189,9 +220,15 @@ void stateE()
 	rearRightLabel.load();	
 }
 
+/*
+Function: stateF
+Params: none
+Returns: none
+Description: Increments the front label.
+*/
 void stateF()
 {
-	currentNum = atoi(frontRightLabel.text);
+	uint8_t currentNum = atoi(frontRightLabel.text);
 	currentNum++;
 	sprintf(frontLeftLabel.text, "%d", currentNum);
 	sprintf(frontRightLabel.text, "%d", currentNum);
@@ -199,9 +236,15 @@ void stateF()
 	frontRightLabel.load();
 }
 
+/*
+Function: stateG
+Params: none
+Returns: none
+Description: Decrements the front label.
+*/
 void stateG()
 {
-	currentNum = atoi(frontRightLabel.text);			//Get the current number from the label.
+	uint8_t currentNum = atoi(frontRightLabel.text);	//Get the current number from the label.
 	currentNum--;										//Decrement it.
 	
 	sprintf(frontRightLabel.text, "%d", currentNum);	//Turn it back into a char* for the left.
@@ -211,9 +254,15 @@ void stateG()
 	frontRightLabel.load();								//Load the right label back to the LCD.
 }
 
+/*
+Function: stateH
+Params: none
+Returns: none
+Description: Increments the rear label.
+*/
 void stateH()
 {
-	currentNum = atoi(rearRightLabel.text);
+	uint8_t currentNum = atoi(rearRightLabel.text);
 	currentNum++;
 	sprintf(rearLeftLabel.text, "%d", currentNum);
 	sprintf(rearRightLabel.text, "%d", currentNum);
@@ -221,9 +270,15 @@ void stateH()
 	rearRightLabel.load();	
 }
 
+/*
+Function: stateI
+Params: none
+Returns: none
+Description: Decrement rear label.
+*/
 void stateI()
 {
-	currentNum = atoi(rearRightLabel.text);
+	uint8_t currentNum = atoi(rearRightLabel.text);
 	currentNum--;
 	sprintf(rearLeftLabel.text, "%d", currentNum);
 	sprintf(rearRightLabel.text, "%d", currentNum);

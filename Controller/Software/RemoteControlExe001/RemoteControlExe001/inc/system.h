@@ -29,12 +29,14 @@
 
 #define FLASHCDW_FCR_WAITSTATE			1 << 6
 
-#define CPU_SR							(*(volatile avr32_sr_t*) 0x00)
+#define CPU_SR							(*(volatile avr32_sr_t*) AVR32_EVBA)
 
 
 void systemOSC0init();
 bool systemMainClockSelect();
-
+void systemMaskInterrupt();
+void systemDisableInterrupts();
+void systemEnableInterrupts();
 
 
 #endif /* SYSTEM_H_ */

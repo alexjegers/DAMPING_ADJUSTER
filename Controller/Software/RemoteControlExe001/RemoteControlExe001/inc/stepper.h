@@ -15,7 +15,7 @@
 #define FLAG_ERROR_bm				(1 << 2)			//Something bad happened somewhere.
 #define FLAG_GO_TO_ZERO_bm			(1 << 3)			//Flag is set to instruct the program to run the stepperGoToZero function.
 
-#define EEPROM_DEVICE_ADDR			0b101000
+#define EEPROM_DEVICE_ADDR			0b01010000
 
 
 /*Step mode constants for DRV8825*/

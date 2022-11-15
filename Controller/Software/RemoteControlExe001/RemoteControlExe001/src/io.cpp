@@ -41,7 +41,15 @@ void ioSetPinPeripheral(avr32_gpio_port_t* port, uint32_t pin)
 	port->gperc = pin;
 }
 
-/*************UNTESTED*****************/
+/*
+Function: ioSetPeripheralFunction
+Params: port: IO port A or B
+		pin: pin within the port (ONLY ONE PIN)
+		function: function A,B,C,or D from GPIO_PMR_FUNCTION_x.
+Returns: none
+Description: sets a specific pin to a specified multiplexing function,
+			can only pass one pin at a time, i.e. pin = 1, NOT pin = 1 | 2.
+*/
 void ioSetPeripheralFunction(avr32_gpio_port_t* port, uint32_t pin, uint8_t function)
 {
 	port->pmr0c = pin;

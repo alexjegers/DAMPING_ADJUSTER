@@ -1,4 +1,5 @@
-src/system.d src/system.o src/system.o: ../src/system.cpp \
+src/ASF/avr32/drivers/twis/twis.d src/ASF/avr32/drivers/twis/twis.o \
+ src/ASF/avr32/drivers/twis/twis.o: ../src/ASF/avr32/drivers/twis/twis.c \
  C:\Program\ Files\ (x86)\Atmel\Studio\7.0\Packs\atmel\UC3D_DFP\1.0.54\include\ATUC128D3/avr32/io.h \
  C:\Program\ Files\ (x86)\Atmel\Studio\7.0\Packs\atmel\UC3D_DFP\1.0.54\include\ATUC128D3/avr32/uc128d3.h \
  C:\Program\ Files\ (x86)\Atmel\Studio\7.0\Packs\atmel\UC3D_DFP\1.0.54\include\ATUC128D3/avr32/core_sc0_212.h \
@@ -28,8 +29,7 @@ src/system.d src/system.o src/system.o: ../src/system.cpp \
  C:\Program\ Files\ (x86)\Atmel\Studio\7.0\Packs\atmel\UC3D_DFP\1.0.54\include\ATUC128D3/avr32/usart_440.h \
  C:\Program\ Files\ (x86)\Atmel\Studio\7.0\Packs\atmel\UC3D_DFP\1.0.54\include\ATUC128D3/avr32/usbc_200.h \
  C:\Program\ Files\ (x86)\Atmel\Studio\7.0\Packs\atmel\UC3D_DFP\1.0.54\include\ATUC128D3/avr32/wdt_410.h \
- c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr32\avr32-gnu-toolchain\bin\../lib/gcc/avr32/4.4.7/../../../../avr32/include/stdint.h \
- ../inc/system.h ../inc/io.h ../src/ASF/avr32/utils/compiler.h \
+ ../src/ASF/avr32/utils/compiler.h \
  ../src/ASF/avr32/utils/preprocessor/preprocessor.h \
  ../src/ASF/avr32/utils/preprocessor/tpaste.h \
  ../src/ASF/avr32/utils/preprocessor/stringz.h \
@@ -54,10 +54,16 @@ src/system.d src/system.o src/system.o: ../src/system.cpp \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr32\avr32-gnu-toolchain\bin\../lib/gcc/avr32/4.4.7/../../../../avr32/include/machine/stdlib.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr32\avr32-gnu-toolchain\bin\../lib/gcc/avr32/4.4.7/../../../../avr32/include/alloca.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr32\avr32-gnu-toolchain\bin\../lib/gcc/avr32/4.4.7/include/stdbool.h \
+ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr32\avr32-gnu-toolchain\bin\../lib/gcc/avr32/4.4.7/../../../../avr32/include/stdint.h \
  ../src/ASF/common/utils/interrupt.h \
  ../src/ASF/common/utils/interrupt/interrupt_avr32.h \
  ../src/ASF/avr32/utils/preprocessor/tpaste.h \
- ../src/ASF/avr32/drivers/intc/intc.h
+ ../src/ASF/avr32/drivers/intc/intc.h \
+ ../src/ASF/avr32/drivers/twis/twis.h \
+ ../src/ASF/avr32/utils/status_codes.h ../src/config/conf_twis.h \
+ ../src/ASF/common/boards/board.h \
+ ../src/ASF/avr32/boards/stk600/rcuc3d/stk600_rcuc3d.h \
+ ../src/ASF/avr32/boards/stk600/rcuc3d/led.h
 
 C:\Program\ Files\ (x86)\Atmel\Studio\7.0\Packs\atmel\UC3D_DFP\1.0.54\include\ATUC128D3/avr32/io.h:
 
@@ -117,12 +123,6 @@ C:\Program\ Files\ (x86)\Atmel\Studio\7.0\Packs\atmel\UC3D_DFP\1.0.54\include\AT
 
 C:\Program\ Files\ (x86)\Atmel\Studio\7.0\Packs\atmel\UC3D_DFP\1.0.54\include\ATUC128D3/avr32/wdt_410.h:
 
-c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr32\avr32-gnu-toolchain\bin\../lib/gcc/avr32/4.4.7/../../../../avr32/include/stdint.h:
-
-../inc/system.h:
-
-../inc/io.h:
-
 ../src/ASF/avr32/utils/compiler.h:
 
 ../src/ASF/avr32/utils/preprocessor/preprocessor.h:
@@ -173,6 +173,8 @@ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr32\avr32-gnu-toolchain\bi
 
 c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr32\avr32-gnu-toolchain\bin\../lib/gcc/avr32/4.4.7/include/stdbool.h:
 
+c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr32\avr32-gnu-toolchain\bin\../lib/gcc/avr32/4.4.7/../../../../avr32/include/stdint.h:
+
 ../src/ASF/common/utils/interrupt.h:
 
 ../src/ASF/common/utils/interrupt/interrupt_avr32.h:
@@ -180,3 +182,15 @@ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr32\avr32-gnu-toolchain\bi
 ../src/ASF/avr32/utils/preprocessor/tpaste.h:
 
 ../src/ASF/avr32/drivers/intc/intc.h:
+
+../src/ASF/avr32/drivers/twis/twis.h:
+
+../src/ASF/avr32/utils/status_codes.h:
+
+../src/config/conf_twis.h:
+
+../src/ASF/common/boards/board.h:
+
+../src/ASF/avr32/boards/stk600/rcuc3d/stk600_rcuc3d.h:
+
+../src/ASF/avr32/boards/stk600/rcuc3d/led.h:

@@ -54,7 +54,7 @@ void intEnableSwitchInterrupts()
 {
 	/*intc.h built in functions.*/
 	INTC_init_interrupts();
-	INTC_register_interrupt(&intHandlerPortA, AVR32_GPIO_IRQ_2, 3);
-	INTC_register_interrupt(&intHandlerPortA, AVR32_GPIO_IRQ_3, 3);
+	INTC_register_interrupt(&intHandlerPortA, AVR32_GPIO_IRQ_2, 2);
+	INTC_register_interrupt(&intHandlerPortA, AVR32_GPIO_IRQ_3, 2);
 	Enable_global_interrupt();
 }
