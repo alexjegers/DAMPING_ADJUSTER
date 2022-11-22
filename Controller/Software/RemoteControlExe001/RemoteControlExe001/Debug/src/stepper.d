@@ -29,7 +29,7 @@ src/stepper.d src/stepper.o src/stepper.o: ../src/stepper.cpp \
  C:\Program\ Files\ (x86)\Atmel\Studio\7.0\Packs\atmel\UC3D_DFP\1.0.54\include\ATUC128D3/avr32/usbc_200.h \
  C:\Program\ Files\ (x86)\Atmel\Studio\7.0\Packs\atmel\UC3D_DFP\1.0.54\include\ATUC128D3/avr32/wdt_410.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr32\avr32-gnu-toolchain\bin\../lib/gcc/avr32/4.4.7/../../../../avr32/include/stdint.h \
- ../inc/stepper.h
+ ../inc/stepper.h ../inc/iic.h ../inc/system.h
 
 C:\Program\ Files\ (x86)\Atmel\Studio\7.0\Packs\atmel\UC3D_DFP\1.0.54\include\ATUC128D3/avr32/io.h:
 
@@ -92,3 +92,7 @@ C:\Program\ Files\ (x86)\Atmel\Studio\7.0\Packs\atmel\UC3D_DFP\1.0.54\include\AT
 c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr32\avr32-gnu-toolchain\bin\../lib/gcc/avr32/4.4.7/../../../../avr32/include/stdint.h:
 
 ../inc/stepper.h:
+
+../inc/iic.h:
+
+../inc/system.h:

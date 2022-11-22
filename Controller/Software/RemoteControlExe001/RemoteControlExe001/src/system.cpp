@@ -10,6 +10,7 @@
 #include "system.h"
 #include "io.h"
 #include <compiler.h>
+
 /*
 Function:
 Params:
@@ -74,11 +75,23 @@ bool systemMainClockSelect()
 	}
 }
 
+/*
+Function: systemEnableInterrupts
+Params: none
+Returns: none
+Description: Clears the global interrupt mask.
+*/
 void systemEnableInterrupts()
 {
 	sysreg_write(AVR32_SR, sysreg_read(AVR32_SR) & ~(AVR32_SR_GM_MASK));
 }
 
+/*
+Function: systemDisableInterrupts
+Params: none
+Returns: none
+Description: Sets the global interrupt mask.
+*/
 void systemDisableInterrupts()
 {
 	sysreg_write(AVR32_SR, sysreg_read(AVR32_SR) | AVR32_SR_GM_MASK);

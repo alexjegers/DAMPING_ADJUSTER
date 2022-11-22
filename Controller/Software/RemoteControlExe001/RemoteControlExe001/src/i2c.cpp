@@ -22,23 +22,44 @@ iicDataPacket iicDataPacketHead;
 
 __attribute__((__interrupt__))void iicIntHanlder()
 {
+	if ((iicReadStatus() & TWI_SR_ANAK_bm) != 0)
+	{
+		iicSoftwareReset();
+		iicClearStatus(TWI_SR_ANAK_bm);
+	}
+	
+	if ((iicReadStatus() & TWI_SR_DNAK_bm) != 0)
+	{
+		TWIM.cmdr &= ~TWI_CMDR_VALID_bm;
+		iicClearStatus(TWI_SR_DNAK_bm);
+	}
 	dmaDisable(&DMA_TX);
 	dmaDisable(&DMA_RX);
+	
+	/*If there is an item in the list after the head, begin transmitting it.*/
 	if (iicDataPacketHead.nextPacket != NULL)
 	{
-		if ((iicStatus() & IIC_BUSFREE_bm) != 0)
+		/*Make sure the TWI bus is free.*/
+		if ((iicReadStatus() & IIC_BUSFREE_bm) != 0)
 		{
+			/*Create new data packet to get info from the list item.*/
 			iicDataPacket* dataPacket = iicDataPacketHead.nextPacket;
-			DMA_TX.tcr = dataPacket->size;			
+		
+			/*If read == 0, we are transmitting data.*/
 			if (dataPacket->read == 0)
 			{
+				/*Set up DMA transfer size and data pointer.*/
+				DMA_TX.tcr = dataPacket->size;								
 				DMA_TX.mar = (unsigned long)dataPacket->data;
 			}
 			else
 			{
+				/*Set up DMA transfer size and data pointer.*/
+				DMA_RX.tcr = dataPacket->size;					
 				DMA_RX.mar = (unsigned long)dataPacket->data; 	
 			}
-					
+			
+			/*Set up TWI command register with the slave device address, transfer size, and data direction.*/		
 			TWIM.cmdr = (dataPacket->size << TWI_CMDR_NBYTES_bp)
 			| TWI_CMDR_START_bm
 			| TWI_CMDR_STOP_bm
@@ -46,7 +67,12 @@ __attribute__((__interrupt__))void iicIntHanlder()
 			| (dataPacket->saddr << TWI_CMDR_SADR_bp)
 			| (dataPacket->read << TWI_CMDR_READ_bp);
 			
-			/* Enable the DMA */
+			/* Transmission NACK'd by slave after sending address. */
+			if ((iicReadStatus() & TWI_SR_ANAK_bm) != 0)
+			{
+			}
+			
+			/* Enabling the DMA starts the transmission. */
 			if (dataPacket->read == 0)
 			{
 				dmaEnable(&DMA_TX);
@@ -56,6 +82,13 @@ __attribute__((__interrupt__))void iicIntHanlder()
 				dmaEnable(&DMA_RX);
 			}
 			
+			/* Transmission NACK'd by slave after sending data. */
+			if ((iicReadStatus() & TWI_SR_DNAK_bm) != 0)
+			{
+			}
+			
+			/*If there's no packets after this one, point the head to NULL.*/
+			/*Can't disable the TWI master here or else it stops the data transmission.*/
 			if (dataPacket->nextPacket == NULL)
 			{
 				free(dataPacket);
@@ -66,20 +99,15 @@ __attribute__((__interrupt__))void iicIntHanlder()
 			{
 				iicDataPacketHead.nextPacket = dataPacket->nextPacket;
 				free(dataPacket);
-				LED1_ON;
 			}
 		}
 	}
+	/* If iicDataPacketHead.nextPacket == NULL, there's no more data to transmit currently so disable IIC */
 	else
 	{
 		iicDisableMaster();				
 		iicDisableInterrupt(IIC_BUSFREE_bm);
 	}
-}
-
-__attribute__((__interrupt__))void dmaIntHandler()
-{
-
 }
 
 /*
@@ -139,6 +167,17 @@ Description: Disables the TWI peripheral. There's only 1 so a passing a pointer
 void iicDisableMaster()
 {
 	TWIM.cr = TWI_CR_DIS_bm;	
+}
+
+/*
+Function: iicSoftwareReset
+Params: none
+Returns: none
+Description: Performs a software reset of the TWI peripheral.
+*/
+void iicSoftwareReset()
+{
+	TWIM.cr = TWI_CR_SWRST;	
 }
 
 /*
@@ -252,9 +291,14 @@ Params: none.
 Returns: The TWI status register.
 Description: Returns the TWI status register.
 */
-uint32_t iicStatus()
+uint32_t iicReadStatus()
 {
 	return TWIM.sr;
+}
+
+void iicClearStatus(uint32_t status)
+{
+	TWIM.scr = status;
 }
 
 /*
@@ -267,17 +311,20 @@ Description: Adds a new data packet to the IIC buffer.
 */
 IIC_STATUS_t iicNewTransmission(uint8_t read, uint8_t saddr, uint8_t size, void* data)
 {
+	/*Disable global interrupts.*/
 	systemDisableInterrupts();
+	
+	/*Create a new data packet and assign the data to it.*/
 	iicDataPacket* iicNewData = new iicDataPacket;
 	iicNewData->saddr = saddr;
 	iicNewData->size = size;
 	iicNewData->data = data;
 	iicNewData->read = read;	
 	
-	/* If there's no on going transmission, put the data in the first data packet */
-	if ((iicStatus() & IIC_MENB_bm) == 0)
+	/* If there's no on going transmission, put the data in the first data packet after the head. */
+	if ((iicReadStatus() & IIC_MENB_bm) == 0)
 	{
-		iicDataPacketHead.nextPacket = iicNewData;
+		iicDataPacketHead.nextPacket = iicNewData;	
 		iicEnableInterrupt(IIC_BUSFREE_bm);
 		iicEnableMaster();
 	}
@@ -293,7 +340,7 @@ IIC_STATUS_t iicNewTransmission(uint8_t read, uint8_t saddr, uint8_t size, void*
 		end->nextPacket = iicNewData;
 		iicNewData->nextPacket = NULL;
 	}
-	systemEnableInterrupts();
+
 
 }
 

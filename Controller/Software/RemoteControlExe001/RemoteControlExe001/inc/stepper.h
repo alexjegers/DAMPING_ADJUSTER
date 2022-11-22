@@ -16,7 +16,20 @@
 #define FLAG_GO_TO_ZERO_bm			(1 << 3)			//Flag is set to instruct the program to run the stepperGoToZero function.
 
 #define EEPROM_DEVICE_ADDR			0b01010000
+#define STEPPER_DEVICE_ADDR			0x05
 
+/*Internal address for stepper motor controller.*/
+typedef enum STEPPER_INTERNAL_ADDR_enum
+{
+	MOTOR_SETPOINT =				0x01,
+	MOTOR_POSITION =				0x02,
+	MOTOR_SPEED =					0x03,
+	MOTOR_CURRENT =					0x04,
+	MOTOR_STEP_MODE =				0x05,
+	MOTOR_STATUS_FLAGS =			0x06,
+	BATTERY_VOLTAGE =				0x07,
+	GO_TO_ZERO =					0x08
+}STEPPER_INTERNAL_ADDR_t;
 
 /*Step mode constants for DRV8825*/
 typedef enum STEPPER_STEP_MODES_enum
@@ -27,7 +40,7 @@ typedef enum STEPPER_STEP_MODES_enum
 	MODE_EIGTH_STEP_bm	=			0x3,
 	MODE_SIXTEENTH_STEP_bm	=		0x4,
 	MODE_THIRTY_SECOND_STEP_bm =	0x5,
-	MODE_CLEAR_REGISTER_bm	=		~0x07,
+	MODE_CLEAR_REGISTER_bm	=		~0x07
 }STEP_MODE_t;
 
 
@@ -75,12 +88,12 @@ class STEPPER_MOTOR
 	struct STEPPER_INFO_struct
 	{
 		int16_t position;
-		int16_t previousPosition;						//Had to add this in for stepperGoToZero func.
+		int16_t previousPosition;						
 		int16_t setPoint;
-		STEP_MODE_t stepMode;
-		CURRENT_LIMIT_t currentLimit;
-		DECAY_MODE_t decayMode;
-		uint16_t speedInRPM;
+		static STEP_MODE_t stepMode;
+		static CURRENT_LIMIT_t currentLimit;
+		static DECAY_MODE_t decayMode;
+		static uint16_t speedInRPM;
 		uint8_t timeoutAmount;
 		
 		uint8_t flags;									//See #define's for description and bitmasks.
@@ -97,9 +110,14 @@ class STEPPER_MOTOR
 		}current;
 	}stepperInfo;
 	
+	void sendData(STEPPER_INTERNAL_ADDR_t addr, void* data, uint8_t numBytes);
+	void requestData(STEPPER_INTERNAL_ADDR_t addr, void* data, uint8_t numbytes);
+	void setDeviceAddr(uint8_t addr);
 	void saveSettings();								//Writes the STEPPER_INFO struct to EEPROM.
 	void loadSettings();								//Loads the STEPPER_INFO struct from EEPROM.
+	
 	private:
+	uint8_t deviceAddr;
 };
 
 extern STEPPER_MOTOR frontLeft;

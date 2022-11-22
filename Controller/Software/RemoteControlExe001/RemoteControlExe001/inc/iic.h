@@ -9,11 +9,14 @@
 #ifndef IIC_H_
 #define IIC_H_
 
+/*TWI peripheral IDs.*/
 #define TWIM_TX_PID				16
 #define TWIM_RX_PID				4
 
+/*Macros for TWI peripheral.*/
 #define TWI_CR_EN_bm			1
 #define TWI_CR_DIS_bm			1 << 1	
+#define TWI_CR_SWRST			1 << 7
 #define TWI_CMDR_SADR_bp		1
 #define TWI_CMDR_NBYTES_bp		16
 #define TWI_CMDR_START_bm		1 << 13
@@ -24,7 +27,10 @@
 #define TWI_CMDR_VALID_bm		1 << 15
 #define TWI_SR_TXRDY_bm			1 << 1
 #define TWI_SR_IDLE_bm			1 << 4
+#define TWI_SR_ANAK_bm			1 << 8
+#define TWI_SR_DNAK_bm			1 << 9
 
+/*Macros for DMA controller.*/
 #define DMA_CR_EN_bm			1
 #define DMA_CR_DIS_bm			1 << 1
 #define DMA_ISR_TRC_bm			1 << 1
@@ -33,6 +39,7 @@
 #define DMA_TX				(*(avr32_pdca_channel_t*)0xFFFF0000)
 #define DMA_RX				(*(avr32_pdca_channel_t*)0xFFFF0040)
 
+/*Macros for starting a new transmission.*/
 #define IIC_NEW_TRNS_READ		1
 #define IIC_NEW_TRNS_WRITE		0
 
@@ -57,7 +64,7 @@ typedef enum IIC_INTERRUPT_t
 	IIC_PECERR_bm =		1 << 13,
 	IIC_STOP_bm =		1 << 14,
 	IIC_MENB_bm =		1 << 16
-};
+}IIC_INTERRUPT_t;
 
 typedef enum DMA_INTERRUPT_t
 {
@@ -76,26 +83,29 @@ class iicDataPacket
 	iicDataPacket* nextPacket;		//Pointer to next data packet.
 };
 
-//iicDataPacket iicDataPacketHead;
 
-void iicIntHanlder();
-void dmaIntHandler();
-uint32_t dmaIntStatus(avr32_pdca_channel_t* dma);
-void dmaEnableInterrupt(avr32_pdca_channel_t* dma, DMA_INTERRUPT_t interrupt);
-void dmaDisableInterrupt(avr32_pdca_channel_t* dma, DMA_INTERRUPT_t interrupt);
-void iicSetup();
-void iicEnableMaster();
-void iicDisableMaster();
-void iicEnableInterrupt(IIC_INTERRUPT_t interrupt);
-void iicDisableInterrupt(IIC_INTERRUPT_t interrupt);
-void dmaEnable(avr32_pdca_channel_t* dma);
-void dmaDisable(avr32_pdca_channel_t* dma);
-uint32_t iicInterruptMask();
-uint32_t iicStatus();
-IIC_STATUS_t iicSetClkSpeed(uint32_t pbaClkSpeed, uint32_t iicClkSpeed);
-IIC_STATUS_t iicNewTransmission(uint8_t read, uint8_t saddr, uint8_t size, void* data);
+/*IIC/TWI functions*/
+void iicIntHanlder();															//Handles IIC interrupt
+void iicSetup();																//Must be called on device startup.
+void iicEnableMaster();															//Enables the TWI master interface.
+void iicDisableMaster();														//Disables the TWI master interface.
+void iicSoftwareReset();
+void iicEnableInterrupt(IIC_INTERRUPT_t interrupt);								//Enables a TWI interrupt.
+void iicDisableInterrupt(IIC_INTERRUPT_t interrupt);							//Disables a TWI interrupt.
+uint32_t iicInterruptMask();													//Returns the TWI interrupt mask register.
+uint32_t iicReadStatus();														//Returns the TWI status register.
+void iicClearStatus(uint32_t status);											//Clears a specified bit in the status register.
+IIC_STATUS_t iicSetClkSpeed(uint32_t pbaClkSpeed, uint32_t iicClkSpeed);		//Sets the TWI clock speed.
+IIC_STATUS_t iicNewTransmission(uint8_t read, uint8_t saddr,					//Adds a new IIC data transmission to the buffer.
+								uint8_t size, void* data);	
 
-
+/*DMA functions*/
+void dmaEnable(avr32_pdca_channel_t* dma);										//Enables a specified DMA channel.
+void dmaDisable(avr32_pdca_channel_t* dma);										//Disables a specified DMA channel.
+void dmaIntHandler();															//Handles DMA interrupts.
+uint32_t dmaIntStatus(avr32_pdca_channel_t* dma);								//Returns the DMA status register.
+void dmaEnableInterrupt(avr32_pdca_channel_t* dma, DMA_INTERRUPT_t interrupt);	//Enables a DMA interrupt.
+void dmaDisableInterrupt(avr32_pdca_channel_t* dma, DMA_INTERRUPT_t interrupt);	//Disables a DMA interrupt.
 
 
 #endif /* IIC_H_ */

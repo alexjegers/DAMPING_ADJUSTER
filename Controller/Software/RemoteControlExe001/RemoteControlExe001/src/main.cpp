@@ -21,10 +21,8 @@
 #include "stepper.h"
 #include "iic.h"
 
-uint8_t testyRead = 0;
-uint8_t readAddr = 0x00;
-	uint8_t bigTest[5] = {0, 1, 2, 3, 4};
-	uint8_t testRead[5];
+uint8_t data = 0;
+
 int main(void)
 {
 	/*Debug LEDs as IO and output.*/
@@ -69,14 +67,12 @@ int main(void)
 	LED2_OFF;
 	LED3_OFF;
 	
-	/* write 5, write 1, read 1 */
- 	iicNewTransmission(IIC_NEW_TRNS_WRITE, EEPROM_DEVICE_ADDR, sizeof(bigTest), &bigTest);
-	iicNewTransmission(IIC_NEW_TRNS_WRITE, EEPROM_DEVICE_ADDR, 1, &readAddr);	 
-	iicNewTransmission(IIC_NEW_TRNS_READ, EEPROM_DEVICE_ADDR, 1, &testyRead);
+
+	frontLeft.setDeviceAddr(0x05);
+	frontLeft.sendData(GO_TO_ZERO, &data, 1);
 
 	
-  	frontLeft.stepperInfo.position = 5;
-	frontRight.stepperInfo.position = 5;
+
 	while(1)
     {
 
