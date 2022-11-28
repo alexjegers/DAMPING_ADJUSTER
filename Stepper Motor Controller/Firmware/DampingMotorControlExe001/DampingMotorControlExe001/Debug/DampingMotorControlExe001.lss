@@ -2031,6 +2031,7 @@ bool stepperIsMoving()
  c30:	91 11       	cpse	r25, r1
  c32:	01 c0       	rjmp	.+2      	; 0xc36 <stepperIsMoving+0xc>
  c34:	80 e0       	ldi	r24, 0x00	; 0
+}
  c36:	08 95       	ret
 
 00000c38 <systemPortAConfig>:

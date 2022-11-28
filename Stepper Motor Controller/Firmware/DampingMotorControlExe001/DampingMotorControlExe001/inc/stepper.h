@@ -127,7 +127,6 @@ void stepperClearTimeoutCnt();						//Resets the TCB CNT register to zero.
 /*Functions to write to the stepper info struct*/
 void stepperSetSetPoint(int16_t setPoint);			//Sets the set point.
 void stepperSetPosition(int16_t position);			//Overrides the position.
-void stepperSetPosition();
 void stepperSetStepMode(STEP_MODE_t mode);			//Sets the stepping mode for the stepper.
 void stepperSetSpeed(uint16_t speedInRPM);			//Writes to speedInRPM in STEPPER_INFO struct.
 void stepperIncrementPosition(int8_t direction);	//Increments stepper position by +-1 when the encoder interrupt fires.

@@ -598,8 +598,3 @@ bool stepperIsMoving()
 {
 	return TCB2.STATUS;
 }
-
-void stepperSetPosition()
-{
-	
-}
