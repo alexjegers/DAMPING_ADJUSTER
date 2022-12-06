@@ -34,7 +34,7 @@ ISR(TWI1_TWIS_vect)
 
 	iicWaitForDataIntFlag();
 	
-	/*First byte is the offset from the start of the p_IIC_DATA struct where it will begin writing to.*/
+	/*First byte recieved is the offset from the start of the p_IIC_DATA struct where it will begin writing to.*/
 	uint8_t startingOffset = iicReadSdata();
 	uint8_t* maxOffset = p_IIC_DATA + size;	
 	p_IIC_DATA += startingOffset;
@@ -46,7 +46,6 @@ ISR(TWI1_TWIS_vect)
 		if (iicDataIntFlag() != 0)
 		{
 			/*NACK a message that is trying to write to or read from out of the bounds of the struct.*/
-
 			if (p_IIC_DATA > maxOffset)
 			{
 				iicWriteSdata(0x00);
@@ -97,12 +96,24 @@ void iicInit()
 	systemConfigTCB(iicTimeoutTimer, TCB_PER_1SEC);	//Configure the timeout timer to a 1 second timeout.
 }
 
+/*
+Function: iicEnableInterrupts
+Params: none
+Returns: none
+Description: enables necessary IIC interrupts.
+*/
 void iicEnableInterrupts()
 {
 	TWI1.SCTRLA |= TWI_APIEN_bm
 				| TWI_DIEN_bm;
 }
 
+/*
+Function: iicDisableInterrupts
+Params: none
+Returns: none
+Description: Disables necessary IIC interrupts.
+*/
 void iicDisableInterrupts()
 {
 	TWI1.SCTRLA &= ~(TWI_APIEN_bm
@@ -219,7 +230,12 @@ void iicKill()
 	TWI1.CTRLA &= ~(TWI_ENABLE_bm);
 }
 
-
+/*
+Function: iicLoadFromStepper
+Params: none
+Returns: none
+Description: takes data from the stepper motor struct and puts it into the IIC data struct.
+*/
 void iicLoadFromStepper()
 {
 	IIC_DATA.position = stepperPosition();
@@ -231,6 +247,13 @@ void iicLoadFromStepper()
 	IIC_DATA.flags = stepperFlags();
 }
 
+/*
+Function: iicLoadToStepper
+Params: none
+Returns: none
+Description: Takes data from the IIC data struct and filters it and loads it into the
+			stepper motor struct.
+*/
 void iicLoadToStepper()
 {
 	stepperSetPosition(IIC_DATA.position);

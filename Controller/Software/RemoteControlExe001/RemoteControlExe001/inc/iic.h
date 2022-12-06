@@ -43,6 +43,8 @@
 #define IIC_NEW_TRNS_READ		1
 #define IIC_NEW_TRNS_WRITE		0
 
+namespace iic
+{
 typedef enum IIC_STATUS_t
 {
 	IIC_OK = 			0,
@@ -66,38 +68,48 @@ typedef enum IIC_INTERRUPT_t
 	IIC_MENB_bm =		1 << 16
 }IIC_INTERRUPT_t;
 
+
+
+
+	class DataPacket
+	{
+		public:
+		uint8_t read;					//1 for read, 0 for write.	
+		uint8_t internalAddr;			//Internal address of slave to begin reading or writing from.
+		uint8_t saddr;					//Slave device address.
+		uint8_t size;					//Size of data.
+		void* data;						//Pointer to data.
+		DataPacket* nextPacket;			//Pointer to next data packet.
+	};
+	
+	
+	/*TWI functions*/
+	void intHanlder();															//Handles  interrupt
+	void setup();																//Must be called on device startup.
+	void enableMaster();														//Enables the TWI master interface.
+	void disableMaster();														//Disables the TWI master interface.
+	void softwareReset();
+	void enableInterrupt(IIC_INTERRUPT_t interrupt);							//Enables a TWI interrupt.
+	void disableInterrupt(IIC_INTERRUPT_t interrupt);							//Disables a TWI interrupt.
+	uint32_t interruptMask();													//Returns the TWI interrupt mask register.
+	uint32_t readStatus();														//Returns the TWI status register.
+	void clearStatus(uint32_t status);											//Clears a specified bit in the status register.
+	IIC_STATUS_t setClkSpeed(uint32_t pbaClkSpeed, uint32_t ClkSpeed);			//Sets the TWI clock speed.
+	void fastTransmission(uint8_t read, uint8_t saddr, uint8_t internalAddr,	//Adds a new  data transmission to the buffer.
+									uint8_t size, void* data);
+	IIC_STATUS_t slowTransmission(uint8_t read, uint8_t saddr,
+									uint8_t size, void* data);
+	IIC_STATUS_t probe(uint8_t saddr);
+}
+
+
+	
 typedef enum DMA_INTERRUPT_t
 {
 	DMA_RCZ_bm =		1,
 	DMA_TRC_bm =		1 << 1,
 	DMA_TERR_bm =		1 << 2
 };
-
-class iicDataPacket
-{
-	public:
-	uint8_t read;					//1 for read, 0 for write.				
-	uint8_t saddr;					//Slave device address.
-	uint8_t size;					//Size of data.
-	void* data;						//Pointer to data.
-	iicDataPacket* nextPacket;		//Pointer to next data packet.
-};
-
-
-/*IIC/TWI functions*/
-void iicIntHanlder();															//Handles IIC interrupt
-void iicSetup();																//Must be called on device startup.
-void iicEnableMaster();															//Enables the TWI master interface.
-void iicDisableMaster();														//Disables the TWI master interface.
-void iicSoftwareReset();
-void iicEnableInterrupt(IIC_INTERRUPT_t interrupt);								//Enables a TWI interrupt.
-void iicDisableInterrupt(IIC_INTERRUPT_t interrupt);							//Disables a TWI interrupt.
-uint32_t iicInterruptMask();													//Returns the TWI interrupt mask register.
-uint32_t iicReadStatus();														//Returns the TWI status register.
-void iicClearStatus(uint32_t status);											//Clears a specified bit in the status register.
-IIC_STATUS_t iicSetClkSpeed(uint32_t pbaClkSpeed, uint32_t iicClkSpeed);		//Sets the TWI clock speed.
-IIC_STATUS_t iicNewTransmission(uint8_t read, uint8_t saddr,					//Adds a new IIC data transmission to the buffer.
-								uint8_t size, void* data);	
 
 /*DMA functions*/
 void dmaEnable(avr32_pdca_channel_t* dma);										//Enables a specified DMA channel.

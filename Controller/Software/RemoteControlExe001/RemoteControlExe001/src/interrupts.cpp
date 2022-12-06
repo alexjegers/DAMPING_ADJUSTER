@@ -44,7 +44,7 @@ __attribute__((__interrupt__))void intHandlerPortA()
 		break;
 	}
 	handleNewEvent(displayCurrentEvent);
-	ioPinHigh(&LED_PORT, LED2_PIN);							//Turn on an LED.
+	LED2_ON;												//Turn on an LED.
 	ioClearIntFlag(&SW_PORT, SW1_bm | SW2_bm | SW3_bm		//Don't care which switch triggered it clear them all.
 					| SW4_bm | SW5_bm);
 }

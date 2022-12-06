@@ -24,16 +24,12 @@ uint16_t STEPPER_MOTOR::STEPPER_INFO_struct::speedInRPM = 100;
 
 void STEPPER_MOTOR::sendData(STEPPER_INTERNAL_ADDR_t addr, void* data, uint8_t numBytes)
 {
-	uint8_t internalAddr = addr;
-	iicNewTransmission(IIC_NEW_TRNS_WRITE, deviceAddr, 1, &internalAddr);			//Write internal address.
-	iicNewTransmission(IIC_NEW_TRNS_WRITE, deviceAddr, numBytes, &data);			//Write the data.
-	systemEnableInterrupts();
+
 }
 
 void STEPPER_MOTOR::requestData(STEPPER_INTERNAL_ADDR_t addr, void* data, uint8_t numbytes)
 {
-	iicNewTransmission(IIC_NEW_TRNS_WRITE, deviceAddr, 1, &addr);
-	iicNewTransmission(IIC_NEW_TRNS_READ, deviceAddr, numbytes, &data);	
+
 }
 
 void STEPPER_MOTOR::setDeviceAddr(uint8_t addr)

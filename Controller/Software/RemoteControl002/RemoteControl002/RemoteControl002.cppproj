@@ -32,8 +32,14 @@
       <framework-data>
         <options>
           <option id="common.boards" value="Add" config="" content-id="Atmel.ASF" />
+          <option id="common.services.delay" value="Add" config="" content-id="Atmel.ASF" />
         </options>
-        <configurations />
+        <configurations>
+          <configuration key="config.avr32.utils.trampoline" value="yes" default="yes" content-id="Atmel.ASF" />
+          <configuration key="config.avr32.utils.gccstartup" value="yes" default="yes" content-id="Atmel.ASF" />
+          <configuration key="config.utils.interrupt.intc" value="yes" default="yes" content-id="Atmel.ASF" />
+          <configuration key="config.avr32.drivers.intc.exception" value="yes" default="yes" content-id="Atmel.ASF" />
+        </configurations>
         <files>
           <file path="src/ASF/avr32/drivers/intc/exception.S" framework="" version="" source="avr32/drivers/intc/exception.S" changed="False" content-id="Atmel.ASF" />
           <file path="src/ASF/avr32/drivers/intc/intc.c" framework="" version="" source="avr32/drivers/intc/intc.c" changed="False" content-id="Atmel.ASF" />
@@ -60,6 +66,22 @@
           <file path="src/ASF/common/utils/interrupt.h" framework="" version="" source="common/utils/interrupt.h" changed="False" content-id="Atmel.ASF" />
           <file path="src/ASF/common/utils/interrupt/interrupt_avr32.h" framework="" version="" source="common/utils/interrupt/interrupt_avr32.h" changed="False" content-id="Atmel.ASF" />
           <file path="src/ASF/common/utils/parts.h" framework="" version="" source="common/utils/parts.h" changed="False" content-id="Atmel.ASF" />
+          <file path="src/ASF/avr32/drivers/cpu/cycle_counter/cycle_counter.h" framework="" version="3.52.0" source="avr32\drivers\cpu\cycle_counter\cycle_counter.h" changed="False" content-id="Atmel.ASF" />
+          <file path="src/ASF/avr32/drivers/flashcdw/flashcdw.c" framework="" version="3.52.0" source="avr32\drivers\flashcdw\flashcdw.c" changed="False" content-id="Atmel.ASF" />
+          <file path="src/ASF/avr32/drivers/flashcdw/flashcdw.h" framework="" version="3.52.0" source="avr32\drivers\flashcdw\flashcdw.h" changed="False" content-id="Atmel.ASF" />
+          <file path="src/ASF/common/services/clock/uc3d/pll.c" framework="" version="3.52.0" source="common\services\clock\uc3d\pll.c" changed="False" content-id="Atmel.ASF" />
+          <file path="src/ASF/common/services/clock/uc3d/sysclk.c" framework="" version="3.52.0" source="common\services\clock\uc3d\sysclk.c" changed="False" content-id="Atmel.ASF" />
+          <file path="src/ASF/common/services/clock/uc3d/osc.c" framework="" version="3.52.0" source="common\services\clock\uc3d\osc.c" changed="False" content-id="Atmel.ASF" />
+          <file path="src/ASF/common/services/clock/uc3d/pll.h" framework="" version="3.52.0" source="common\services\clock\uc3d\pll.h" changed="False" content-id="Atmel.ASF" />
+          <file path="src/ASF/common/services/clock/genclk.h" framework="" version="3.52.0" source="common\services\clock\genclk.h" changed="False" content-id="Atmel.ASF" />
+          <file path="src/ASF/common/services/clock/osc.h" framework="" version="3.52.0" source="common\services\clock\osc.h" changed="False" content-id="Atmel.ASF" />
+          <file path="src/ASF/common/services/clock/uc3d/genclk.h" framework="" version="3.52.0" source="common\services\clock\uc3d\genclk.h" changed="False" content-id="Atmel.ASF" />
+          <file path="src/ASF/common/services/clock/uc3d/osc.h" framework="" version="3.52.0" source="common\services\clock\uc3d\osc.h" changed="False" content-id="Atmel.ASF" />
+          <file path="src/ASF/common/services/clock/uc3d/sysclk.h" framework="" version="3.52.0" source="common\services\clock\uc3d\sysclk.h" changed="False" content-id="Atmel.ASF" />
+          <file path="src/ASF/common/services/clock/sysclk.h" framework="" version="3.52.0" source="common\services\clock\sysclk.h" changed="False" content-id="Atmel.ASF" />
+          <file path="src/ASF/common/services/clock/pll.h" framework="" version="3.52.0" source="common\services\clock\pll.h" changed="False" content-id="Atmel.ASF" />
+          <file path="src/Config/conf_clock.h" framework="" version="3.52.0" source="common\services\clock\uc3d\module_config\conf_clock.h" changed="False" content-id="Atmel.ASF" />
+          <file path="src/ASF/common/services/delay/delay.h" framework="" version="3.52.0" source="common\services\delay\delay.h" changed="False" content-id="Atmel.ASF" />
         </files>
         <documentation help="https://asf.microchip.com/docs/3.52.0/common.applications.user_application.user_board.uc3d/html/index.html" />
         <offline-documentation help="" />
@@ -111,6 +133,10 @@
             <Value>../src/ASF/common/boards/user_board</Value>
             <Value>../src</Value>
             <Value>../src/config</Value>
+            <Value>../src/ASF/avr32/drivers/cpu/cycle_counter</Value>
+            <Value>../src/ASF/avr32/drivers/flashcdw</Value>
+            <Value>../src/ASF/common/services/clock</Value>
+            <Value>../src/ASF/common/services/delay</Value>
           </ListValues>
         </avr32gcc.compiler.directories.IncludePaths>
         <avr32gcc.compiler.optimization.level>Optimize for size (-Os)</avr32gcc.compiler.optimization.level>
@@ -136,6 +162,10 @@
             <Value>../src/ASF/common/boards/user_board</Value>
             <Value>../src</Value>
             <Value>../src/config</Value>
+            <Value>../src/ASF/avr32/drivers/cpu/cycle_counter</Value>
+            <Value>../src/ASF/avr32/drivers/flashcdw</Value>
+            <Value>../src/ASF/common/services/clock</Value>
+            <Value>../src/ASF/common/services/delay</Value>
           </ListValues>
         </avr32gcccpp.compiler.directories.IncludePaths>
         <avr32gcccpp.compiler.optimization.level>Optimize for size (-Os)</avr32gcccpp.compiler.optimization.level>
@@ -161,6 +191,10 @@
             <Value>../src/ASF/common/boards/user_board</Value>
             <Value>../src</Value>
             <Value>../src/config</Value>
+            <Value>../src/ASF/avr32/drivers/cpu/cycle_counter</Value>
+            <Value>../src/ASF/avr32/drivers/flashcdw</Value>
+            <Value>../src/ASF/common/services/clock</Value>
+            <Value>../src/ASF/common/services/delay</Value>
           </ListValues>
         </avr32gcccpp.assembler.general.IncludePaths>
         <avr32gcccpp.preprocessingassembler.general.IncludePaths>
@@ -174,6 +208,10 @@
             <Value>../src/ASF/common/boards/user_board</Value>
             <Value>../src</Value>
             <Value>../src/config</Value>
+            <Value>../src/ASF/avr32/drivers/cpu/cycle_counter</Value>
+            <Value>../src/ASF/avr32/drivers/flashcdw</Value>
+            <Value>../src/ASF/common/services/clock</Value>
+            <Value>../src/ASF/common/services/delay</Value>
           </ListValues>
         </avr32gcccpp.preprocessingassembler.general.IncludePaths>
       </Avr32GccCpp>
@@ -203,6 +241,10 @@
             <Value>../src/ASF/common/boards/user_board</Value>
             <Value>../src</Value>
             <Value>../src/config</Value>
+            <Value>../src/ASF/avr32/drivers/cpu/cycle_counter</Value>
+            <Value>../src/ASF/avr32/drivers/flashcdw</Value>
+            <Value>../src/ASF/common/services/clock</Value>
+            <Value>../src/ASF/common/services/delay</Value>
           </ListValues>
         </avr32gcc.compiler.directories.IncludePaths>
         <avr32gcc.compiler.optimization.level>Optimize (-O1)</avr32gcc.compiler.optimization.level>
@@ -229,6 +271,11 @@
             <Value>../src/ASF/common/boards/user_board</Value>
             <Value>../src</Value>
             <Value>../src/config</Value>
+            <Value>../inc</Value>
+            <Value>../src/ASF/avr32/drivers/cpu/cycle_counter</Value>
+            <Value>../src/ASF/avr32/drivers/flashcdw</Value>
+            <Value>../src/ASF/common/services/clock</Value>
+            <Value>../src/ASF/common/services/delay</Value>
           </ListValues>
         </avr32gcccpp.compiler.directories.IncludePaths>
         <avr32gcccpp.compiler.optimization.level>Optimize (-O1)</avr32gcccpp.compiler.optimization.level>
@@ -255,6 +302,10 @@
             <Value>../src/ASF/common/boards/user_board</Value>
             <Value>../src</Value>
             <Value>../src/config</Value>
+            <Value>../src/ASF/avr32/drivers/cpu/cycle_counter</Value>
+            <Value>../src/ASF/avr32/drivers/flashcdw</Value>
+            <Value>../src/ASF/common/services/clock</Value>
+            <Value>../src/ASF/common/services/delay</Value>
           </ListValues>
         </avr32gcccpp.assembler.general.IncludePaths>
         <avr32gcccpp.assembler.debugging.DebugLevel>Default (-g)</avr32gcccpp.assembler.debugging.DebugLevel>
@@ -269,6 +320,10 @@
             <Value>../src/ASF/common/boards/user_board</Value>
             <Value>../src</Value>
             <Value>../src/config</Value>
+            <Value>../src/ASF/avr32/drivers/cpu/cycle_counter</Value>
+            <Value>../src/ASF/avr32/drivers/flashcdw</Value>
+            <Value>../src/ASF/common/services/clock</Value>
+            <Value>../src/ASF/common/services/delay</Value>
           </ListValues>
         </avr32gcccpp.preprocessingassembler.general.IncludePaths>
         <avr32gcccpp.preprocessingassembler.debugging.DebugLevel>Default (-Wa,-g)</avr32gcccpp.preprocessingassembler.debugging.DebugLevel>
@@ -276,7 +331,94 @@
     </ToolchainSettings>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="main.cpp">
+    <Compile Include="inc\fonts.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="inc\forms.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="inc\iic.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="inc\io.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="inc\lcd.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="inc\stepper.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="inc\system.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\ASF\avr32\drivers\flashcdw\flashcdw.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\forms.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <None Include="src\ASF\common\services\delay\delay.h">
+      <SubType>compile</SubType>
+    </None>
+    <None Include="src\config\conf_clock.h">
+      <SubType>compile</SubType>
+    </None>
+    <None Include="src\ASF\common\services\clock\pll.h">
+      <SubType>compile</SubType>
+    </None>
+    <None Include="src\ASF\common\services\clock\sysclk.h">
+      <SubType>compile</SubType>
+    </None>
+    <None Include="src\ASF\common\services\clock\uc3d\sysclk.h">
+      <SubType>compile</SubType>
+    </None>
+    <None Include="src\ASF\common\services\clock\uc3d\osc.h">
+      <SubType>compile</SubType>
+    </None>
+    <None Include="src\ASF\common\services\clock\uc3d\genclk.h">
+      <SubType>compile</SubType>
+    </None>
+    <None Include="src\ASF\common\services\clock\osc.h">
+      <SubType>compile</SubType>
+    </None>
+    <None Include="src\ASF\common\services\clock\genclk.h">
+      <SubType>compile</SubType>
+    </None>
+    <Compile Include="src\ASF\common\services\clock\uc3d\osc.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\ASF\common\services\clock\uc3d\pll.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <None Include="src\ASF\common\services\clock\uc3d\pll.h">
+      <SubType>compile</SubType>
+    </None>
+    <Compile Include="src\ASF\common\services\clock\uc3d\sysclk.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <None Include="src\ASF\avr32\drivers\flashcdw\flashcdw.h">
+      <SubType>compile</SubType>
+    </None>
+    <None Include="src\ASF\avr32\drivers\cpu\cycle_counter\cycle_counter.h">
+      <SubType>compile</SubType>
+    </None>
+    <Compile Include="src\i2c.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\io.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\lcd.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\main.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\stepper.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\system.cpp">
       <SubType>compile</SubType>
     </Compile>
     <None Include="src\asf.h">
@@ -342,6 +484,9 @@
     <None Include="src\ASF\avr32\utils\preprocessor\preprocessor.h">
       <SubType>compile</SubType>
     </None>
+    <Compile Include="src\ASF\avr32\utils\startup\startup_uc3.S">
+      <SubType>compile</SubType>
+    </Compile>
     <None Include="src\ASF\avr32\utils\startup\trampoline_uc3.h">
       <SubType>compile</SubType>
     </None>
@@ -353,10 +498,14 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="inc" />
     <Folder Include="src\" />
     <Folder Include="src\ASF\" />
     <Folder Include="src\ASF\avr32\" />
     <Folder Include="src\ASF\avr32\drivers\" />
+    <Folder Include="src\ASF\avr32\drivers\cpu\" />
+    <Folder Include="src\ASF\avr32\drivers\cpu\cycle_counter\" />
+    <Folder Include="src\ASF\avr32\drivers\flashcdw\" />
     <Folder Include="src\ASF\avr32\drivers\intc\" />
     <Folder Include="src\ASF\avr32\utils\" />
     <Folder Include="src\ASF\avr32\utils\header_files\" />
@@ -366,6 +515,10 @@
     <Folder Include="src\ASF\common\" />
     <Folder Include="src\ASF\common\boards\" />
     <Folder Include="src\ASF\common\boards\user_board\" />
+    <Folder Include="src\ASF\common\services\" />
+    <Folder Include="src\ASF\common\services\clock\" />
+    <Folder Include="src\ASF\common\services\clock\uc3d\" />
+    <Folder Include="src\ASF\common\services\delay\" />
     <Folder Include="src\ASF\common\utils\" />
     <Folder Include="src\ASF\common\utils\interrupt\" />
     <Folder Include="src\config\" />

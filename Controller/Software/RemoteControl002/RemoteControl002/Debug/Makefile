@@ -33,10 +33,14 @@ LINKER_SCRIPT_DEP:=
 
 # Every subdirectory with source files must be described here
 SUBDIRS :=  \
+../inc \
 ../src/ \
 ../src/ASF/ \
 ../src/ASF/avr32/ \
 ../src/ASF/avr32/drivers/ \
+../src/ASF/avr32/drivers/cpu/ \
+../src/ASF/avr32/drivers/cpu/cycle_counter/ \
+../src/ASF/avr32/drivers/flashcdw/ \
 ../src/ASF/avr32/drivers/intc/ \
 ../src/ASF/avr32/utils/ \
 ../src/ASF/avr32/utils/header_files/ \
@@ -46,6 +50,10 @@ SUBDIRS :=  \
 ../src/ASF/common/ \
 ../src/ASF/common/boards/ \
 ../src/ASF/common/boards/user_board/ \
+../src/ASF/common/services/ \
+../src/ASF/common/services/clock/ \
+../src/ASF/common/services/clock/uc3d/ \
+../src/ASF/common/services/delay/ \
 ../src/ASF/common/utils/ \
 ../src/ASF/common/utils/interrupt/ \
 ../src/config/
@@ -53,13 +61,24 @@ SUBDIRS :=  \
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS +=  \
-../main.cpp \
+../src/ASF/avr32/drivers/flashcdw/flashcdw.c \
+../src/forms.cpp \
+../src/ASF/common/services/clock/uc3d/osc.c \
+../src/ASF/common/services/clock/uc3d/pll.c \
+../src/ASF/common/services/clock/uc3d/sysclk.c \
+../src/i2c.cpp \
+../src/io.cpp \
+../src/lcd.cpp \
+../src/main.cpp \
+../src/stepper.cpp \
+../src/system.cpp \
 ../src/ASF/avr32/drivers/intc/intc.c \
 ../src/ASF/common/boards/user_board/init.c
 
 
 PREPROCESSING_SRCS +=  \
 ../src/ASF/avr32/drivers/intc/exception.S \
+../src/ASF/avr32/utils/startup/startup_uc3.S \
 ../src/ASF/avr32/utils/startup/trampoline_uc3.S
 
 
@@ -67,30 +86,74 @@ ASM_SRCS +=
 
 
 OBJS +=  \
-main.o \
+src/ASF/avr32/drivers/flashcdw/flashcdw.o \
+src/forms.o \
+src/ASF/common/services/clock/uc3d/osc.o \
+src/ASF/common/services/clock/uc3d/pll.o \
+src/ASF/common/services/clock/uc3d/sysclk.o \
+src/i2c.o \
+src/io.o \
+src/lcd.o \
+src/main.o \
+src/stepper.o \
+src/system.o \
 src/ASF/avr32/drivers/intc/exception.o \
 src/ASF/avr32/drivers/intc/intc.o \
+src/ASF/avr32/utils/startup/startup_uc3.o \
 src/ASF/avr32/utils/startup/trampoline_uc3.o \
 src/ASF/common/boards/user_board/init.o
 
 OBJS_AS_ARGS +=  \
-main.o \
+src/ASF/avr32/drivers/flashcdw/flashcdw.o \
+src/forms.o \
+src/ASF/common/services/clock/uc3d/osc.o \
+src/ASF/common/services/clock/uc3d/pll.o \
+src/ASF/common/services/clock/uc3d/sysclk.o \
+src/i2c.o \
+src/io.o \
+src/lcd.o \
+src/main.o \
+src/stepper.o \
+src/system.o \
 src/ASF/avr32/drivers/intc/exception.o \
 src/ASF/avr32/drivers/intc/intc.o \
+src/ASF/avr32/utils/startup/startup_uc3.o \
 src/ASF/avr32/utils/startup/trampoline_uc3.o \
 src/ASF/common/boards/user_board/init.o
 
 C_DEPS +=  \
-main.d \
+src/ASF/avr32/drivers/flashcdw/flashcdw.d \
+src/forms.d \
+src/ASF/common/services/clock/uc3d/osc.d \
+src/ASF/common/services/clock/uc3d/pll.d \
+src/ASF/common/services/clock/uc3d/sysclk.d \
+src/i2c.d \
+src/io.d \
+src/lcd.d \
+src/main.d \
+src/stepper.d \
+src/system.d \
 src/ASF/avr32/drivers/intc/exception.d \
 src/ASF/avr32/drivers/intc/intc.d \
+src/ASF/avr32/utils/startup/startup_uc3.d \
 src/ASF/avr32/utils/startup/trampoline_uc3.d \
 src/ASF/common/boards/user_board/init.d
 
 C_DEPS_AS_ARGS +=  \
-main.d \
+src/ASF/avr32/drivers/flashcdw/flashcdw.d \
+src/forms.d \
+src/ASF/common/services/clock/uc3d/osc.d \
+src/ASF/common/services/clock/uc3d/pll.d \
+src/ASF/common/services/clock/uc3d/sysclk.d \
+src/i2c.d \
+src/io.d \
+src/lcd.d \
+src/main.d \
+src/stepper.d \
+src/system.d \
 src/ASF/avr32/drivers/intc/exception.d \
 src/ASF/avr32/drivers/intc/intc.d \
+src/ASF/avr32/utils/startup/startup_uc3.d \
 src/ASF/avr32/utils/startup/trampoline_uc3.d \
 src/ASF/common/boards/user_board/init.d
 
@@ -108,24 +171,94 @@ LINKER_SCRIPT_DEP+=
 
 
 # AVR32/GNU C Compiler
-./main.o: .././main.cpp
+src/ASF/avr32/drivers/flashcdw/flashcdw.o: ../src/ASF/avr32/drivers/flashcdw/flashcdw.c
 	@echo Building file: $<
 	@echo Invoking: AVR32/GNU C++ Compiler : 4.4.7
-	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr32\avr32-gnu-toolchain\bin\avr32-g++.exe$(QUOTE) -DDEBUG -DBOARD=USER_BOARD  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\UC3D_DFP\1.0.54\include\ATUC128D3" -I"../src/ASF/common/boards" -I"../src/ASF/avr32/utils/preprocessor" -I"../src/ASF/avr32/utils" -I"../src/ASF/common/utils" -I"../src/ASF/avr32/drivers/intc" -I"../src/ASF/common/boards/user_board" -I"../src" -I"../src/config"  -O1 -ffunction-sections -masm-addr-pseudos -g3 -Wall -mpart=uc128d3 -c -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
+	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr32\avr32-gnu-toolchain\bin\avr32-gcc.exe$(QUOTE)  -x c -DDEBUG -DBOARD=USER_BOARD  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\UC3D_DFP\1.0.54\include\ATUC128D3" -I"../src/ASF/common/boards" -I"../src/ASF/avr32/utils/preprocessor" -I"../src/ASF/avr32/utils" -I"../src/ASF/common/utils" -I"../src/ASF/avr32/drivers/intc" -I"../src/ASF/common/boards/user_board" -I"../src" -I"../src/config" -I"../src/ASF/avr32/drivers/cpu/cycle_counter" -I"../src/ASF/avr32/drivers/flashcdw" -I"../src/ASF/common/services/clock" -I"../src/ASF/common/services/delay"  -O1 -fdata-sections -ffunction-sections -masm-addr-pseudos -g3 -Wall -mpart=uc128d3 -c -std=gnu99 -fno-strict-aliasing -Wstrict-prototypes -Wmissing-prototypes -Werror-implicit-function-declaration -Wpointer-arith -mrelax -mno-cond-exec-before-reload -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
+	@echo Finished building: $<
+	
+
+src/forms.o: ../src/forms.cpp
+	@echo Building file: $<
+	@echo Invoking: AVR32/GNU C++ Compiler : 4.4.7
+	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr32\avr32-gnu-toolchain\bin\avr32-g++.exe$(QUOTE) -DDEBUG -DBOARD=USER_BOARD  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\UC3D_DFP\1.0.54\include\ATUC128D3" -I"../src/ASF/common/boards" -I"../src/ASF/avr32/utils/preprocessor" -I"../src/ASF/avr32/utils" -I"../src/ASF/common/utils" -I"../src/ASF/avr32/drivers/intc" -I"../src/ASF/common/boards/user_board" -I"../src" -I"../src/config" -I"../inc" -I"../src/ASF/avr32/drivers/cpu/cycle_counter" -I"../src/ASF/avr32/drivers/flashcdw" -I"../src/ASF/common/services/clock" -I"../src/ASF/common/services/delay"  -O1 -ffunction-sections -masm-addr-pseudos -g3 -Wall -mpart=uc128d3 -c -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
+	@echo Finished building: $<
+	
+
+src/ASF/common/services/clock/uc3d/osc.o: ../src/ASF/common/services/clock/uc3d/osc.c
+	@echo Building file: $<
+	@echo Invoking: AVR32/GNU C++ Compiler : 4.4.7
+	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr32\avr32-gnu-toolchain\bin\avr32-gcc.exe$(QUOTE)  -x c -DDEBUG -DBOARD=USER_BOARD  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\UC3D_DFP\1.0.54\include\ATUC128D3" -I"../src/ASF/common/boards" -I"../src/ASF/avr32/utils/preprocessor" -I"../src/ASF/avr32/utils" -I"../src/ASF/common/utils" -I"../src/ASF/avr32/drivers/intc" -I"../src/ASF/common/boards/user_board" -I"../src" -I"../src/config" -I"../src/ASF/avr32/drivers/cpu/cycle_counter" -I"../src/ASF/avr32/drivers/flashcdw" -I"../src/ASF/common/services/clock" -I"../src/ASF/common/services/delay"  -O1 -fdata-sections -ffunction-sections -masm-addr-pseudos -g3 -Wall -mpart=uc128d3 -c -std=gnu99 -fno-strict-aliasing -Wstrict-prototypes -Wmissing-prototypes -Werror-implicit-function-declaration -Wpointer-arith -mrelax -mno-cond-exec-before-reload -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
+	@echo Finished building: $<
+	
+
+src/ASF/common/services/clock/uc3d/pll.o: ../src/ASF/common/services/clock/uc3d/pll.c
+	@echo Building file: $<
+	@echo Invoking: AVR32/GNU C++ Compiler : 4.4.7
+	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr32\avr32-gnu-toolchain\bin\avr32-gcc.exe$(QUOTE)  -x c -DDEBUG -DBOARD=USER_BOARD  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\UC3D_DFP\1.0.54\include\ATUC128D3" -I"../src/ASF/common/boards" -I"../src/ASF/avr32/utils/preprocessor" -I"../src/ASF/avr32/utils" -I"../src/ASF/common/utils" -I"../src/ASF/avr32/drivers/intc" -I"../src/ASF/common/boards/user_board" -I"../src" -I"../src/config" -I"../src/ASF/avr32/drivers/cpu/cycle_counter" -I"../src/ASF/avr32/drivers/flashcdw" -I"../src/ASF/common/services/clock" -I"../src/ASF/common/services/delay"  -O1 -fdata-sections -ffunction-sections -masm-addr-pseudos -g3 -Wall -mpart=uc128d3 -c -std=gnu99 -fno-strict-aliasing -Wstrict-prototypes -Wmissing-prototypes -Werror-implicit-function-declaration -Wpointer-arith -mrelax -mno-cond-exec-before-reload -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
+	@echo Finished building: $<
+	
+
+src/ASF/common/services/clock/uc3d/sysclk.o: ../src/ASF/common/services/clock/uc3d/sysclk.c
+	@echo Building file: $<
+	@echo Invoking: AVR32/GNU C++ Compiler : 4.4.7
+	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr32\avr32-gnu-toolchain\bin\avr32-gcc.exe$(QUOTE)  -x c -DDEBUG -DBOARD=USER_BOARD  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\UC3D_DFP\1.0.54\include\ATUC128D3" -I"../src/ASF/common/boards" -I"../src/ASF/avr32/utils/preprocessor" -I"../src/ASF/avr32/utils" -I"../src/ASF/common/utils" -I"../src/ASF/avr32/drivers/intc" -I"../src/ASF/common/boards/user_board" -I"../src" -I"../src/config" -I"../src/ASF/avr32/drivers/cpu/cycle_counter" -I"../src/ASF/avr32/drivers/flashcdw" -I"../src/ASF/common/services/clock" -I"../src/ASF/common/services/delay"  -O1 -fdata-sections -ffunction-sections -masm-addr-pseudos -g3 -Wall -mpart=uc128d3 -c -std=gnu99 -fno-strict-aliasing -Wstrict-prototypes -Wmissing-prototypes -Werror-implicit-function-declaration -Wpointer-arith -mrelax -mno-cond-exec-before-reload -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
+	@echo Finished building: $<
+	
+
+src/i2c.o: ../src/i2c.cpp
+	@echo Building file: $<
+	@echo Invoking: AVR32/GNU C++ Compiler : 4.4.7
+	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr32\avr32-gnu-toolchain\bin\avr32-g++.exe$(QUOTE) -DDEBUG -DBOARD=USER_BOARD  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\UC3D_DFP\1.0.54\include\ATUC128D3" -I"../src/ASF/common/boards" -I"../src/ASF/avr32/utils/preprocessor" -I"../src/ASF/avr32/utils" -I"../src/ASF/common/utils" -I"../src/ASF/avr32/drivers/intc" -I"../src/ASF/common/boards/user_board" -I"../src" -I"../src/config" -I"../inc" -I"../src/ASF/avr32/drivers/cpu/cycle_counter" -I"../src/ASF/avr32/drivers/flashcdw" -I"../src/ASF/common/services/clock" -I"../src/ASF/common/services/delay"  -O1 -ffunction-sections -masm-addr-pseudos -g3 -Wall -mpart=uc128d3 -c -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
+	@echo Finished building: $<
+	
+
+src/io.o: ../src/io.cpp
+	@echo Building file: $<
+	@echo Invoking: AVR32/GNU C++ Compiler : 4.4.7
+	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr32\avr32-gnu-toolchain\bin\avr32-g++.exe$(QUOTE) -DDEBUG -DBOARD=USER_BOARD  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\UC3D_DFP\1.0.54\include\ATUC128D3" -I"../src/ASF/common/boards" -I"../src/ASF/avr32/utils/preprocessor" -I"../src/ASF/avr32/utils" -I"../src/ASF/common/utils" -I"../src/ASF/avr32/drivers/intc" -I"../src/ASF/common/boards/user_board" -I"../src" -I"../src/config" -I"../inc" -I"../src/ASF/avr32/drivers/cpu/cycle_counter" -I"../src/ASF/avr32/drivers/flashcdw" -I"../src/ASF/common/services/clock" -I"../src/ASF/common/services/delay"  -O1 -ffunction-sections -masm-addr-pseudos -g3 -Wall -mpart=uc128d3 -c -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
+	@echo Finished building: $<
+	
+
+src/lcd.o: ../src/lcd.cpp
+	@echo Building file: $<
+	@echo Invoking: AVR32/GNU C++ Compiler : 4.4.7
+	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr32\avr32-gnu-toolchain\bin\avr32-g++.exe$(QUOTE) -DDEBUG -DBOARD=USER_BOARD  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\UC3D_DFP\1.0.54\include\ATUC128D3" -I"../src/ASF/common/boards" -I"../src/ASF/avr32/utils/preprocessor" -I"../src/ASF/avr32/utils" -I"../src/ASF/common/utils" -I"../src/ASF/avr32/drivers/intc" -I"../src/ASF/common/boards/user_board" -I"../src" -I"../src/config" -I"../inc" -I"../src/ASF/avr32/drivers/cpu/cycle_counter" -I"../src/ASF/avr32/drivers/flashcdw" -I"../src/ASF/common/services/clock" -I"../src/ASF/common/services/delay"  -O1 -ffunction-sections -masm-addr-pseudos -g3 -Wall -mpart=uc128d3 -c -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
+	@echo Finished building: $<
+	
+
+src/main.o: ../src/main.cpp
+	@echo Building file: $<
+	@echo Invoking: AVR32/GNU C++ Compiler : 4.4.7
+	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr32\avr32-gnu-toolchain\bin\avr32-g++.exe$(QUOTE) -DDEBUG -DBOARD=USER_BOARD  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\UC3D_DFP\1.0.54\include\ATUC128D3" -I"../src/ASF/common/boards" -I"../src/ASF/avr32/utils/preprocessor" -I"../src/ASF/avr32/utils" -I"../src/ASF/common/utils" -I"../src/ASF/avr32/drivers/intc" -I"../src/ASF/common/boards/user_board" -I"../src" -I"../src/config" -I"../inc" -I"../src/ASF/avr32/drivers/cpu/cycle_counter" -I"../src/ASF/avr32/drivers/flashcdw" -I"../src/ASF/common/services/clock" -I"../src/ASF/common/services/delay"  -O1 -ffunction-sections -masm-addr-pseudos -g3 -Wall -mpart=uc128d3 -c -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
+	@echo Finished building: $<
+	
+
+src/stepper.o: ../src/stepper.cpp
+	@echo Building file: $<
+	@echo Invoking: AVR32/GNU C++ Compiler : 4.4.7
+	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr32\avr32-gnu-toolchain\bin\avr32-g++.exe$(QUOTE) -DDEBUG -DBOARD=USER_BOARD  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\UC3D_DFP\1.0.54\include\ATUC128D3" -I"../src/ASF/common/boards" -I"../src/ASF/avr32/utils/preprocessor" -I"../src/ASF/avr32/utils" -I"../src/ASF/common/utils" -I"../src/ASF/avr32/drivers/intc" -I"../src/ASF/common/boards/user_board" -I"../src" -I"../src/config" -I"../inc" -I"../src/ASF/avr32/drivers/cpu/cycle_counter" -I"../src/ASF/avr32/drivers/flashcdw" -I"../src/ASF/common/services/clock" -I"../src/ASF/common/services/delay"  -O1 -ffunction-sections -masm-addr-pseudos -g3 -Wall -mpart=uc128d3 -c -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
+	@echo Finished building: $<
+	
+
+src/system.o: ../src/system.cpp
+	@echo Building file: $<
+	@echo Invoking: AVR32/GNU C++ Compiler : 4.4.7
+	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr32\avr32-gnu-toolchain\bin\avr32-g++.exe$(QUOTE) -DDEBUG -DBOARD=USER_BOARD  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\UC3D_DFP\1.0.54\include\ATUC128D3" -I"../src/ASF/common/boards" -I"../src/ASF/avr32/utils/preprocessor" -I"../src/ASF/avr32/utils" -I"../src/ASF/common/utils" -I"../src/ASF/avr32/drivers/intc" -I"../src/ASF/common/boards/user_board" -I"../src" -I"../src/config" -I"../inc" -I"../src/ASF/avr32/drivers/cpu/cycle_counter" -I"../src/ASF/avr32/drivers/flashcdw" -I"../src/ASF/common/services/clock" -I"../src/ASF/common/services/delay"  -O1 -ffunction-sections -masm-addr-pseudos -g3 -Wall -mpart=uc128d3 -c -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
 	@echo Finished building: $<
 	
 
 src/ASF/avr32/drivers/intc/intc.o: ../src/ASF/avr32/drivers/intc/intc.c
 	@echo Building file: $<
 	@echo Invoking: AVR32/GNU C++ Compiler : 4.4.7
-	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr32\avr32-gnu-toolchain\bin\avr32-gcc.exe$(QUOTE)  -x c -DDEBUG -DBOARD=USER_BOARD  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\UC3D_DFP\1.0.54\include\ATUC128D3" -I"../src/ASF/common/boards" -I"../src/ASF/avr32/utils/preprocessor" -I"../src/ASF/avr32/utils" -I"../src/ASF/common/utils" -I"../src/ASF/avr32/drivers/intc" -I"../src/ASF/common/boards/user_board" -I"../src" -I"../src/config"  -O1 -fdata-sections -ffunction-sections -masm-addr-pseudos -g3 -Wall -mpart=uc128d3 -c -std=gnu99 -fno-strict-aliasing -Wstrict-prototypes -Wmissing-prototypes -Werror-implicit-function-declaration -Wpointer-arith -mrelax -mno-cond-exec-before-reload -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
+	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr32\avr32-gnu-toolchain\bin\avr32-gcc.exe$(QUOTE)  -x c -DDEBUG -DBOARD=USER_BOARD  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\UC3D_DFP\1.0.54\include\ATUC128D3" -I"../src/ASF/common/boards" -I"../src/ASF/avr32/utils/preprocessor" -I"../src/ASF/avr32/utils" -I"../src/ASF/common/utils" -I"../src/ASF/avr32/drivers/intc" -I"../src/ASF/common/boards/user_board" -I"../src" -I"../src/config" -I"../src/ASF/avr32/drivers/cpu/cycle_counter" -I"../src/ASF/avr32/drivers/flashcdw" -I"../src/ASF/common/services/clock" -I"../src/ASF/common/services/delay"  -O1 -fdata-sections -ffunction-sections -masm-addr-pseudos -g3 -Wall -mpart=uc128d3 -c -std=gnu99 -fno-strict-aliasing -Wstrict-prototypes -Wmissing-prototypes -Werror-implicit-function-declaration -Wpointer-arith -mrelax -mno-cond-exec-before-reload -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
 	@echo Finished building: $<
 	
 
 src/ASF/common/boards/user_board/init.o: ../src/ASF/common/boards/user_board/init.c
 	@echo Building file: $<
 	@echo Invoking: AVR32/GNU C++ Compiler : 4.4.7
-	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr32\avr32-gnu-toolchain\bin\avr32-gcc.exe$(QUOTE)  -x c -DDEBUG -DBOARD=USER_BOARD  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\UC3D_DFP\1.0.54\include\ATUC128D3" -I"../src/ASF/common/boards" -I"../src/ASF/avr32/utils/preprocessor" -I"../src/ASF/avr32/utils" -I"../src/ASF/common/utils" -I"../src/ASF/avr32/drivers/intc" -I"../src/ASF/common/boards/user_board" -I"../src" -I"../src/config"  -O1 -fdata-sections -ffunction-sections -masm-addr-pseudos -g3 -Wall -mpart=uc128d3 -c -std=gnu99 -fno-strict-aliasing -Wstrict-prototypes -Wmissing-prototypes -Werror-implicit-function-declaration -Wpointer-arith -mrelax -mno-cond-exec-before-reload -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
+	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr32\avr32-gnu-toolchain\bin\avr32-gcc.exe$(QUOTE)  -x c -DDEBUG -DBOARD=USER_BOARD  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\UC3D_DFP\1.0.54\include\ATUC128D3" -I"../src/ASF/common/boards" -I"../src/ASF/avr32/utils/preprocessor" -I"../src/ASF/avr32/utils" -I"../src/ASF/common/utils" -I"../src/ASF/avr32/drivers/intc" -I"../src/ASF/common/boards/user_board" -I"../src" -I"../src/config" -I"../src/ASF/avr32/drivers/cpu/cycle_counter" -I"../src/ASF/avr32/drivers/flashcdw" -I"../src/ASF/common/services/clock" -I"../src/ASF/common/services/delay"  -O1 -fdata-sections -ffunction-sections -masm-addr-pseudos -g3 -Wall -mpart=uc128d3 -c -std=gnu99 -fno-strict-aliasing -Wstrict-prototypes -Wmissing-prototypes -Werror-implicit-function-declaration -Wpointer-arith -mrelax -mno-cond-exec-before-reload -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
 	@echo Finished building: $<
 	
 
@@ -136,14 +269,21 @@ src/ASF/common/boards/user_board/init.o: ../src/ASF/common/boards/user_board/ini
 src/ASF/avr32/drivers/intc/exception.o: ../src/ASF/avr32/drivers/intc/exception.S
 	@echo Building file: $<
 	@echo Invoking: AVR32/GNU Preprocessing Assembler : 4.4.7
-	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr32\avr32-gnu-toolchain\bin\avr32-g++.exe$(QUOTE) -x assembler-with-cpp -c -mpart=uc128d3 -I "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\UC3D_DFP\1.0.54\include\ATUC128D3" -I "../src/ASF/common/boards" -I "../src/ASF/avr32/utils/preprocessor" -I "../src/ASF/avr32/utils" -I "../src/ASF/common/utils" -I "../src/ASF/avr32/drivers/intc" -I "../src/ASF/common/boards/user_board" -I "../src" -I "../src/config"  -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)" -Wa,-g   -o "$@" "$<" 
+	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr32\avr32-gnu-toolchain\bin\avr32-g++.exe$(QUOTE) -x assembler-with-cpp -c -mpart=uc128d3 -I "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\UC3D_DFP\1.0.54\include\ATUC128D3" -I "../src/ASF/common/boards" -I "../src/ASF/avr32/utils/preprocessor" -I "../src/ASF/avr32/utils" -I "../src/ASF/common/utils" -I "../src/ASF/avr32/drivers/intc" -I "../src/ASF/common/boards/user_board" -I "../src" -I "../src/config" -I "../src/ASF/avr32/drivers/cpu/cycle_counter" -I "../src/ASF/avr32/drivers/flashcdw" -I "../src/ASF/common/services/clock" -I "../src/ASF/common/services/delay"  -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)" -Wa,-g   -o "$@" "$<" 
+	@echo Finished building: $<
+	
+
+src/ASF/avr32/utils/startup/startup_uc3.o: ../src/ASF/avr32/utils/startup/startup_uc3.S
+	@echo Building file: $<
+	@echo Invoking: AVR32/GNU Preprocessing Assembler : 4.4.7
+	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr32\avr32-gnu-toolchain\bin\avr32-g++.exe$(QUOTE) -x assembler-with-cpp -c -mpart=uc128d3 -I "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\UC3D_DFP\1.0.54\include\ATUC128D3" -I "../src/ASF/common/boards" -I "../src/ASF/avr32/utils/preprocessor" -I "../src/ASF/avr32/utils" -I "../src/ASF/common/utils" -I "../src/ASF/avr32/drivers/intc" -I "../src/ASF/common/boards/user_board" -I "../src" -I "../src/config" -I "../src/ASF/avr32/drivers/cpu/cycle_counter" -I "../src/ASF/avr32/drivers/flashcdw" -I "../src/ASF/common/services/clock" -I "../src/ASF/common/services/delay"  -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)" -Wa,-g   -o "$@" "$<" 
 	@echo Finished building: $<
 	
 
 src/ASF/avr32/utils/startup/trampoline_uc3.o: ../src/ASF/avr32/utils/startup/trampoline_uc3.S
 	@echo Building file: $<
 	@echo Invoking: AVR32/GNU Preprocessing Assembler : 4.4.7
-	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr32\avr32-gnu-toolchain\bin\avr32-g++.exe$(QUOTE) -x assembler-with-cpp -c -mpart=uc128d3 -I "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\UC3D_DFP\1.0.54\include\ATUC128D3" -I "../src/ASF/common/boards" -I "../src/ASF/avr32/utils/preprocessor" -I "../src/ASF/avr32/utils" -I "../src/ASF/common/utils" -I "../src/ASF/avr32/drivers/intc" -I "../src/ASF/common/boards/user_board" -I "../src" -I "../src/config"  -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)" -Wa,-g   -o "$@" "$<" 
+	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr32\avr32-gnu-toolchain\bin\avr32-g++.exe$(QUOTE) -x assembler-with-cpp -c -mpart=uc128d3 -I "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\UC3D_DFP\1.0.54\include\ATUC128D3" -I "../src/ASF/common/boards" -I "../src/ASF/avr32/utils/preprocessor" -I "../src/ASF/avr32/utils" -I "../src/ASF/common/utils" -I "../src/ASF/avr32/drivers/intc" -I "../src/ASF/common/boards/user_board" -I "../src" -I "../src/config" -I "../src/ASF/avr32/drivers/cpu/cycle_counter" -I "../src/ASF/avr32/drivers/flashcdw" -I "../src/ASF/common/services/clock" -I "../src/ASF/common/services/delay"  -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)" -Wa,-g   -o "$@" "$<" 
 	@echo Finished building: $<
 	
 

@@ -18,20 +18,21 @@ Description:
 #include "system.h"
 #include "io.h"
 
-iicDataPacket iicDataPacketHead;
+using namespace iic;
+DataPacket iicDataPacketHead;
 
-__attribute__((__interrupt__))void iicIntHanlder()
+__attribute__((__interrupt__))void iic::intHanlder()
 {
-	if ((iicReadStatus() & TWI_SR_ANAK_bm) != 0)
+	if ((readStatus() & TWI_SR_ANAK_bm) != 0)
 	{
-		iicSoftwareReset();
-		iicClearStatus(TWI_SR_ANAK_bm);
+		softwareReset();
+		clearStatus(TWI_SR_ANAK_bm);
 	}
 	
-	if ((iicReadStatus() & TWI_SR_DNAK_bm) != 0)
+	if ((readStatus() & TWI_SR_DNAK_bm) != 0)
 	{
 		TWIM.cmdr &= ~TWI_CMDR_VALID_bm;
-		iicClearStatus(TWI_SR_DNAK_bm);
+		clearStatus(TWI_SR_DNAK_bm);
 	}
 	dmaDisable(&DMA_TX);
 	dmaDisable(&DMA_RX);
@@ -40,53 +41,59 @@ __attribute__((__interrupt__))void iicIntHanlder()
 	if (iicDataPacketHead.nextPacket != NULL)
 	{
 		/*Make sure the TWI bus is free.*/
-		if ((iicReadStatus() & IIC_BUSFREE_bm) != 0)
+		if ((readStatus() & IIC_BUSFREE_bm) != 0)
 		{
 			/*Create new data packet to get info from the list item.*/
-			iicDataPacket* dataPacket = iicDataPacketHead.nextPacket;
-		
-			/*If read == 0, we are transmitting data.*/
-			if (dataPacket->read == 0)
+			DataPacket* dataPacket = iicDataPacketHead.nextPacket;
+			
+			/*Set up DMA transfer size and data pointer.*/
+			/*First for the internal address.*/
+			DMA_TX.tcr = 1;
+			DMA_TX.mar = (unsigned long)&dataPacket->internalAddr;
+			
+			if (dataPacket->read == TWI_CMDR_READ_bm)
 			{
-				/*Set up DMA transfer size and data pointer.*/
-				DMA_TX.tcr = dataPacket->size;								
-				DMA_TX.mar = (unsigned long)dataPacket->data;
+				/*Then for the data to write starting at that internal address.*/
+				DMA_RX.tcr = dataPacket->size;
+				DMA_RX.mar = (unsigned long)dataPacket->data;
 			}
 			else
 			{
-				/*Set up DMA transfer size and data pointer.*/
-				DMA_RX.tcr = dataPacket->size;					
-				DMA_RX.mar = (unsigned long)dataPacket->data; 	
+				/*Then for the data to write starting at that internal address.*/
+				DMA_TX.tcrr = dataPacket->size;
+				DMA_TX.marr = (unsigned long)dataPacket->data;				
 			}
 			
-			/*Set up TWI command register with the slave device address, transfer size, and data direction.*/		
-			TWIM.cmdr = (dataPacket->size << TWI_CMDR_NBYTES_bp)
+			/*Set up TWI command register with the slave device address, transfer size, and data direction.*/
+			TWIM.cmdr = (1 << TWI_CMDR_NBYTES_bp)
 			| TWI_CMDR_START_bm
-			| TWI_CMDR_STOP_bm
 			| TWI_CMDR_VALID_bm
 			| (dataPacket->saddr << TWI_CMDR_SADR_bp)
-			| (dataPacket->read << TWI_CMDR_READ_bp);
-			
-			/* Transmission NACK'd by slave after sending address. */
-			if ((iicReadStatus() & TWI_SR_ANAK_bm) != 0)
+			| (0 << TWI_CMDR_READ_bp);		
+				
+			if (dataPacket->read == TWI_CMDR_READ_bm)
 			{
-			}
-			
-			/* Enabling the DMA starts the transmission. */
-			if (dataPacket->read == 0)
-			{
-				dmaEnable(&DMA_TX);
+				TWIM.ncmdr = (dataPacket->size << TWI_CMDR_NBYTES_bp)
+				|TWI_CMDR_START_bm
+				| TWI_CMDR_STOP_bm
+				| TWI_CMDR_VALID_bm
+				| (dataPacket->saddr << TWI_CMDR_SADR_bp)
+				| (dataPacket->read << TWI_CMDR_READ_bp);			
 			}
 			else
 			{
-				dmaEnable(&DMA_RX);
-			}
+				TWIM.ncmdr = (dataPacket->size << TWI_CMDR_NBYTES_bp)
+				| TWI_CMDR_STOP_bm
+				| TWI_CMDR_VALID_bm
+				| (dataPacket->saddr << TWI_CMDR_SADR_bp)
+				| (dataPacket->read << TWI_CMDR_READ_bp);				
+			}	
+					
+
 			
-			/* Transmission NACK'd by slave after sending data. */
-			if ((iicReadStatus() & TWI_SR_DNAK_bm) != 0)
-			{
-			}
-			
+			dmaEnable(&DMA_TX);
+			dmaEnable(&DMA_RX);
+
 			/*If there's no packets after this one, point the head to NULL.*/
 			/*Can't disable the TWI master here or else it stops the data transmission.*/
 			if (dataPacket->nextPacket == NULL)
@@ -105,10 +112,194 @@ __attribute__((__interrupt__))void iicIntHanlder()
 	/* If iicDataPacketHead.nextPacket == NULL, there's no more data to transmit currently so disable IIC */
 	else
 	{
-		iicDisableMaster();				
-		iicDisableInterrupt(IIC_BUSFREE_bm);
+		disableMaster();
+		disableInterrupt(IIC_BUSFREE_bm);
 	}
 }
+
+
+
+/*
+Function: iic::EnableMaster
+Params: none
+Returns: none
+Description: Enables the TWI peripheral. There's only 1 so a passing a pointer
+			to it is not necessary.
+*/
+void iic::enableMaster()
+{
+	TWIM.cr = TWI_CR_EN_bm;
+}
+
+/*
+Function: iic::DisableMaster
+Params: none
+Returns: none
+Description: Disables the TWI peripheral. There's only 1 so a passing a pointer
+			to it is not necessary.
+*/
+void iic::disableMaster()
+{
+	TWIM.cr = TWI_CR_DIS_bm;	
+}
+
+/*
+Function: iic::SoftwareReset
+Params: none
+Returns: none
+Description: Performs a software reset of the TWI peripheral.
+*/
+void iic::softwareReset()
+{
+	TWIM.cr = TWI_CR_SWRST;	
+}
+
+/*
+Function: iic::Setup
+Params: none
+Returns: none
+Description: Assigns the TWI peripheral to PDCA channels and enables 
+			TWI and PDCA interrupts.
+*/
+void iic::setup()
+{
+	/* Assign TWI to DMA */
+	DMA_TX.psr = TWIM_TX_PID;
+	DMA_RX.psr = TWIM_RX_PID;
+
+	/* Enable IIC interrupts */
+	INTC_register_interrupt(&intHanlder, AVR32_TWIM_IRQ, 3);	
+}
+
+/*
+Function: iic::SetClkSpeed
+Params: pbaClkSpeed: speed of the PBA clock.
+		iic::ClkSpeed: desired speed of the TWI clock.
+Returns: IIC_ERROR: desired clock speed is out of bounds.
+		IIC_OK: desired clock speed is in bounds and has been set.
+Description: Sets the speed of the TWI clock.
+*/
+IIC_STATUS_t iic::setClkSpeed(uint32_t pbaClkSpeed, uint32_t iicClkSpeed)
+{
+	uint32_t f_prescaled;
+	uint8_t cwgr_exp = 0;
+	f_prescaled = (pbaClkSpeed / iicClkSpeed / 2);
+	// f_prescaled must fit in 8 bits, cwgr_exp must fit in 3 bits
+	while ((f_prescaled > 0xFF) && (cwgr_exp <= 0x7)) {
+		// increase clock divider
+		cwgr_exp++;
+		// divide f_prescaled value
+		f_prescaled /= 2;
+	}
+	if (cwgr_exp > 0x7) {
+		return IIC_ERROR;
+	}
+	// set clock waveform generator register
+	TWIM.cwgr = ((f_prescaled/2) << AVR32_TWIM_CWGR_LOW_OFFSET)
+			| ((f_prescaled - f_prescaled/2) << AVR32_TWIM_CWGR_HIGH_OFFSET)
+			| (cwgr_exp << AVR32_TWIM_CWGR_EXP_OFFSET)
+			| (0     << AVR32_TWIM_CWGR_DATA_OFFSET)
+			| (f_prescaled << AVR32_TWIM_CWGR_STASTO_OFFSET);
+	return IIC_OK;
+}
+
+/*
+Function: iic::EnableInterrupt
+Params: IIC_INTERRUPT_t interrupt: specified TWI interrupt.
+Returns: none
+Description: enables TWI interrupt(s).
+*/
+void iic::enableInterrupt(IIC_INTERRUPT_t interrupt)
+{
+	TWIM.ier = interrupt;
+}
+
+/*
+Function: iic::disableInterrupt
+Params: IIC_INTERRUPT_t interrupt: specified TWI interrupt.
+Returns: none
+Description: disables TWI interrupt(s).
+*/
+void iic::disableInterrupt(IIC_INTERRUPT_t interrupt)
+{
+	TWIM.idr = interrupt;
+}
+
+
+/*
+Function: iic::InterruptMask
+Params: none
+Returns: The TWI interrupt mask register stating which interrupts are currently enabled.
+Description: enables TWI interrupt(s).
+*/
+uint32_t iic::interruptMask()
+{
+	return TWIM.imr; 
+}
+
+/*
+Function: iic::Status
+Params: none.
+Returns: The TWI status register.
+Description: Returns the TWI status register.
+*/
+uint32_t iic::readStatus()
+{
+	return TWIM.sr;
+}
+
+void iic::clearStatus(uint32_t status)
+{
+	TWIM.scr = status;
+}
+
+/*
+Function: iicStartWrite
+Params: uint8_t saddr: slave device address.
+		uint8_t size: size of data to send.
+		void* data: pointer to data to send.
+Returns: IIC_STATUS_t
+Description: Adds a new data packet to the IIC buffer.
+*/
+void iic::fastTransmission(uint8_t read, uint8_t saddr, uint8_t internalAddr, uint8_t size, void* data)
+{
+	/*Disable global interrupts.*/
+	systemDisableInterrupts();
+	
+	/*Create a new data packet and assign the data to it.*/
+	DataPacket* iicNewData = new DataPacket;
+	iicNewData->saddr = saddr;
+	iicNewData->size = size;
+	iicNewData->data = data;
+	iicNewData->read = read;	
+	iicNewData->internalAddr = internalAddr;
+
+	/* If there's no on going transmission, put the data in the first data packet after the head. */
+	if (iicDataPacketHead.nextPacket == NULL)
+	{
+		iicDataPacketHead.nextPacket = iicNewData;	
+		iicNewData->nextPacket = NULL;
+		enableInterrupt(IIC_BUSFREE_bm);
+		enableMaster();		
+	}
+	/* If there is an on going transmission, put the new packet at the end of the list. */
+	else
+	{
+
+		DataPacket* end = &iicDataPacketHead;
+		LED1_ON;		
+		while (end->nextPacket != NULL)
+		{
+			LED2_ON;
+			end = end->nextPacket;
+			LED3_ON;
+		}
+		end->nextPacket = iicNewData;
+		iicNewData->nextPacket = NULL;	
+	}
+}
+
+
 
 /*
 Function: dmaIntStatus
@@ -146,112 +337,6 @@ void dmaDisableInterrupt(avr32_pdca_channel_t* dma, DMA_INTERRUPT_t interrupt)
 }
 
 /*
-Function: iicEnableMaster
-Params: none
-Returns: none
-Description: Enables the TWI peripheral. There's only 1 so a passing a pointer
-			to it is not necessary.
-*/
-void iicEnableMaster()
-{
-	TWIM.cr = TWI_CR_EN_bm;
-}
-
-/*
-Function: iicDisableMaster
-Params: none
-Returns: none
-Description: Disables the TWI peripheral. There's only 1 so a passing a pointer
-			to it is not necessary.
-*/
-void iicDisableMaster()
-{
-	TWIM.cr = TWI_CR_DIS_bm;	
-}
-
-/*
-Function: iicSoftwareReset
-Params: none
-Returns: none
-Description: Performs a software reset of the TWI peripheral.
-*/
-void iicSoftwareReset()
-{
-	TWIM.cr = TWI_CR_SWRST;	
-}
-
-/*
-Function: iicSetup
-Params: none
-Returns: none
-Description: Assigns the TWI peripheral to PDCA channels and enables 
-			TWI and PDCA interrupts.
-*/
-void iicSetup()
-{
-	/* Assign TWI to DMA */
-	DMA_TX.psr = TWIM_TX_PID;
-	DMA_RX.psr = TWIM_RX_PID;
-
-	/* Enable IIC interrupts */
-	INTC_register_interrupt(&iicIntHanlder, AVR32_TWIM_IRQ, 3);	
-}
-
-/*
-Function: iicSetClkSpeed
-Params: pbaClkSpeed: speed of the PBA clock.
-		iicClkSpeed: desired speed of the TWI clock.
-Returns: IIC_ERROR: desired clock speed is out of bounds.
-		IIC_OK: desired clock speed is in bounds and has been set.
-Description: Sets the speed of the TWI clock.
-*/
-IIC_STATUS_t iicSetClkSpeed(uint32_t pbaClkSpeed, uint32_t iicClkSpeed)
-{
-	uint32_t f_prescaled;
-	uint8_t cwgr_exp = 0;
-	f_prescaled = (pbaClkSpeed / iicClkSpeed / 2);
-	// f_prescaled must fit in 8 bits, cwgr_exp must fit in 3 bits
-	while ((f_prescaled > 0xFF) && (cwgr_exp <= 0x7)) {
-		// increase clock divider
-		cwgr_exp++;
-		// divide f_prescaled value
-		f_prescaled /= 2;
-	}
-	if (cwgr_exp > 0x7) {
-		return IIC_ERROR;
-	}
-	// set clock waveform generator register
-	TWIM.cwgr = ((f_prescaled/2) << AVR32_TWIM_CWGR_LOW_OFFSET)
-			| ((f_prescaled - f_prescaled/2) << AVR32_TWIM_CWGR_HIGH_OFFSET)
-			| (cwgr_exp << AVR32_TWIM_CWGR_EXP_OFFSET)
-			| (0     << AVR32_TWIM_CWGR_DATA_OFFSET)
-			| (f_prescaled << AVR32_TWIM_CWGR_STASTO_OFFSET);
-	return IIC_OK;
-}
-
-/*
-Function: iicEnableInterrupt
-Params: IIC_INTERRUPT_t interrupt: specified TWI interrupt.
-Returns: none
-Description: enables TWI interrupt(s).
-*/
-void iicEnableInterrupt(IIC_INTERRUPT_t interrupt)
-{
-	TWIM.ier = interrupt;
-}
-
-/*
-Function: iicdisableInterrupt
-Params: IIC_INTERRUPT_t interrupt: specified TWI interrupt.
-Returns: none
-Description: disables TWI interrupt(s).
-*/
-void iicDisableInterrupt(IIC_INTERRUPT_t interrupt)
-{
-	TWIM.idr = interrupt;
-}
-
-/*
 Function: dmaEnable
 Params: dma: pointer to PDCA channel.
 Returns: none
@@ -273,74 +358,3 @@ void dmaDisable(avr32_pdca_channel_t* dma)
 {
 	dma->cr = DMA_CR_DIS_bm;	
 }
-
-/*
-Function: iicInterruptMask
-Params: none
-Returns: The TWI interrupt mask register stating which interrupts are currently enabled.
-Description: enables TWI interrupt(s).
-*/
-uint32_t iicInterruptMask()
-{
-	return TWIM.imr; 
-}
-
-/*
-Function: iicStatus
-Params: none.
-Returns: The TWI status register.
-Description: Returns the TWI status register.
-*/
-uint32_t iicReadStatus()
-{
-	return TWIM.sr;
-}
-
-void iicClearStatus(uint32_t status)
-{
-	TWIM.scr = status;
-}
-
-/*
-Function: iicStartWrite
-Params: uint8_t saddr: slave device address.
-		uint8_t size: size of data to send.
-		void* data: pointer to data to send.
-Returns: IIC_STATUS_t
-Description: Adds a new data packet to the IIC buffer.
-*/
-IIC_STATUS_t iicNewTransmission(uint8_t read, uint8_t saddr, uint8_t size, void* data)
-{
-	/*Disable global interrupts.*/
-	systemDisableInterrupts();
-	
-	/*Create a new data packet and assign the data to it.*/
-	iicDataPacket* iicNewData = new iicDataPacket;
-	iicNewData->saddr = saddr;
-	iicNewData->size = size;
-	iicNewData->data = data;
-	iicNewData->read = read;	
-	
-	/* If there's no on going transmission, put the data in the first data packet after the head. */
-	if ((iicReadStatus() & IIC_MENB_bm) == 0)
-	{
-		iicDataPacketHead.nextPacket = iicNewData;	
-		iicEnableInterrupt(IIC_BUSFREE_bm);
-		iicEnableMaster();
-	}
-	/* If there is an on going transmission, put the new packet at the end of the list. */
-	else
-	{
-		iicDataPacket* end = &iicDataPacketHead;
-		while (end->nextPacket != NULL)
-		{
-			end = end->nextPacket;
-		}
-		end->nextPacket = iicNewData;
-		iicNewData->nextPacket = NULL;
-	}
-
-
-}
-
-

@@ -23,12 +23,12 @@ Description:
 LCD_DISPLAY_EVENTS displayCurrentEvent;
 
 button frontButton(120, 30, "Front", font16pt);
-label frontLeftLabel(60, 80, "39", font36pt);
-label frontRightLabel(180, 80, "39", font36pt);
+label frontLeftLabel(60, 80, "0", font36pt);
+label frontRightLabel(180, 80, "0", font36pt);
 
 button rearButton(120, 150, "Rear", font16pt);
-label rearLeftLabel(60, 200, "19", font36pt);
-label rearRightLabel(180, 200, "19", font36pt);
+label rearLeftLabel(60, 200, "0", font36pt);
+label rearRightLabel(180, 200, "0", font36pt);
 
 button optionsButton(120, 280, "Options", font16pt);
 

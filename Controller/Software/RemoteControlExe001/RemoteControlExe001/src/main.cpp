@@ -22,6 +22,8 @@
 #include "iic.h"
 
 uint8_t data = 0;
+uint8_t test[4] = {0x64, 0x00, 0x64, 0x00};
+uint8_t testRead[4];
 
 int main(void)
 {
@@ -32,7 +34,6 @@ int main(void)
 	/*Enable OSC0 and select it as the main clock*/
 	systemOSC0init();
 	systemMainClockSelect();
-
 
 	/*Switches as IO inputs, enable falling interrupt for all*/
 	ioSetPinIO(&SW_PORT, SW1_bm | SW2_bm | SW3_bm | SW4_bm | SW5_bm);
@@ -51,6 +52,7 @@ int main(void)
 	/*Assign the function pointers for the switches and load stateA*/
 	setBtnEventHandlers();
 	stateA();
+
 	
 	/*Initialize interrupts for the switches.*/
 	intEnableSwitchInterrupts();	
@@ -60,19 +62,18 @@ int main(void)
 	ioSetPeripheralFunction(&PORTA, TWI_DATA_PIN_bm, GPIO_PMR_FUNCTION_A);		//Set multiplexing function.
 	ioSetPeripheralFunction(&PORTA, TWI_CLK_PIN_bm, GPIO_PMR_FUNCTION_A);		//Set multiplexing function.
 	
-	iicSetup();
-	iicSetClkSpeed(F_CPU, 100000);
-
-	LED1_OFF;
-	LED2_OFF;
-	LED3_OFF;
+	iic::setup();
+	iic::setClkSpeed(F_CPU, 100000);
 	
 
 	frontLeft.setDeviceAddr(0x05);
 	frontLeft.sendData(GO_TO_ZERO, &data, 1);
 
+	iic::fastTransmission(0, 0x05, 0x00, 4, test);
+	LED3_ON;
+	iic::fastTransmission(1, 0x05, 0x01, sizeof(testRead), testRead);
+	systemEnableInterrupts();
 	
-
 	while(1)
     {
 

@@ -9,11 +9,16 @@
 #ifndef IIC_H_
 #define IIC_H_
 
+/*This device address.*/
 #define DEVICE_ADDR				(0x05 << 1)
 
 #define IIC_REQUESTING_READ		TWI_DIR_bm
 #define IIC_REQUESTING_WRITE	0
 
+/*
+IIC_DATA_struct holds all the data that could be sent or received over IIC.
+They are addressed by the offset from the start of IIC_DATA_struct.
+*/
 typedef struct IIC_DATA_t  
 {
 	int16_t position;
@@ -25,9 +30,6 @@ typedef struct IIC_DATA_t
 	uint8_t flags;	
 	uint8_t testLights;
 }IIC_DATA_struct;
-
-
-
 
 void iicInit();													//Puts TWI hardware in slave mode and enables interrupts.
 void iicKill();													//Disables slave mode.
@@ -45,7 +47,7 @@ void iicSendResponse(TWI_SCMD_t response, TWI_ACKACT_t ack);	//Choose to respond
 char iicReadSdata();											//Returns the data in the SDATA register.
 void iicWriteSdata(uint8_t data);								//Writes to SDATA register.
 
-void iicLoadFromStepper();
-void iicLoadToStepper();
+void iicLoadFromStepper();										//Populates the IIC_DATA_struct with new data (before sending data).
+void iicLoadToStepper();										//Handles data from IIC_DATA_struct into the program (after receiving data.)
 
 #endif /* IIC_H_ */

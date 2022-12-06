@@ -52,12 +52,21 @@
  * running the ASF driver selector tool. Any changes will be discarded.
  */
 
+// From module: CPU Cycle Counter
+#include <cycle_counter.h>
+
 // From module: Common build items for user board support templates
 #include <user_board.h>
 
 // From module: Compiler abstraction layer and code utilities
 #include <compiler.h>
 #include <status_codes.h>
+
+// From module: Delay routines
+#include <delay.h>
+
+// From module: FLASH Controller Double-Word (FLASHCDW)
+#include <flashcdw.h>
 
 // From module: Generic board support
 #include <board.h>
@@ -67,5 +76,8 @@
 
 // From module: Part identification macros
 #include <parts.h>
+
+// From module: System Clock Control - UC3 D implementation
+#include <sysclk.h>
 
 #endif // ASF_H
