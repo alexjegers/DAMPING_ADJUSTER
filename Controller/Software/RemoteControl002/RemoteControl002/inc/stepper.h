@@ -17,18 +17,21 @@
 
 #define EEPROM_DEVICE_ADDR			0b01010000
 #define FRONT_LEFT_DEVICE_ADDR			0x05
+#define FRONT_RIGHT_DEVICE_ADDR			0x06
+#define REAR_LEFT_DEVICE_ADDR			0x07
+#define REAR_RIGHT_DEVICE_ADDR			0x08
 
 /*Internal address for stepper motor controller.*/
 typedef enum STEPPER_INTERNAL_ADDR_enum
 {
-	MOTOR_SETPOINT =				0x01,
-	MOTOR_POSITION =				0x02,
-	MOTOR_SPEED =					0x03,
-	MOTOR_CURRENT =					0x04,
-	MOTOR_STEP_MODE =				0x05,
-	MOTOR_STATUS_FLAGS =			0x06,
-	BATTERY_VOLTAGE =				0x07,
-	GO_TO_ZERO =					0x08
+	MOTOR_POSITION =				0x00,
+	MOTOR_SET_POINT =				0x02,
+	MOTOR_STEP_MODE =				0x04,
+	MOTOR_CURRENT_LIMIT =			0x05,
+	MOTOR_DECAY_MODE =				0x07,
+	MOTOR_SPEED =					0x08,
+	MOTOR_FLAGS =					0x0A,
+	BATTERY_VOLTAGE =				0x0B
 }STEPPER_INTERNAL_ADDR_t;
 
 /*Step mode constants for DRV8825*/
@@ -87,31 +90,36 @@ class STEPPER_MOTOR
 
 	struct STEPPER_INFO_struct
 	{
-		int16_t position;					
-		int16_t setPoint;
-		static STEP_MODE_t stepMode;
-		static CURRENT_LIMIT_t currentLimit;
-		static DECAY_MODE_t decayMode;
-		static uint16_t speedInRPM;
-		uint8_t flags;									//See #define's for description and bitmasks.
-		
-		uint8_t timeoutAmount;
-
-		
-		/*A write to current.dacData must be shifted left 6 bits.*/
-		union CURRENT_LIMIT
+		union  
 		{
-			uint16_t dacData;
-			struct DAC_VALUE
+			int16_t val;
+			struct
 			{
-				uint8_t lsb;
-				uint8_t msb;
-			}dacStruct;
-		}current;
+				int8_t msb;
+				int8_t lsb;
+			}bytes;
+		}position;
+							
+		int16_t setPoint;
+		STEP_MODE_t stepMode;
+		CURRENT_LIMIT_t currentLimit;
+		DECAY_MODE_t decayMode;
+		uint16_t speedInRPM;
+		uint8_t flags;									//See #define's for description and bitmasks.
+		uint16_t voltage;
 	}stepperInfo;
 	
+	struct  
+	{
+		int anak		:1;
+		int dnak		:1;
+		int moving		:1;
+		int error		:1;
+	}statusFlags;
+	
 	STEPPER_MOTOR();
-	char* positionChar;	
+	char positionChar[2];	
+	void sendSetPoint();
 	void sendData(STEPPER_INTERNAL_ADDR_t addr, void* data, uint8_t numBytes);
 	void requestData(STEPPER_INTERNAL_ADDR_t addr, void* data, uint8_t numbytes);
 	void setDeviceAddr(uint8_t addr);

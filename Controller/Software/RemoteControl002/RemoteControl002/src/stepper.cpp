@@ -9,31 +9,28 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-#include "stepper.h"
 #include "iic.h"
 #include "system.h"
+#include "stepper.h"
+using namespace iic;
 
 STEPPER_MOTOR frontLeft;
 STEPPER_MOTOR frontRight;
 STEPPER_MOTOR rearLeft;
 STEPPER_MOTOR rearRight;
 
-/* Stepper motor static member definitions. */
-STEP_MODE_t STEPPER_MOTOR::STEPPER_INFO_struct::stepMode = MODE_HALF_STEP_bm;
-CURRENT_LIMIT_t STEPPER_MOTOR::STEPPER_INFO_struct::currentLimit = ONE_AMP_bm;
-DECAY_MODE_t STEPPER_MOTOR::STEPPER_INFO_struct::decayMode = DECAY_MIXED;
-uint16_t STEPPER_MOTOR::STEPPER_INFO_struct::speedInRPM = 100;
-
 STEPPER_MOTOR::STEPPER_MOTOR()
 {
-	char* var = "00";
-	positionChar = new char[2];
-	memcpy(positionChar, var, 2);
+	stepperInfo.stepMode = MODE_HALF_STEP_bm;
+	stepperInfo.currentLimit = ONE_AMP_bm;
+	stepperInfo.decayMode = DECAY_MIXED;
+	stepperInfo.speedInRPM = 100;	
+	memset(positionChar, 0x30, 2);
 }
 
 void STEPPER_MOTOR::sendData(STEPPER_INTERNAL_ADDR_t addr, void* data, uint8_t numBytes)
 {
-
+	
 }
 
 void STEPPER_MOTOR::requestData(STEPPER_INTERNAL_ADDR_t addr, void* data, uint8_t numbytes)
