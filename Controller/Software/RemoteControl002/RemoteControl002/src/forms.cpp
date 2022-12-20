@@ -18,7 +18,7 @@
 
 __attribute__((__interrupt__))void form::switchInterruptHanlder()
 {
-	button* btn = button::focusedBtn; 
+	button* btn = button::focusedBtn;
 	switch (ioIntFlags(&SW_PORT) & SWITCHES_bm)
 	{
 		case CENTER_SWITCH:
@@ -85,6 +85,7 @@ __attribute__((__interrupt__))void form::switchInterruptHanlder()
 				/*If it is selected, check the function pointer, then run it's click on selected function.*/
 				else
 				{
+
 					if (btn->downSwitchSelect != NULL)
 					{
 						btn->downSwitchSelect(btn->name);
@@ -128,6 +129,9 @@ button::button(char* name, uint16_t x, uint16_t y, char* text, const uint8_t fon
 	this->font = font;
 	this->nextBtn = NULL;
 	this->previousBtn = NULL;
+	this->roundedCorners = true;
+	this->cornerRadius = 8;
+	this->show = true;
 	
 	/*Initialize function pointers.*/
 	upSwitchSelect = NULL;
@@ -135,6 +139,12 @@ button::button(char* name, uint16_t x, uint16_t y, char* text, const uint8_t fon
 	centerSwitchSelect = NULL;
 	leftSwitchSelect = NULL;
 	rightSwitchSelect = NULL;
+	
+	upSwitchFocus = NULL;
+	downSwitchFocus = NULL;
+	centerSwitchFocus = NULL;
+	leftSwitchFocus = NULL;
+	rightSwitchFocus = NULL;
 	
 	/*If this is the first button created for this form, make it firstBtn.*/
 	if (thisForm->firstBtn == NULL)
@@ -186,36 +196,67 @@ void button::load()
 
 	if (button::focusedBtn == this)
 	{		
+		/*If the button is selected.*/
 		if (button::selectedBtn == this)
 		{
-			drawRectangle(x0r, y0r, x1r, y1r, BUTTON_SELECTED_COLOR);						//Highlight rectangle
-			drawText(text, x0, y0, font, COLOR_BLACK, COLOR_WHITE);
+			if (roundedCorners == false)
+			{
+				drawRectangle(x0r, y0r, x1r, y1r, BUTTON_SELECTED_COLOR);						//Highlight rectangle
+				drawText(text, x0, y0, font, COLOR_BLACK, COLOR_WHITE);
+			}
+			else
+			{
+				drawRoundedRectangle(x0r, y0r, x1r, y1r, cornerRadius, BUTTON_SELECTED_COLOR, COLOR_BLACK);	//Highlight rectangle
+				drawText(text, x0, y0, font, COLOR_BLACK, COLOR_WHITE);
+			}
+		}
+		
+		/*If the button is focused.*/
+		else
+		{
+			if (roundedCorners == false)
+			{
+				drawBorderedRect(x0r, y0r, x1r, y1r, 6, BUTTON_SELECTED_COLOR, COLOR_BLACK);
+				drawText(text,x0,y0,font, BUTTON_FOCUSED_COLOR, COLOR_BLACK);			
+			}
+			else
+			{
+				drawBorderedRoundedRect(x0r, y0r, x1r, y1r, cornerRadius, 6, BUTTON_SELECTED_COLOR, COLOR_BLACK, COLOR_BLACK);
+				drawText(text,x0,y0,font, BUTTON_FOCUSED_COLOR, COLOR_BLACK);			
+			}
+		}															
+	}
+	
+	/*If the button is neither focused nor selected.*/
+	else
+	{
+		if (roundedCorners == false)
+		{
+			drawBorderedRect(x0r, y0r, x1r, y1r, 3, BUTTON_COLOR, COLOR_BLACK);			
+			drawText(text, x0, y0, font, BUTTON_COLOR, COLOR_BLACK);							//Text.		
 		}
 		else
 		{
-			drawBorderedRect(x0r, y0r, x1r, y1r, 6, BUTTON_SELECTED_COLOR, COLOR_BLACK);
-			drawText(text,x0,y0,font, BUTTON_FOCUSED_COLOR, COLOR_BLACK);	
-		}															
-	}
-	else
-	{
-		drawBorderedRect(x0r, y0r, x1r, y1r, 3, BUTTON_COLOR, COLOR_BLACK);			
-		drawText(text, x0, y0, font, BUTTON_COLOR, COLOR_BLACK);							//Text.		
+			drawBorderedRoundedRect(x0r, y0r, x1r, y1r, cornerRadius, 2, BUTTON_SELECTED_COLOR, COLOR_BLACK, COLOR_BLACK);
+			drawText(text,x0,y0,font, BUTTON_FOCUSED_COLOR, COLOR_BLACK);			
+		}
 	}
 	
 }
 
 button* button::focusedBtn;
 
-button* button::selectedBtn;
+button* button::selectedBtn = NULL;
 
 
 /*********Label Functions*********/
- label::label(char* name,uint16_t x, uint16_t y, char* text, const uint8_t* font, form* thisForm)
+ label::label(char* name, uint16_t x, uint16_t y, char text[], const uint8_t* font, form* thisForm)
 {
 	this->y = y;
 	this->x = x;
-	this->text = text;
+	memset(this->text, 0, sizeof(this->text));
+	memcpy(this->text, text, sizeof(text));
+	this->name = name;
 	this->font = font;
 	nextLabel = NULL;
 	
@@ -250,9 +291,10 @@ button* button::selectedBtn;
 
 label::label(){}
 
-void label::setText(char* newText)
+void label::setText(char newText[])
 {
-	this->text = newText;
+	memset(this->text, 0, sizeof(this->text));
+	memcpy(text, newText, sizeof(text));
 }
 
 void label::load()
@@ -275,7 +317,7 @@ form::form()
 
 form* form::activeForm = NULL;
 
-void form::addNewBtn(char* name, char* text, uint16_t x, uint16_t y, const uint8_t* font)
+void form::addNewBtn(char* name, char text[], uint16_t x, uint16_t y, const uint8_t* font)
 {
 	new button(name, x, y, text, font, this);
 }
@@ -297,7 +339,7 @@ void form::setBtnFocus(char* name)
 	button::focusedBtn = search;
 }
 
-void form::addNewLabel(char* name, char* text, uint16_t x, uint16_t y, const uint8_t* font)
+void form::addNewLabel(char* name, char text[], uint16_t x, uint16_t y, const uint8_t* font)
 {
 	new label(name, x, y, text, font, this);
 }
@@ -317,8 +359,15 @@ void form::load()
 		button* btn = firstBtn;
 		while (btn->nextBtn != NULL)
 		{
-			btn->load();
-			btn = btn->nextBtn;
+			if (btn->show == true)
+			{
+				btn->load();
+				btn = btn->nextBtn;
+			}
+			else
+			{
+				btn = btn->nextBtn;
+			}
 		}
 		btn->load();
 	}
@@ -374,78 +423,47 @@ void form::toggleSelectedBtn()
 	}
 }
 
-void form::btnFocusBehavior(char* name, uint32_t dir, void (*func)(char* btnName))
+button* form::pButton(char* name)
 {
 	/*Find the button by name in the list.*/
 	button* btn = firstBtn;
 	while(btn->name != name)
 	{
-		btn = btn->nextBtn;
-	}
-	
-	switch (dir)
-	{
-
-		case CENTER_SWITCH:
-			btn->centerSwitchFocus = func;
-		break;
-		
-		case UP_SWITCH:
-			btn->upSwitchFocus = func;
-		break;
-		
-		case DOWN_SWITCH:
-			btn->downSwitchFocus = func;
-		break;
-		
-		case LEFT_SWITCH:
-			btn->leftSwitchFocus = func;
-		break;
-		
-		case RIGHT_SWITCH:
-			btn->rightSwitchFocus = func;
-		break;
-		
-		default:
-
-		break;
-	}
+		if (btn->nextBtn == NULL)
+		{
+			return firstBtn;
+		}
+		else
+		{
+			btn = btn->nextBtn;		
+		}
+	}	
+	return btn;
 }
 
-void form::btnSelectedBehavior(char* name, uint32_t dir, void (*func)(char* btnName))
+label* form::pLabel(char* name)
 {
-	/*Find the button by name in the list.*/
-	button* btn = firstBtn;
-	while(btn->name != name)
+	label* lbl = this->firstLabel;
+	while (lbl->name != (char*)name)
 	{
-		btn = btn->nextBtn;
-	}
-	
-	switch (dir)
+		if (lbl->nextLabel == NULL)
+		{
+			return firstLabel;
+		}
+		else
+		{
+			lbl = lbl->nextLabel;
+		}
+	}	
+}
+
+void form::lblText(char* name, char* text)
+{
+	label* lbl = this->firstLabel;
+	while (lbl->name != (char*)name)
 	{
-
-		case CENTER_SWITCH:
-			btn->centerSwitchSelect = func;
-		break;
-		
-		case UP_SWITCH:
-			btn->upSwitchSelect = func;
-		break;
-		
-		case DOWN_SWITCH:
-			btn->downSwitchSelect = func;
-		break;
-		
-		case LEFT_SWITCH:
-			btn->leftSwitchSelect = func;
-		break;
-		
-		case RIGHT_SWITCH:
-			btn->rightSwitchSelect = func;
-		break;
-		
-		default:
-
-		break;
+		lbl = lbl->nextLabel;
 	}
+	memset(lbl->text, 0, sizeof(lbl->text));
+	memcpy(lbl->text, text, sizeof(lbl->text));
 }

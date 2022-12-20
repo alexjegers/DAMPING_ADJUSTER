@@ -33,11 +33,11 @@
 		label* nextLabel;
 
 		
-		label(char* name, uint16_t x, uint16_t y, char* text, const uint8_t* font, form* thisForm);
+		label(char* name, uint16_t x, uint16_t y, char text[], const uint8_t* font, form* thisForm);
 		label();
 		void load();
 		void setText(char* newText);
-		char* text;					//Text to display in the button.
+		char text[10];					//Text to display in the button.
 		
 		private:
 		const uint8_t* font;		//Pointer to font array.
@@ -65,7 +65,7 @@
 		button();
 		
 		void load();													//Write the contents of the button to the LCD driver.
-		void clearAll();												//Makes ST7789 function clear display accessible to form.
+		void clearAll();												//Makes ST7789 function "clearDisplay" accessible to class::form, probably a better way to do this.
 		static button* focusedBtn;
 		static button* selectedBtn;
 
@@ -82,10 +82,14 @@
 		void (*leftSwitchFocus)(char* btnName);
 		void (*rightSwitchFocus)(char* btnName);
 		
+		bool roundedCorners;		//True for rounded corners, false for sharp corners
+		uint8_t cornerRadius;		//Radius of rounded corners.		
+		bool show;
+		
 		private:
 		uint8_t y;					//Position of the vertical center of the button.
 		uint8_t x;					//Position of the horizontal center of the button.
-		char* text;		//Text to display in the button.
+		char* text;					//Text to display in the button.
 		uint8_t numChars;			//Number of characters in the text.
 		uint8_t charWidth;			//Width of one character of the font being used.
 		uint8_t charHeight;			//Height of one character of the font being used.
@@ -99,9 +103,8 @@
 		uint16_t y1r;				//Ending point of rectangle.
 		const uint8_t* font;		//Pointer to font array.
 
-
 	};
-	
+
 	class form : private button, private label
 	{
 		public:
@@ -112,9 +115,8 @@
 		void addNewLabel(char* name, char* text, uint16_t x, uint16_t y, const uint8_t* font);
 		
 		void lblText(char* name, char* text);
-		
-		void btnSelectedBehavior(char* name, uint32_t dir, void (*func)(char* btnName));
-		void btnFocusBehavior(char* name, uint32_t dir, void (*func)(char* btnName));
+		button* pButton(char* name);
+		label* pLabel(char* name);
 		
 		static void switchInterruptHanlder();	
 		static form* activeForm;
@@ -130,7 +132,12 @@
 
 	};
 
+	class messageBox : private form
+	{
+	public:
 
+	private:
+	};
 	
 
 #endif /* FORMS_H_ */
