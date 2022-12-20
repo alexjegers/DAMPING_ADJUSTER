@@ -10,8 +10,7 @@
 
 #include <stdbool.h>
 
-/*Address in EEPROM where the stepper info struct is stored*/
-#define STEPPER_INFO_EEPROM_ADDR	(uint8_t*)0x140A
+
 
 /*DRV8825 operating modes*/
 #define STEPPER_ENABLE				PORTC.OUT &= ~(nENBL_PIN)
@@ -24,7 +23,7 @@
 #define DIRECTION_CW				-1
 
 /*Status flag bitmasks*/
-#define FLAG_FAULT_bm				1					//Set to 1 if the fault pin goes high (over temp, over current).
+#define FLAG_STARTUP_bm				1					//Stepper is waiting for a position and set point to be written.
 #define FLAG_TIMEOUT_bm				(1 << 1)			//Set to 1 if it took too long to reach the setpoint.
 #define FLAG_ERROR_bm				(1 << 2)			//Something bad happened somewhere.	
 #define FLAG_GO_TO_ZERO_bm			(1 << 3)			//Flag is set to instruct the program to run the stepperGoToZero function.

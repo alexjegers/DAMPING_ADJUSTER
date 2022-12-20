@@ -467,6 +467,7 @@ void stepperGoToZero()
 	stepperSetSetPoint(0);											//Change the current set point.
 	stepperSetPosition(0);											//Change the current position.
 	stepperClearFlag(FLAG_GO_TO_ZERO_bm);							//Clear the flag.
+	stepperClearFlag(FLAG_TIMEOUT_bm);								//Clear in case it was timed-out before hand.
 }
 
 /*
