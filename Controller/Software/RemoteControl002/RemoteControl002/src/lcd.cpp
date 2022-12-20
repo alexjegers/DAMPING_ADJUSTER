@@ -14,11 +14,13 @@ Description:
 
 #include <avr32/io.h>
 #include <stdint.h>
+#include <string.h>
 #include "system.h"
 #include "io.h"
 #include "lcd.h"
 #include <delay.h>
 #include "fonts.h"
+#include <math.h>
 
 /*
 Function: init
@@ -315,9 +317,9 @@ void ST7789::drawRectangle(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2, u
 	setDisplayArea(x1, y1, x2, y2);
 	begin();
 	writeAddr(ST7789_RAMWR);
-	for (uint16_t y = 0; y < y2; y++)
+	for (uint16_t y = y1; y <= y2; y++)
 	{
-		for (uint16_t x = 0; x < x2; x++)
+		for (uint16_t x = x1; x <= x2; x++)
 		{
 			writeData(color >> 8);
 			writeData(color);
@@ -326,6 +328,116 @@ void ST7789::drawRectangle(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2, u
 	end();
 }
 
+/*
+Function: drawCircle
+Params: x: x location of the center of the circle.
+		y: the y location of the center of the circle.
+		radius: radius of the circle in pixels.
+		color: use color macro, in lcd.h defines.
+Returns:
+Description:
+*/
+void ST7789::drawCircle(int16_t x, int16_t y, int16_t radius, int16_t color)
+{
+	int16_t radiusSquared = pow(radius, 2);
+	int16_t xStart = x - radius;
+	int16_t xEnd = x + radius;
+	int16_t yStart = y - radius;
+	int16_t yEnd = y + radius;
+	
+	setDisplayArea(xStart, yStart, xEnd, yEnd);
+	begin();
+	writeAddr(ST7789_RAMWR);
+	
+	for (int16_t _y = yStart; _y <= yEnd; _y++)
+	{
+		for (int16_t _x = xStart; _x <= xEnd; _x++)
+		{
+			
+			if ((pow(_y - y, 2)) + (pow(_x - x, 2)) < radiusSquared)
+			{
+				writeData(color >> 8);
+				writeData(color);
+			}
+			else
+			{
+				writeData(0x00);
+				writeData(0x00);
+			}
+		}
+	}
+	end();
+}
+
+int16_t _x1;
+int16_t _x2;
+int16_t _y1;
+int16_t _y2;
+int16_t y;
+int16_t x;
+//http://benice-equation.blogspot.com/2016/10/equation-of-rounded-rectangle.html
+void ST7789::drawRoundedRectangle(int16_t x1, int16_t y1, int16_t x2, int16_t y2, int16_t radius, uint16_t color, uint16_t backgroundColor)
+{
+
+	setDisplayArea(x1, y1, x2, y2);
+	_x1 = x1 - ((x1 + x2) / 2);
+	_x2 = x2 - ((x1 + x2) / 2);
+	_y1 = y1 - ((y1 + y2) / 2);
+	_y2 = y2 - ((y2 + y1) / 2);	
+	int16_t a = _x2 - radius;
+	int16_t b = _y2 - radius;
+	radius++;	
+	int16_t radiusSquared = pow(radius, 2);
+
+	begin();
+	writeAddr(ST7789_RAMWR);
+	for (y = _y1; y <= _y2; y++)
+	{
+		for (x = _x1; x <= _x2; x++)
+		{
+			/*Area 1*/
+			if ((abs(x) >= a) && (abs(y) >= b))
+			{
+				if ((pow(abs(y) - b, 2)) + (pow(abs(x) - a, 2)) <= radiusSquared)
+				{
+					writeData(color >> 8);
+					writeData(color);		
+				}
+				else
+				{
+					writeData(backgroundColor >> 8);
+					writeData(backgroundColor);
+				}
+			}
+			/*Area 2*/
+			if ((abs(x) >= a) && (abs(y) < b))
+			{
+				writeData(color >> 8);
+				writeData(color);				
+			}
+			/*Area 3*/
+			if ((abs(x) < a) && (abs(y) >= b))
+			{
+				writeData(color >> 8);
+				writeData(color);				
+			}
+			/*Area 4*/
+			if ((abs(x) < a) && (abs(y) < b))
+			{
+				writeData(color >> 8);
+				writeData(color);		
+			}
+
+		}
+	}
+	end();		
+}
+
+void ST7789::drawBorderedRoundedRect(int16_t x1, int16_t y1, int16_t x2, int16_t y2, int16_t radius, uint8_t borderWidth, uint16_t borderColor, uint16_t insideColor, uint16_t backgroundColor)
+{
+	drawRoundedRectangle(x1, y1, x2, y2, radius, borderColor, backgroundColor);
+	drawRoundedRectangle(x1 + borderWidth, y1 + borderWidth, x2 - borderWidth, y2 - borderWidth, radius, insideColor, borderColor);
+}
 /*
 Function: drawBorderedRect
 Params: x1: the left most edge of the rectangle.
@@ -357,16 +469,24 @@ Description: writes a string to the screen in a certain location in the selected
 */
  void ST7789::drawText(char let[], uint16_t x1, uint16_t y1, const uint8_t font[], uint16_t charColor, uint16_t backColor)
 {
-	uint8_t i = 0;
 	uint8_t stringLength = 0;
 	uint16_t charWidth = font[0];
 	uint16_t charHeight = font[1];
 	uint16_t charPadding = font[2];
-	//While loops determines how many characters are in the word, stores in length//
-	while (let[i] != 0)
+	
+	//stringLength = strlen(let);
+	for (uint8_t i = 0; i <= 9; i++)
 	{
-		stringLength++;
-		i++;
+		if (i == 9)
+		{
+			stringLength = 9;
+			break;
+		}
+		if (let[i] == 0)
+		{
+			stringLength = i;
+			break;
+		}
 	}
 	
 	for (unsigned int j = 0; j < stringLength; j++) //This loop iterates the following for each character in the word.
@@ -376,10 +496,8 @@ Description: writes a string to the screen in a certain location in the selected
 		//Defines the range of the screen that a single character will take up and
 		//adjusts over to the right for each character when the loop iterates.
 		//////////////////////////////////////////////////////////////////////////
-		setDisplayArea(x1 + (j*(charWidth - charPadding)), y1, x1 + charWidth + ((j*(charWidth-charPadding))), y1+charHeight);
+ 		setDisplayArea(x1 + (j*(charWidth - charPadding)), y1, x1 + charWidth + ((j*(charWidth-charPadding))), y1+charHeight);
 		//////////////////////////////////////////////////////////////////////////
-		
-		delay_ms(1);
 		
 		begin();
 		writeAddr(0x2C); //Starts the write to frame memory

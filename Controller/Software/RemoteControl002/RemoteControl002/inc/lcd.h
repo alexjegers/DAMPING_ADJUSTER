@@ -61,6 +61,12 @@ class ST7789
 	void drawRectangle(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2, uint16_t color);	//Draws a rectangle constrained by (x1,y1) and (x2, y2).
 	void drawBorderedRect(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2,				//Draws a rectangle with a border.
 						uint8_t borderWidth, uint16_t borderColor, uint16_t insideColor);
+	void drawCircle(int16_t x, int16_t y, int16_t radius, int16_t color);
+	void drawRoundedRectangle(int16_t x1, int16_t y1, int16_t x2, int16_t y2,
+						int16_t radius, uint16_t color, uint16_t backgroundColor);
+	void drawBorderedRoundedRect(int16_t x1, int16_t y1, int16_t x2, int16_t y2,
+						int16_t radius, uint8_t borderWidth, uint16_t borderColor,
+						uint16_t insideColor, uint16_t backgroundColor);
 	void drawText(char let[], uint16_t x1, uint16_t y1, const uint8_t font[],				//Writes a string to the screen in desired font.
 						uint16_t charColor, uint16_t backColor);				
 	private:
