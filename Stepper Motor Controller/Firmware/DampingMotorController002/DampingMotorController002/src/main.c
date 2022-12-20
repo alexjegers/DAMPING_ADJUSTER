@@ -39,8 +39,9 @@ int main(void)
 		
 	/*Populate the IIC data struct that the master will read and write to.*/
 	iicLoadFromStepper();
-	
+
 	/*Wait until the correct position is written from the master or go to zero flag is set.*/
+	stepperSetFlag(FLAG_STARTUP_bm);	
 	while ((stepperPosition() == -1) || (stepperSetPoint() == -1)) 
 	{
 		/*If the goToZero flag is set, run stepperGoToZero.*/
@@ -49,16 +50,22 @@ int main(void)
 			stepperGoToZero();
 		}
 	}
+	stepperClearFlag(FLAG_STARTUP_bm);
 	
     while (1) 
     {
 		/*While the stepper position is not equal to the set point...*/
 		while ((stepperAtSetPoint() == 0))					
 		{
+			/*Disable IIC interrupts while the motor is moving, dont want to miss an encoder interrupt.*/
 			iicDisableInterrupts();
-			iicSendResponse(TWI_SCMD_COMPTRANS_gc, TWI_ACKACT_NACK_gc);
-		
 			
+			/*NACK any IIC message that does come through.*/
+			iicSendResponse(TWI_SCMD_COMPTRANS_gc, TWI_ACKACT_NACK_gc);
+			
+			/*Clear timeout flag in case it was set beforehand.*/
+			stepperClearFlag(FLAG_TIMEOUT_bm);
+
 			/*If the stepper isn't already moving, start the timeout timer*/
 			if (stepperIsMoving() == false)				
 			{
@@ -73,6 +80,7 @@ int main(void)
 			if (stepperTimeoutAmount() > 10)
 			{
 				stepperSetSetPoint(stepperPosition());
+				stepperSetFlag(FLAG_TIMEOUT_bm);
 				break;
 			}
 			

@@ -22,12 +22,12 @@ Description:
 TCB_t *iicTimeoutTimer = &TCB0;			//Pointer to the timer used for checking for timeout.
 IIC_DATA_struct IIC_DATA;
 
-
+uint8_t size = 0;
 ISR(TWI1_TWIS_vect)
 {
 	/*Get the starting address of p_IIC_DATA and find the end of it to make sure we don't write beyond it.*/
 	uint8_t* p_IIC_DATA = &IIC_DATA;
-	uint8_t size = sizeof(IIC_DATA);
+
 	
 	/*ACK the device address.*/
 	iicSendResponse(TWI_SCMD_RESPONSE_gc, TWI_ACKACT_ACK_gc);
@@ -36,8 +36,11 @@ ISR(TWI1_TWIS_vect)
 	
 	/*First byte recieved is the offset from the start of the p_IIC_DATA struct where it will begin writing to.*/
 	uint8_t startingOffset = iicReadSdata();
-	uint8_t* maxOffset = p_IIC_DATA + size;	
-	p_IIC_DATA += startingOffset;
+	
+	p_IIC_DATA += startingOffset;	
+	size = sizeof(IIC_DATA);
+	uint8_t* maxOffset = p_IIC_DATA;
+	maxOffset += size;
 	iicSendResponse(TWI_SCMD_RESPONSE_gc, TWI_ACKACT_ACK_gc);
 	
 	/*While a stop condition hasn't been received, sit in a loop and wait for the data interrupt flag.*/
@@ -46,6 +49,7 @@ ISR(TWI1_TWIS_vect)
 		if (iicDataIntFlag() != 0)
 		{
 			/*NACK a message that is trying to write to or read from out of the bounds of the struct.*/
+		
 			if (p_IIC_DATA > maxOffset)
 			{
 				iicWriteSdata(0x00);
@@ -238,8 +242,10 @@ Description: takes data from the stepper motor struct and puts it into the IIC d
 */
 void iicLoadFromStepper()
 {
-	IIC_DATA.position = stepperPosition();
-	IIC_DATA.setPoint = stepperSetPoint();
+	IIC_DATA.position.bytes.msb = (stepperPosition() & (int16_t)0xFF00) >> 8;
+	IIC_DATA.position.bytes.lsb = stepperPosition() & (int16_t)0x00FF;
+	IIC_DATA.setPoint.bytes.msb = (stepperSetPoint() & 0xFF00) >> 8;
+	IIC_DATA.setPoint.bytes.lsb = stepperSetPoint() & 0x00FF;
 	IIC_DATA.stepMode = stepperStepMode();
 	IIC_DATA.currentLimit = stepperCurrentLimit();
 	IIC_DATA.decayMode = stepperDecayMode();
@@ -253,14 +259,20 @@ Params: none
 Returns: none
 Description: Takes data from the IIC data struct and filters it and loads it into the
 			stepper motor struct.
-*/
+*/	int16_t setPoint = 0;
+	int16_t msbtest = 0;
 void iicLoadToStepper()
 {
-	stepperSetPosition(IIC_DATA.position);
-	stepperSetSetPoint(IIC_DATA.setPoint);
+	stepperSetPosition(IIC_DATA.position.bytes.lsb | (IIC_DATA.position.bytes.msb << 8));
+	setPoint = (IIC_DATA.setPoint.bytes.msb << 8) | (IIC_DATA.setPoint.bytes.lsb & 0x00FF);
+	stepperSetSetPoint(setPoint);
 	stepperSetStepMode(IIC_DATA.stepMode);
 	stepperSetCurrent(IIC_DATA.currentLimit);
 	stepperSetDecay(IIC_DATA.decayMode);
 	stepperSetSpeed(IIC_DATA.speedInRPM);
-	stepperSetFlag(IIC_DATA.flags);
+	/*Only flag that is writeable is go to zero flag.*/
+	if (IIC_DATA.flags == FLAG_GO_TO_ZERO_bm)
+	{
+		stepperSetFlag(IIC_DATA.flags);
+	}
 }
