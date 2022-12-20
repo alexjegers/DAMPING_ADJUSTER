@@ -26,13 +26,15 @@ __attribute__((__interrupt__))void iic::intHanlder()
 	if ((readStatus() & TWI_SR_ANAK_bm) != 0)
 	{
 		softwareReset();
+		enableMaster();
 		clearStatus(TWI_SR_ANAK_bm);
 	}
 	
 	if ((readStatus() & TWI_SR_DNAK_bm) != 0)
 	{
 		TWIM.cmdr &= ~TWI_CMDR_VALID_bm;
-		clearStatus(TWI_SR_DNAK_bm);
+		TWIM.SCR.anak = 1;
+/*		clearStatus(TWI_SR_DNAK_bm);*/
 	}
 	dmaDisable(&DMA_TX);
 	dmaDisable(&DMA_RX);
@@ -238,7 +240,7 @@ uint32_t iic::interruptMask()
 }
 
 /*
-Function: iic::Status
+Function: iic::readStatus
 Params: none.
 Returns: The TWI status register.
 Description: Returns the TWI status register.
@@ -301,6 +303,89 @@ void iic::fastTransmission(uint8_t read, uint8_t saddr, uint8_t internalAddr, ui
 	}
 }
 
+IIC_STATUS_t iic::slowTransmission(uint8_t read, uint8_t saddr, uint8_t size, uint8_t internalAddr, void* data)
+{
+	dmaDisable(&DMA_TX);
+	dmaDisable(&DMA_RX);
+	Disable_global_interrupt();
+	enableMaster();
+	clearStatus(IIC_ANAK_bm);
+	clearStatus(IIC_DNAK_bm);
+	
+	/*Make sure the TWI bus is free.*/
+	if ((readStatus() & IIC_BUSFREE_bm) != 0)
+	{
+		/*Set up DMA transfer size and data pointer.*/
+		/*First for the internal address.*/
+		DMA_TX.tcr = 1;
+		DMA_TX.mar = (unsigned long)&internalAddr;
+		
+		if (read == TWI_CMDR_READ_bm)
+		{
+			/*Then for the data to write starting at that internal address.*/
+			DMA_RX.tcr = size;
+			DMA_RX.mar = (unsigned long)data;
+		}
+		else
+		{
+			/*Then for the data to write starting at that internal address.*/
+			DMA_TX.tcrr = size;
+			DMA_TX.marr = (unsigned long)data;
+		}
+		
+		/*Set up TWI command register with the slave device address, transfer size, and data direction.*/
+		TWIM.cmdr = (1 << TWI_CMDR_NBYTES_bp)
+		| TWI_CMDR_START_bm
+		| TWI_CMDR_VALID_bm
+		| (saddr << TWI_CMDR_SADR_bp)
+		| (0 << TWI_CMDR_READ_bp);
+		
+		if (read == TWI_CMDR_READ_bm)
+		{
+			TWIM.ncmdr = (size << TWI_CMDR_NBYTES_bp)
+			|TWI_CMDR_START_bm
+			| TWI_CMDR_STOP_bm
+			| TWI_CMDR_VALID_bm
+			| (saddr << TWI_CMDR_SADR_bp)
+			| (read << TWI_CMDR_READ_bp);
+		}
+		else
+		{
+			TWIM.ncmdr = (size << TWI_CMDR_NBYTES_bp)
+			| TWI_CMDR_STOP_bm
+			| TWI_CMDR_VALID_bm
+			| (saddr << TWI_CMDR_SADR_bp)
+			| (read << TWI_CMDR_READ_bp);
+		}
+
+		dmaEnable(&DMA_TX);
+		dmaEnable(&DMA_RX);
+		
+		uint32_t status = 0;
+		/*Wait until the DMA transmission is complete.*/
+		while (status == 0)
+		{
+			status = TWIM.sr & IIC_IDLE_bm;
+		}
+		
+		disableMaster();
+		Enable_global_interrupt();
+		status = TWIM.sr & (IIC_ANAK_bm | IIC_DNAK_bm) ;
+		if (status != 0)
+		{
+			return IIC_ERROR;
+		}
+		else
+		{
+			return IIC_OK;
+		}
+	}
+	else
+	{
+		return IIC_ERROR;
+	}
+}
+
 /*
 Function: probe
 Params: saddr: slave device address.
@@ -311,8 +396,10 @@ Description: test's a slave device address to see if the device is responsive.
 */
 IIC_STATUS_t iic::probe(uint8_t saddr)
 {
+	Disable_global_interrupt();
 	iic::enableMaster();
-	TWIM.thr = 0;
+	iic::enableInterrupt(IIC_TXRDY_bm);
+	
 	TWIM.cmdr = (0 << TWI_CMDR_NBYTES_bp)
 	| TWI_CMDR_START_bm
 	|TWI_CMDR_STOP_bm
@@ -320,23 +407,28 @@ IIC_STATUS_t iic::probe(uint8_t saddr)
 	| (saddr << TWI_CMDR_SADR_bp);	
 	
 	uint32_t status = 0;
-	
-	while (status & TWI_SR_TXRDY_bm == 0) 
+	while (status == 0) 
 	{
-		status = readStatus();		
+		status = TWIM.sr & (1 << 4);
 	}
 	
-	status = readStatus();
+	status = TWIM.sr & IIC_ANAK_bm;
 	
-	if (status & IIC_ANAK_bm != 0)
+	if (status != 0)
 	{
+		iic::disableInterrupt(IIC_TXRDY_bm);
+		iic::disableMaster();
+		Enable_global_interrupt();
 		return IIC_ANAK;
 	}
 	else
 	{
+		iic::disableInterrupt(IIC_TXRDY_bm);
+		iic::disableMaster();
+		Enable_global_interrupt();
 		return IIC_OK;
 	}
-	iic::disableMaster();
+
 }
 
 

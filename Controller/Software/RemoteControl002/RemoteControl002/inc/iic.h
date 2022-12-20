@@ -52,7 +52,7 @@ typedef enum IIC_STATUS_t
 	IIC_ERROR,
 	IIC_DNAK,
 	IIC_ANAK=			3
-}IIC_STATUS_t;
+}IIC_STATUS_enum;
 
 typedef enum IIC_INTERRUPT_t
 {
@@ -69,7 +69,7 @@ typedef enum IIC_INTERRUPT_t
 	IIC_PECERR_bm =		1 << 13,
 	IIC_STOP_bm =		1 << 14,
 	IIC_MENB_bm =		1 << 16
-}IIC_INTERRUPT_t;
+}IIC_INTERRUPT_enum;
 
 	/*
 	DataPacket is a linked list of data to send over IIC. A new DataPacket is created 
@@ -99,9 +99,9 @@ typedef enum IIC_INTERRUPT_t
 	void clearStatus(uint32_t status);											//Clears a specified bit in the status register.
 	IIC_STATUS_t setClkSpeed(uint32_t pbaClkSpeed, uint32_t ClkSpeed);			//Sets the TWI clock speed.
 	void fastTransmission(uint8_t read, uint8_t saddr, uint8_t internalAddr,	//Adds a new  data transmission to the buffer.
-									uint8_t size, void* data)
-	IIC_STATUS_t slowTransmission(uint8_t read, uint8_t saddr					//Polling driven, waits for response from slave.					
 									uint8_t size, void* data);
+	IIC_STATUS_t slowTransmission(uint8_t read, uint8_t saddr,					//Polling driven, waits for response from slave.
+									uint8_t internalAddr, uint8_t size, void* data);										
 	IIC_STATUS_t probe(uint8_t saddr);											//Check the status of a slave device given the address.
 }
 
