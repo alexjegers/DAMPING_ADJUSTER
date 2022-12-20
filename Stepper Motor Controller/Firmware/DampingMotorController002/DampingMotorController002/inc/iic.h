@@ -21,14 +21,32 @@ They are addressed by the offset from the start of IIC_DATA_struct.
 */
 typedef struct IIC_DATA_t  
 {
-	int16_t position;
-	int16_t setPoint;
-	uint8_t stepMode;
-	uint16_t currentLimit;
-	uint8_t decayMode;
-	uint16_t speedInRPM;
-	uint8_t flags;	
-	uint8_t testLights;
+	union
+	{
+		int16_t val;
+		struct  
+		{
+			char msb;
+			char lsb;
+		}bytes;
+	}position;						//0x00
+	
+	union
+	{
+		int16_t val;
+		struct
+		{
+			int8_t msb;
+			int8_t lsb;
+		}bytes;
+	}setPoint;						//0x02
+	
+	uint8_t stepMode;				//0x04
+	uint16_t currentLimit;			//0x05
+	uint8_t decayMode;				//0x07
+	uint16_t speedInRPM;			//0x08
+	uint8_t flags;					//0x0A
+	uint8_t voltage;				//0x0B
 }IIC_DATA_struct;
 
 void iicInit();													//Puts TWI hardware in slave mode and enables interrupts.
