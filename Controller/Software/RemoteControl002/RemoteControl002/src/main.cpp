@@ -9,7 +9,9 @@
 
 #include <avr32/io.h>
 #include <stdint.h>
+#include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 #include "system.h"
 #include "io.h"
 #include "lcd.h"
@@ -20,8 +22,11 @@
 #include "stepper.h"
 #include "iic.h"
 
+ST7789 lcd;
+
 form mainScreen;
-form settings;
+form settingsScreen;
+form loadingScreen;
 
 void loadSettingsScreen(char* btnName);
 void loadMainScreen(char* btnName);
@@ -31,6 +36,7 @@ void sendToStepper(char* btnName);
 
 int main(void)
 {
+
 	/*Debug LEDs as IO and output.*/
 	ioSetPinIO(&LED_PORT, LED1_PIN | LED2_PIN | LED3_PIN);
 	ioSetPinOutput(&LED_PORT, LED1_PIN | LED2_PIN | LED3_PIN);
@@ -50,67 +56,63 @@ int main(void)
 	delay_init();
 	
 	/*Initialize the LCD then delete instance, ST7789 is inherited by button and label*/
-	ST7789 *lcd = new ST7789;
-	lcd->init();
-	delete lcd;
+	lcd.init();
+/*	lcd.drawBorderedRoundedRect(50, 50, 150, 100, 7, 4, COLOR_WHITE, COLOR_BLACK, COLOR_BLACK);*/
+
 	
 	/*Initialize IIC peripheral and pins*/
 	ioSetPinPeripheral(&PORTA, TWI_DATA_PIN_bm | TWI_CLK_PIN_bm);				//Give peripheral control of pins.
 	ioSetPeripheralFunction(&PORTA, TWI_DATA_PIN_bm, GPIO_PMR_FUNCTION_A);		//Set multiplexing function.
 	ioSetPeripheralFunction(&PORTA, TWI_CLK_PIN_bm, GPIO_PMR_FUNCTION_A);		//Set multiplexing function.
-	
 	iic::setup();
 	iic::setClkSpeed(F_CPU, 100000);
 
-	/*Main screen buttons.*/
+	frontLeft.setDeviceAddr(FRONT_LEFT_DEVICE_ADDR);
+	frontRight.setDeviceAddr(FRONT_RIGHT_DEVICE_ADDR);
+	rearLeft.setDeviceAddr(REAR_LEFT_DEVICE_ADDR);
+	rearRight.setDeviceAddr(REAR_RIGHT_DEVICE_ADDR);
+
+	/*Main screen controls.*/
 	mainScreen.addNewBtn("frontBtn", "Front", 120, 30, font16pt);
 	mainScreen.addNewBtn("rearBtn", "Rear", 120, 150, font16pt);
 	mainScreen.addNewBtn("optsBtn", "Options", 120, 280, font16pt);
-	
-	/*Main screen labels.*/
 	mainScreen.addNewLabel("FLlbl", frontLeft.positionChar, 60, 80, font20pt);
-	mainScreen.addNewLabel("FRlbl", frontRight.positionChar, 180, 80, font20pt);
-	mainScreen.addNewLabel("RLlbl", rearLeft.positionChar, 60, 200, font20pt);
-	mainScreen.addNewLabel("RRlbl", rearRight.positionChar, 180, 200, font20pt);
+ 	mainScreen.addNewLabel("FRlbl", frontRight.positionChar, 180, 80, font20pt);
+ 	mainScreen.addNewLabel("RLlbl", rearLeft.positionChar, 60, 200, font20pt);
+ 	mainScreen.addNewLabel("RRlbl", rearRight.positionChar, 180, 200, font20pt);
 	
+	/*Setting screen controls*/
+	settingsScreen.addNewBtn("backBtn", "Back", 120, 30, font16pt);
+	settingsScreen.addNewBtn("resetBtn", "Reset", 120, 80, font16pt);
+	settingsScreen.addNewBtn("brightBtn", "Brightness", 120, 130, font16pt);
+	
+ 	/*Loading screen controls.*/
+	loadingScreen.addNewLabel("FLlbl", "Loading", 60, 80, font20pt);
+ 	loadingScreen.addNewLabel("FRlbl", "Loading", 180, 80, font20pt);
+ 	loadingScreen.addNewLabel("RLlbl", "Loading", 60, 200, font20pt);
+ 	loadingScreen.addNewLabel("RRlbl", "Loading", 180, 200, font20pt);
+	loadingScreen.addNewBtn("okBtn", "Okay", 120, 290, font20pt);
+	loadingScreen.pButton("okBtn")->show = false;
+	loadingScreen.pButton("okBtn")->centerSwitchFocus = &loadMainScreen;
+	 
 	/*Set button function pointers.*/
-	mainScreen.btnSelectedBehavior("frontBtn", UP_SWITCH, &incrementStepperPosition);	
-	mainScreen.btnSelectedBehavior("rearBtn", UP_SWITCH, &incrementStepperPosition);
-	mainScreen.btnSelectedBehavior("frontBtn", DOWN_SWITCH, &decrementStepperPosition);
-	mainScreen.btnSelectedBehavior("rearBtn", DOWN_SWITCH, &decrementStepperPosition);
-	mainScreen.btnSelectedBehavior("frontBtn", CENTER_SWITCH, &sendToStepper);
-	mainScreen.btnSelectedBehavior("rearBtn", CENTER_SWITCH, &sendToStepper);
-	mainScreen.btnFocusBehavior("optsBtn", CENTER_SWITCH, &loadSettingsScreen);
-	
-	settings.addNewBtn("backBtn", "Back", 120, 30, font16pt);
-	settings.addNewBtn("resetBtn", "Reset", 120, 80, font16pt);
-	settings.addNewBtn("brightBtn", "Brightness", 120, 130, font16pt);
-	
-	
-	settings.btnFocusBehavior("backBtn", CENTER_SWITCH, &loadMainScreen);
-	
-	mainScreen.load();
+	mainScreen.pButton("frontBtn")->upSwitchSelect = &incrementStepperPosition;
+	mainScreen.pButton("frontBtn")->downSwitchSelect = &decrementStepperPosition;
+	mainScreen.pButton("frontBtn")->centerSwitchSelect = &sendToStepper;
+	mainScreen.pButton("rearBtn")->upSwitchSelect = &incrementStepperPosition;
+	mainScreen.pButton("rearBtn")->downSwitchSelect = &decrementStepperPosition;
+	mainScreen.pButton("rearBtn")->centerSwitchSelect = &sendToStepper;
+	mainScreen.pButton("optsBtn")->centerSwitchFocus = &loadSettingsScreen;	
+		
+	settingsScreen.pButton("backBtn")->centerSwitchFocus = &loadMainScreen;
 
- 	if (iic::probe(EEPROM_DEVICE_ADDR) == iic::IIC_OK)
- 	{
- 		LED3_ON;
- 	}
-	else
-	{
-		LED1_ON;
-	}
+	//Write 0 and 0 to position and set point.
+	iic::fastTransmission(IIC_NEW_TRNS_WRITE, 0x05, 0x00, 4, &frontRight.stepperInfo.position);	
+	iic::fastTransmission(IIC_NEW_TRNS_WRITE, 0x06, 0x00, 4, &frontLeft.stepperInfo.position);
+	Enable_global_interrupt();
 	
-	LED1_OFF;
-	LED3_OFF;
+	//mainScreen.load();
 	
-	if (iic::probe(0x21) == iic::IIC_OK)
- 	{
- 		LED3_ON;
- 	}
-	else
-	{
-		LED1_ON;
-	}
     /* Replace with your application code */
     while (1) 
     {
@@ -120,7 +122,7 @@ int main(void)
 
 void loadSettingsScreen(char* btnName)
 {
-	settings.load();
+	settingsScreen.load();
 }
 
 void loadMainScreen(char* btnName)
@@ -130,49 +132,97 @@ void loadMainScreen(char* btnName)
 
 void incrementStepperPosition(char* btnName)
 {
-	if (btnName == "frontBtn")
+	STEPPER_MOTOR *stepperRight;
+	STEPPER_MOTOR *stepperLeft;
+	if (btnName == (char*)"frontBtn")
 	{
-		frontLeft.stepperInfo.position += 10;
-		frontRight.stepperInfo.position = frontLeft.stepperInfo.position;
-		frontLeft.positionChar[0] = 48 + (frontLeft.stepperInfo.position / 100);
-		frontLeft.positionChar[1] = 48 + ((frontLeft.stepperInfo.position / 10) % 10);
-		frontRight.positionChar[0] = frontLeft.positionChar[0];
-		frontRight.positionChar[1] = frontLeft.positionChar[1];
+		stepperRight = &frontRight;
+		stepperLeft = &frontLeft;
 	}
 	else
 	{
-		rearLeft.stepperInfo.position += 10;
-		rearRight.stepperInfo.position = rearLeft.stepperInfo.position;
-		rearLeft.positionChar[0] = 48 + (rearLeft.stepperInfo.position / 100);
-		rearLeft.positionChar[1] = 48 + ((rearLeft.stepperInfo.position / 10) % 10);
-		rearRight.positionChar[0] = rearLeft.positionChar[0];
-		rearRight.positionChar[1] = rearLeft.positionChar[1];		
+		stepperRight = &rearRight;
+		stepperLeft = &rearLeft;
 	}
+	stepperLeft->stepperInfo.setPoint += 10;
+	stepperRight->stepperInfo.setPoint = stepperLeft->stepperInfo.setPoint;
+	stepperLeft->positionChar[0] = 48 + (stepperLeft->stepperInfo.setPoint / 100);
+	stepperLeft->positionChar[1] = 48 + ((stepperLeft->stepperInfo.setPoint / 10) % 10);
+	stepperRight->positionChar[0] = stepperLeft->positionChar[0];
+	stepperRight->positionChar[1] = stepperLeft->positionChar[1];	
+	mainScreen.lblText("FLlbl", frontLeft.positionChar);
+	mainScreen.lblText("FRlbl", frontRight.positionChar);	
+	mainScreen.lblText("RLlbl", rearLeft.positionChar);
+	mainScreen.lblText("RRlbl", rearRight.positionChar);
 }
 
 void decrementStepperPosition(char* btnName)
 {
-	if (btnName == "frontBtn")
+	STEPPER_MOTOR *stepperRight;
+	STEPPER_MOTOR *stepperLeft;
+	if (btnName == (char*)"frontBtn")
 	{
-		frontLeft.stepperInfo.position -= 10;
-		frontRight.stepperInfo.position = frontLeft.stepperInfo.position;
-		frontLeft.positionChar[0] = 48 + (frontLeft.stepperInfo.position / 100);
-		frontLeft.positionChar[1] = 48 + ((frontLeft.stepperInfo.position / 10) % 10);
-		frontRight.positionChar[0] = frontLeft.positionChar[0];
-		frontRight.positionChar[1] = frontLeft.positionChar[1];
+		stepperRight = &frontRight;
+		stepperLeft = &frontLeft;
 	}
 	else
 	{
-		rearLeft.stepperInfo.position -= 10;
-		rearRight.stepperInfo.position = rearLeft.stepperInfo.position;
-		rearLeft.positionChar[0] = 48 + (rearLeft.stepperInfo.position / 100);
-		rearLeft.positionChar[1] = 48 + ((rearLeft.stepperInfo.position / 10) % 10);
-		rearRight.positionChar[0] = rearLeft.positionChar[0];
-		rearRight.positionChar[1] = rearLeft.positionChar[1];		
-	}	
+		stepperRight = &rearRight;
+		stepperLeft = &rearLeft;
+	}
+	stepperLeft->stepperInfo.setPoint -= 10;
+	stepperRight->stepperInfo.setPoint = stepperLeft->stepperInfo.setPoint;
+	stepperLeft->positionChar[0] = 48 + (stepperLeft->stepperInfo.setPoint / 100);
+	stepperLeft->positionChar[1] = 48 + ((stepperLeft->stepperInfo.setPoint / 10) % 10);
+	stepperRight->positionChar[0] = stepperLeft->positionChar[0];
+	stepperRight->positionChar[1] = stepperLeft->positionChar[1];	
+	mainScreen.lblText("FLlbl", frontLeft.positionChar);
+	mainScreen.lblText("FRlbl", frontRight.positionChar);	
+	mainScreen.lblText("RLlbl", rearLeft.positionChar);
+	mainScreen.lblText("RRlbl", rearRight.positionChar);		
 }
 
 void sendToStepper(char* btnName)
 {
 	form::toggleSelectedBtn();
+	loadingScreen.load();	
+	
+	if (iic::slowTransmission(IIC_NEW_TRNS_WRITE, FRONT_LEFT_DEVICE_ADDR, MOTOR_SET_POINT, 2, &frontLeft.stepperInfo.setPoint) == iic::IIC_OK)
+	{
+		loadingScreen.lblText("FLlbl", "OK");
+	}
+	else
+	{
+		loadingScreen.lblText("FLlbl", "Error");
+	}
+	
+	if (iic::slowTransmission(IIC_NEW_TRNS_WRITE, FRONT_RIGHT_DEVICE_ADDR, MOTOR_SET_POINT, 2, &frontRight.stepperInfo.setPoint) == iic::IIC_OK)
+	{
+		loadingScreen.lblText("FRlbl", "OK");
+	}
+	else
+	{
+		loadingScreen.lblText("FRlbl", "Error");
+	}
+	
+	if (iic::slowTransmission(IIC_NEW_TRNS_WRITE, REAR_LEFT_DEVICE_ADDR, MOTOR_SET_POINT, 2, &rearLeft.stepperInfo.setPoint) == iic::IIC_OK)
+	{
+		loadingScreen.lblText("RLlbl", "OK");
+	}
+	else
+	{
+		loadingScreen.lblText("RLlbl", "Error");
+	}
+	
+	if (iic::slowTransmission(IIC_NEW_TRNS_WRITE, REAR_RIGHT_DEVICE_ADDR, MOTOR_SET_POINT, 2, &rearRight.stepperInfo.setPoint) == iic::IIC_OK)
+	{
+		loadingScreen.lblText("RRlbl", "OK");
+	}
+	else
+	{
+		loadingScreen.lblText("RRlbl", "Error");
+	}
+	loadingScreen.pButton("okBtn")->show = true;
+	loadingScreen.load();
+				
 }
